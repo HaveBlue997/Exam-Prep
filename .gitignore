@@ -1,9 +1,11 @@
 # Dependencies
 node_modules/
 
-# Student data (personal)
-*/Answers/
-*/Archive/
+# Student data - exclude content but keep directory structure
+Pokemon/Answers/*
+!Pokemon/Answers/.gitkeep
+Pokemon/Archive/*
+!Pokemon/Archive/.gitkeep
 
 # Development history
 prompts/completed/

@@ -1,5 +1,5 @@
 # POKEMON SCORECARD - SEMESTER FINALS PREPARATION
-## Student: Blake
+## Student: (Your Name)
 ## Created: January 6, 2026
 ## Last Updated: January 07, 2026
 
@@ -317,15 +317,9 @@ PROGRESS NOTES
 
 Study sessions and mastery tracking:
 
-- 2026-01-07-15-13-19-390Z: Pokemon_Quiz - Score: 17/30 (57%)
-  Strong areas: type-matchups-basics, type-electric-flying, type-rock-ground, pikachu-analysis, lucario-analysis, evolution-lines
-  Needs work: type-fire-water-grass, dual-type-mechanics, charizard-analysis, gengar-analysis, gyarados-analysis, gardevoir-analysis, eevee-eeveelutions, battle-role-tank, regional-variants
-- 2026-01-06-19-05-31-586Z: Pokemon_Quiz - Score: 23/30 (81%)
-  Strong areas: type-matchups-basics, type-electric-flying, type-rock-ground, pikachu-analysis, gengar-analysis, gardevoir-analysis, eevee-eeveelutions, regional-variants
-  Needs work: dual-type-mechanics, gyarados-analysis, lucario-analysis, battle-role-tank, type-fire-water-grass
-- 2026-01-06-19-05-31-586Z: Pokemon_Quiz - Score: 23/30 (81%)
-  Strong areas: type-matchups-basics, type-electric-flying, type-rock-ground, pikachu-analysis, gengar-analysis, gardevoir-analysis, eevee-eeveelutions, regional-variants
-  Needs work: dual-type-mechanics, gyarados-analysis, lucario-analysis, battle-role-tank, type-fire-water-grass
+- [Date]: [Quiz] - Score: XX/30 (XX%)
+  Strong areas: [topics where you scored well]
+  Needs work: [topics needing more practice]
 - [Date]: [Topic] - Mastered after [study activity]
 - [Date]: [Topic] - Still needs work on [specific aspect]
 
