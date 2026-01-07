@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Class - Exam Prep</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1 id="class-title">Loading...</h1>
+        <p>Quizzes, Study Guides, and Saved Answers</p>
+    </div>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <span id="breadcrumb-class">...</span>
+        </div>
+
+        <div id="content-area">
+            <p style="text-align: center; padding: 2rem; color: #999;">Loading class information...</p>
+        </div>
+    </div>
+
+    <script>
+        // Get class name from URL
+        const pathParts = window.location.pathname.split('/');
+        const className = pathParts[pathParts.length - 1];
+
+        // Load class information
+        async function loadClass() {
+            try {
+                const response = await fetch(`/api/class/${className}`);
+                if (!response.ok) {
+                    throw new Error('Class not found');
+                }
+
+                const data = await response.json();
+
+                // Update page title and breadcrumb
+                document.getElementById('class-title').textContent = data.className;
+                document.getElementById('breadcrumb-class').textContent = data.className;
+                document.title = `${data.className} - Exam Prep`;
+
+                // Build content
+                let html = '';
+
+                // Quizzes section
+                html += '<div class="card"><div class="list-section">';
+                html += '<h3>Practice Quizzes</h3>';
+                if (data.quizzes && data.quizzes.length > 0) {
+                    html += '<ul class="item-list">';
+                    data.quizzes.forEach(quiz => {
+                        html += `<li><a href="${quiz.url}">${quiz.name}</a></li>`;
+                    });
+                    html += '</ul>';
+                } else {
+                    html += '<div class="empty-state">No quizzes available yet.</div>';
+                }
+                html += '</div></div>';
+
+                // Study guides section
+                html += '<div class="card"><div class="list-section">';
+                html += '<h3>Study Guides</h3>';
+                if (data.guides && data.guides.length > 0) {
+                    html += '<ul class="item-list">';
+                    data.guides.forEach(guide => {
+                        html += `<li><a href="${guide.url}" target="_blank">${guide.name}</a></li>`;
+                    });
+                    html += '</ul>';
+                } else {
+                    html += '<div class="empty-state">No study guides available yet.</div>';
+                }
+                html += '</div></div>';
+
+                // Saved answers section
+                html += '<div class="card"><div class="list-section">';
+                html += '<h3>Saved Answers</h3>';
+                if (data.savedAnswers && data.savedAnswers.length > 0) {
+                    html += '<ul class="item-list">';
+                    data.savedAnswers.forEach(answer => {
+                        const date = new Date(answer.date).toLocaleString();
+                        const size = (answer.size / 1024).toFixed(1) + ' KB';
+                        html += `<li>
+                            <a href="${answer.url}" target="_blank">${answer.name}</a>
+                            <div class="file-meta">Saved: ${date} • Size: ${size}</div>
+                        </li>`;
+                    });
+                    html += '</ul>';
+                } else {
+                    html += '<div class="empty-state">No saved answers yet. Complete a quiz and save your answers!</div>';
+                }
+                html += '</div></div>';
+
+                document.getElementById('content-area').innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading class:', error);
+                document.getElementById('content-area').innerHTML =
+                    '<div class="error-message">Failed to load class information. Please check that the class exists.</div>';
+            }
+        }
+
+        // Load class on page load
+        loadClass();
+
+        // ===================================
+        // IPAD TOUCH ENHANCEMENTS
+        // ===================================
+
+        // Detect iPad
+        const isIPad = /iPad|Macintosh/i.test(navigator.userAgent) && 'ontouchend' in document;
+
+        if (isIPad) {
+            // Add iPad-specific class for CSS targeting
+            document.body.classList.add('ipad-device');
+
+            // Touch ripple effect for list items
+            function createRipple(event) {
+                const button = event.currentTarget;
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = event.touches ? event.touches[0].clientX - rect.left - size / 2 :
+                    event.clientX - rect.left - size / 2;
+                const y = event.touches ? event.touches[0].clientY - rect.top - size / 2 :
+                    event.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+
+                const existingRipple = button.querySelector('.ripple');
+                if (existingRipple) {
+                    existingRipple.remove();
+                }
+
+                button.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            }
+
+            // Add ripple to list items when they're loaded
+            const observer = new MutationObserver(() => {
+                document.querySelectorAll('.item-list li').forEach(el => {
+                    if (!el.dataset.rippleAdded) {
+                        el.style.position = 'relative';
+                        el.style.overflow = 'hidden';
+                        el.addEventListener('touchstart', createRipple);
+                        el.dataset.rippleAdded = 'true';
+                    }
+                });
+            });
+
+            observer.observe(document.getElementById('content-area'), {
+                childList: true,
+                subtree: true
+            });
+
+            // Prevent double-tap zoom
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        }
+
+        // Handle orientation changes
+        let currentOrientation = window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape';
+
+        window.addEventListener('resize', () => {
+            const newOrientation = window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape';
+
+            if (currentOrientation !== newOrientation) {
+                currentOrientation = newOrientation;
+
+                // Add classes to body for CSS targeting
+                document.body.classList.toggle('portrait', currentOrientation === 'portrait');
+                document.body.classList.toggle('landscape', currentOrientation === 'landscape');
+
+                // Trigger reflow for smooth transition
+                document.body.classList.add('orientation-changing');
+                setTimeout(() => {
+                    document.body.classList.remove('orientation-changing');
+                }, 300);
+            }
+        });
+
+        // Set initial orientation
+        document.body.classList.add(currentOrientation);
+    </script>
+</body>
+</html>

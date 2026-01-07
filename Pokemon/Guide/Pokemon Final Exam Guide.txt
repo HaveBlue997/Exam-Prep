@@ -1,0 +1,179 @@
+Intro to Pokémon — Final Exam Study Guide (Semester 1)
+
+What the final will test
+
+You’ll be asked to show you can:
+	•	Identify Pokémon (name, type, basic role) and recognize common forms (evolution lines + variants).
+	•	Use type matchups to predict what’s strong or weak in a battle scenario.
+	•	Explain strengths/weaknesses for the 10 focus Pokémon and defend choices with clear reasoning.
+
+⸻
+
+1) Must-Know “10 Focus Pokémon” Checklist
+
+For each one, you should be able to say:
+	1.	Type(s)
+	2.	Two strengths (what it’s good against / what it can do well)
+	3.	Two weaknesses (what threatens it and why)
+	4.	A basic battle role (examples below)
+
+The Focus 10
+	•	Pikachu — Electric
+	•	Charizard — Fire/Flying
+	•	Blastoise — Water
+	•	Venusaur — Grass/Poison
+	•	Gengar — Ghost/Poison
+	•	Lucario — Fighting/Steel
+	•	Gyarados — Water/Flying
+	•	Eevee — Normal (plus Eeveelutions overview)
+	•	Snorlax — Normal
+	•	Gardevoir — Psychic/Fairy
+
+Study move: Make a 1-page “mini-card” for each Pokémon with those 4 items.
+
+⸻
+
+2) Forms You Need to Understand
+
+You don’t need to memorize every generation’s special gimmicks, but you do need to know what each category means and recognize examples.
+
+A) Evolution & Evolution Lines
+	•	What “evolution” means
+	•	What an “evolution line” is
+	•	Know at least these lines cold:
+	•	Charmander → Charmeleon → Charizard
+	•	Squirtle → Wartortle → Blastoise
+	•	Bulbasaur → Ivysaur → Venusaur
+	•	Pichu → Pikachu → Raichu (if covered in class)
+
+B) Regional Variants
+	•	What a regional variant is (different look + sometimes different type based on region)
+	•	Be able to explain why game designers do this (new twist on an old idea)
+
+C) Alternate Forms (as covered in class)
+	•	Be able to explain the concept even if you don’t memorize tons of examples:
+	•	“Same Pokémon, different form = different stats/type/ability/look”
+
+⸻
+
+3) Type Matchups — What you must be fluent in
+
+You should be able to do these quickly without a chart for common types.
+
+Core vocabulary (likely on matching/multiple choice)
+	•	Type
+	•	Super-effective
+	•	Not very effective
+	•	Resist
+	•	Weakness
+	•	Immunity
+	•	Dual-type
+
+The “Core Eight” types to master
+
+These come up constantly in our focus list:
+	•	Fire, Water, Grass, Electric
+	•	Flying, Rock, Ground
+	•	Psychic, Fairy
+	•	Ghost, Poison
+	•	Fighting, Steel
+	•	Normal
+
+(Yes, that’s more than eight—because the semester’s Pokémon force you to know them.)
+
+Fast matchup facts (high-priority)
+
+Make sure you know:
+	•	Water > Fire, Fire > Grass, Grass > Water
+	•	Electric > Water and Electric > Flying
+	•	Ground > Electric
+	•	Rock > Flying and Rock > Fire (and why this is scary for Charizard)
+	•	Ghost > Ghost and Ghost is immune to Normal (if covered)
+	•	Fighting > Normal (important for Snorlax)
+	•	Psychic > Poison (relevant to Venusaur/Gengar)
+	•	Fairy > Fighting (relevant to Lucario matchups)
+	•	Steel resists a lot (and is often a defensive type)
+
+Study move: Drill with flashcards: “Type A attacks Type B — what happens?”
+
+⸻
+
+4) Battle Roles and “Why” Reasoning
+
+You will likely see scenario questions like:
+	•	“What would you switch into?”
+	•	“Which move/type is best here?”
+	•	“What’s the risk of this pick?”
+
+Common roles (know the meaning)
+	•	Attacker / Sweeper: tries to KO quickly
+	•	Tank/Defender: survives hits and stays in
+	•	Support: helps the team (status, healing, set-ups—intro level)
+	•	Counter: chosen because it matches up well against a threat
+
+Study move: For each focus Pokémon, write one sentence:
+
+“This Pokémon usually plays the role of ___ because ___.”
+
+⸻
+
+5) Practice Questions You Should Be Ready For
+
+Use these to self-check. (No answers here—treat it like a real study set.)
+
+Identification
+	1.	Name the type(s) of Charizard, Gengar, Lucario, Gyarados, Gardevoir.
+	2.	Explain what “dual-type” means using a focus Pokémon example.
+
+Matchups
+	3.	What types threaten Charizard the most? Explain.
+	4.	What type is the best answer into Pikachu and why?
+	5.	Why is Fighting a common answer into Snorlax?
+
+Forms
+	6.	Explain the difference between “evolution” and “regional variant.”
+	7.	Map an evolution line from memory (at least two full lines).
+
+Reasoning (short answer style)
+	8.	You face Gyarados: name two good attacking types and why.
+	9.	You face Venusaur: name two good attacking types and why.
+
+⸻
+
+6) How to Study (a plan that works)
+
+Step 1 — Build your “Focus 10 deck” (30–45 min)
+
+Make 10 cards (paper or digital), each with:
+	•	Type(s), 2 strengths, 2 weaknesses, role
+
+Step 2 — Type drills (15 min/day for 5 days)
+
+Shuffle a stack of type prompts:
+	•	“Electric vs Water?”
+	•	“Rock vs Fire/Flying?”
+Answer out loud fast.
+
+Step 3 — Scenario reps (2–3 sessions)
+
+Write 8 mini-scenarios:
+	•	“Opponent sends out ___.”
+	•	“Best attack type is ___ because ___.”
+This is where most people gain points.
+
+Step 4 — Teach it to someone (or to the wall)
+
+If you can explain it simply, you know it.
+
+⸻
+
+7) Final Self-Check (night before)
+
+You’re ready if you can do all of this without notes:
+	•	List the types of all 10 focus Pokémon
+	•	Give 2 weaknesses for each
+	•	Explain super-effective vs not very effective vs immunity
+	•	Explain evolution line vs regional variant with examples
+	•	Solve at least 5 battle scenarios with clear reasoning
+
+If you want, tell me what format your final exam will be (percent matching vs multiple choice vs short answer vs battle scenarios), and I’ll tailor this into a one-page “last-minute cram sheet” plus a bigger full guide.

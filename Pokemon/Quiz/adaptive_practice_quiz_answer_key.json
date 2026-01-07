@@ -1,0 +1,135 @@
+{
+  "quizName": "Adaptive Practice Quiz",
+  "generatedFor": "Blake",
+  "generatedAt": "2026-01-07_10-16-34",
+  "focusAreas": [
+    "battle-role-tank",
+    "charizard-analysis",
+    "dual-type-mechanics",
+    "eevee-eeveelutions",
+    "gardevoir-analysis",
+    "gengar-analysis",
+    "gyarados-analysis",
+    "lucario-analysis",
+    "regional-variants",
+    "type-fire-water-grass"
+  ],
+  "format": "19 multiple choice + 1 short answer = 20 total questions",
+  "answers": {
+    "q1": {
+      "correct": "c",
+      "topic": "dual-type-mechanics",
+      "explanation": "Gyarados is Water/Flying. Water does NOT resist Electric (it's weak to it), and Flying is also weak to Electric. 2x × 2x = 4x damage."
+    },
+    "q2": {
+      "correct": "a",
+      "topic": "gyarados-analysis",
+      "explanation": "Flying type grants immunity to Ground-type moves. This is one of Gyarados's key advantages, making Earthquake useless against it."
+    },
+    "q3": {
+      "correct": "a",
+      "topic": "charizard-analysis",
+      "explanation": "Rock is super-effective against Fire (2x) AND super-effective against Flying (2x). When both types are weak, the multipliers stack: 2x × 2x = 4x."
+    },
+    "q4": {
+      "correct": "b",
+      "topic": "battle-role-tank",
+      "explanation": "Snorlax has very high HP and good defensive bulk, making it ideal for the Tank/Defender role - absorbing hits and staying in battle."
+    },
+    "q5": {
+      "correct": "b",
+      "topic": "type-fire-water-grass",
+      "explanation": "The triangle works: Water beats Fire, Fire beats Grass, Grass beats Water. This is the foundational starter type triangle."
+    },
+    "q6": {
+      "correct": "c",
+      "topic": "dual-type-mechanics",
+      "explanation": "When both types share the same weakness, the damage multipliers stack multiplicatively: 2x × 2x = 4x (quadruple damage)."
+    },
+    "q7": {
+      "correct": "b",
+      "topic": "lucario-analysis",
+      "explanation": "Fire is super-effective against Steel (one of Lucario's types). Fighting resists several types but Steel's Fire weakness remains."
+    },
+    "q8": {
+      "correct": "b",
+      "topic": "regional-variants",
+      "explanation": "Regional variants are alternate versions of existing Pokémon with different appearances and sometimes different types, adapted to their region (like Alolan Vulpix)."
+    },
+    "q9": {
+      "correct": "b",
+      "topic": "gengar-analysis",
+      "explanation": "Ghost types are completely immune to Normal-type moves. This is a fundamental type immunity in Pokémon."
+    },
+    "q10": {
+      "correct": "b",
+      "topic": "eevee-eeveelutions",
+      "explanation": "Eevee has branching evolution - it can evolve into 8+ different Pokémon (Eeveelutions) depending on conditions, each with a different type."
+    },
+    "q11": {
+      "correct": "b",
+      "topic": "gardevoir-analysis",
+      "explanation": "Psychic/Fairy is weak to Poison and Steel. Fairy's weakness to Poison and Steel applies, and these types hit Gardevoir super-effectively."
+    },
+    "q12": {
+      "correct": "c",
+      "topic": "charizard-analysis",
+      "explanation": "Charizard is an Attacker/Sweeper - it has high offensive stats and aims to deal damage quickly, not tank hits (it has notable weaknesses)."
+    },
+    "q13": {
+      "correct": "b",
+      "topic": "type-fire-water-grass",
+      "explanation": "Venusaur (Grass/Poison) has a type advantage because Grass is super-effective against Water. Fire (Charizard) is weak to Water."
+    },
+    "q14": {
+      "correct": "b",
+      "topic": "battle-role-tank",
+      "explanation": "Snorlax is Normal type, making it weak to Fighting. Fighting-type moves are common offensive coverage and threaten tanks like Snorlax."
+    },
+    "q15": {
+      "correct": "b",
+      "topic": "type-psychic-fairy",
+      "explanation": "Fairy is super-effective against Fighting (as well as Dragon and Dark). This makes Fairy useful against Fighting types like Lucario."
+    },
+    "q16": {
+      "correct": "c",
+      "topic": "type-ghost-poison",
+      "explanation": "Ghost is super-effective against Ghost itself (and Psychic). Ghost moves cannot hit Normal types at all (immunity)."
+    },
+    "q17": {
+      "correct": "b",
+      "topic": "type-fighting-steel",
+      "explanation": "Steel resists many common types including Normal, Flying, Rock, Bug, Grass, Psychic, Ice, Dragon, and Fairy, making it excellent defensively."
+    },
+    "q18": {
+      "correct": "c",
+      "topic": "pikachu-analysis",
+      "explanation": "Ground is super-effective against Electric AND Electric is completely immune to Ground-type Electric moves. Ground types like Diglett counter Pikachu."
+    },
+    "q19": {
+      "correct": "a",
+      "topic": "evolution-lines",
+      "explanation": "The correct evolution line is Charmander (base) → Charmeleon (stage 1) → Charizard (stage 2/final form)."
+    },
+    "q20": {
+      "type": "short_answer",
+      "topic": "gyarados-analysis",
+      "keyPoints": [
+        "Water type is weak to Electric (2x damage)",
+        "Flying type is also weak to Electric (2x damage)",
+        "Dual-type mechanics multiply weaknesses together (2x × 2x = 4x)",
+        "This makes Electric Gyarados's biggest threat",
+        "Pure Water only has one Electric weakness (2x), but adding Flying doubles it"
+      ]
+    }
+  },
+  "totalPoints": {
+    "multipleChoice": 19,
+    "shortAnswer": 2,
+    "total": 21
+  },
+  "grading": {
+    "multipleChoice": "1 point each (19 total)",
+    "shortAnswer": "0-2 points (2 = complete/accurate with clear explanation of dual-type stacking, 1 = partial understanding, 0 = incorrect or missing)"
+  }
+}

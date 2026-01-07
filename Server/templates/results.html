@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Quiz Results - {{STUDENT_NAME}} - {{CLASS_NAME}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a2744;
+            --burgundy: #7c2d3e;
+            --cream: #f8f5f0;
+            --gold: #c9a959;
+            --ink: #2d2d2d;
+            --paper: #fffef9;
+            --shadow: rgba(26, 39, 68, 0.12);
+            --success: #2e7d4a;
+            --success-light: #e8f5eb;
+            --error: #c62828;
+            --error-light: #ffebee;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--navy);
+            color: var(--paper);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .header h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .header p {
+            opacity: 0.85;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Score Summary */
+        .score-summary {
+            background: var(--paper);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy), #2a3d5c);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 24px rgba(26, 39, 68, 0.3);
+        }
+
+        .score-circle .score {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .score-circle .percentage {
+            font-size: 1.1rem;
+            color: var(--paper);
+            opacity: 0.9;
+        }
+
+        .score-label {
+            font-size: 1.2rem;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .student-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        /* Section breakdown */
+        .section-breakdown {
+            background: var(--paper);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 3px 12px var(--shadow);
+        }
+
+        .section-breakdown h2 {
+            font-family: 'Libre Baskerville', serif;
+            color: var(--navy);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .section-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .section-score-item {
+            background: var(--cream);
+            padding: 1rem;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-score-item .section-name {
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .section-score-item .section-points {
+            font-weight: 700;
+            color: var(--burgundy);
+        }
+
+        /* Questions Review */
+        .questions-review {
+            background: var(--paper);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 3px 12px var(--shadow);
+            overflow: hidden;
+        }
+
+        .questions-review-header {
+            background: linear-gradient(135deg, var(--navy) 0%, #2a3d5c 100%);
+            color: var(--paper);
+            padding: 1rem 1.5rem;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.1rem;
+        }
+
+        .questions-review-content {
+            padding: 1.5rem;
+        }
+
+        .question-result {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .question-result.correct {
+            background: var(--success-light);
+            border-color: var(--success);
+        }
+
+        .question-result.incorrect {
+            background: var(--error-light);
+            border-color: var(--error);
+        }
+
+        .question-result .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .question-result .question-number {
+            display: inline-block;
+            background: var(--navy);
+            color: var(--paper);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 0.75rem;
+        }
+
+        .question-result .question-text {
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .question-result .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .question-result.correct .status-badge {
+            background: var(--success);
+            color: white;
+        }
+
+        .question-result.incorrect .status-badge {
+            background: var(--error);
+            color: white;
+        }
+
+        .answer-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .answer-box {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .answer-box .label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .answer-box .value {
+            font-weight: 500;
+        }
+
+        .explanation {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .explanation .label {
+            font-weight: 600;
+            color: var(--burgundy);
+            margin-bottom: 0.25rem;
+        }
+
+        /* Topic Summary */
+        .topic-summary {
+            background: var(--paper);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 3px 12px var(--shadow);
+        }
+
+        .topic-summary h2 {
+            font-family: 'Libre Baskerville', serif;
+            color: var(--navy);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .topic-column h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topic-column.strengths h3 {
+            color: var(--success);
+        }
+
+        .topic-column.weaknesses h3 {
+            color: var(--error);
+        }
+
+        .topic-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .topic-column li {
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+        }
+
+        .topic-column.strengths li {
+            background: var(--success-light);
+        }
+
+        .topic-column.weaknesses li {
+            background: var(--error-light);
+        }
+
+        /* Feedback Notice */
+        .feedback-notice {
+            background: linear-gradient(135deg, #fef9e7, #fff8dc);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .feedback-notice p {
+            font-size: 1.1rem;
+            color: var(--navy);
+        }
+
+        .feedback-notice strong {
+            color: var(--burgundy);
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e5e2dc;
+        }
+
+        .btn {
+            padding: 0.9rem 1.8rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--burgundy) 0%, #9d3a50 100%);
+            color: var(--paper);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--navy) 0%, #2a3d5c 100%);
+            color: var(--paper);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--navy);
+            color: var(--navy);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .answer-row {
+                grid-template-columns: 1fr;
+            }
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+            .actions {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* iPhone optimizations (430px and below) */
+        @media (max-width: 430px) {
+            .header {
+                padding: 1.5rem 1rem;
+            }
+            .header h1 {
+                font-size: 1.3rem;
+            }
+            .header .subtitle {
+                font-size: 0.85rem;
+            }
+            .container {
+                padding: 0.75rem;
+            }
+            .score-circle {
+                width: 120px;
+                height: 120px;
+            }
+            .score-circle .score {
+                font-size: 2rem;
+            }
+            .score-circle .label {
+                font-size: 0.75rem;
+            }
+            .section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            .section-header {
+                font-size: 1rem;
+            }
+            .question-result {
+                padding: 0.75rem;
+            }
+            .question-text {
+                font-size: 0.9rem;
+            }
+            .answer-box {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            .explanation {
+                font-size: 0.85rem;
+                padding: 0.5rem;
+            }
+            .topic-item {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            /* Stack buttons with proper touch targets */
+            .actions {
+                gap: 0.5rem;
+            }
+            .btn {
+                min-height: 48px;
+                font-size: 0.9rem;
+            }
+            .screenshot-notice {
+                font-size: 0.85rem;
+                padding: 0.75rem;
+            }
+        }
+
+        /* iPad optimizations */
+        @media (min-width: 744px) {
+            .score-circle {
+                width: 180px;
+                height: 180px;
+            }
+            .score-circle .score {
+                font-size: 3rem;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .header {
+                background: white !important;
+                color: black !important;
+                border-bottom: 2px solid black;
+            }
+            .btn, .actions {
+                display: none !important;
+            }
+            .question-result {
+                break-inside: avoid;
+            }
+        }
+
+        /* Dark mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --cream: #1a1a1a;
+                --paper: #2d2d2d;
+                --ink: #e5e5e5;
+                --shadow: rgba(0, 0, 0, 0.4);
+            }
+            body {
+                background: #1a1a1a;
+                color: #e5e5e5;
+            }
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: var(--navy);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .nav-bar .home-link {
+            color: var(--paper);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .nav-bar .home-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .nav-bar .home-link svg {
+            width: 18px;
+            height: 18px;
+        }
+        @media (max-width: 600px) {
+            .nav-bar {
+                padding: 0.5rem 0.75rem;
+            }
+            .nav-bar .home-link {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="/" class="home-link">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Exam Prep Home
+        </a>
+    </nav>
+
+    <div class="header">
+        <h1>Quiz Results</h1>
+        <p>{{CLASS_NAME}} - {{QUIZ_NAME}}</p>
+    </div>
+
+    <div class="container">
+        <!-- Score Summary -->
+        <div class="score-summary">
+            <div class="score-circle">
+                <span class="score">{{SCORE}}/{{TOTAL}}</span>
+                <span class="percentage">{{PERCENTAGE}}%</span>
+            </div>
+            <div class="score-label">Overall Score</div>
+            <div class="student-info">
+                <span><strong>Student:</strong> {{STUDENT_NAME}}</span>
+                <span><strong>Date:</strong> {{DATE}}</span>
+            </div>
+        </div>
+
+        <!-- Section Breakdown -->
+        <div class="section-breakdown">
+            <h2>Section Breakdown</h2>
+            <div class="section-scores">
+                {{SECTION_SCORES}}
+                <!-- Example:
+                <div class="section-score-item">
+                    <span class="section-name">Multiple Choice</span>
+                    <span class="section-points">8/10</span>
+                </div>
+                -->
+            </div>
+        </div>
+
+        <!-- Questions Review -->
+        <div class="questions-review">
+            <div class="questions-review-header">
+                Detailed Question Review
+            </div>
+            <div class="questions-review-content">
+                {{QUESTIONS_REVIEW}}
+                <!-- Example:
+                <div class="question-result correct">
+                    <div class="question-header">
+                        <div>
+                            <span class="question-number">1</span>
+                            <span class="question-text">Which of the following was a major weakness of the Articles of Confederation?</span>
+                        </div>
+                        <span class="status-badge">Correct</span>
+                    </div>
+                    <div class="answer-row">
+                        <div class="answer-box">
+                            <div class="label">Your Answer</div>
+                            <div class="value">B) Congress could not levy taxes or regulate commerce</div>
+                        </div>
+                        <div class="answer-box">
+                            <div class="label">Correct Answer</div>
+                            <div class="value">B) Congress could not levy taxes or regulate commerce</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-result incorrect">
+                    <div class="question-header">
+                        <div>
+                            <span class="question-number">2</span>
+                            <span class="question-text">The Virginia Plan proposed representation in Congress based on:</span>
+                        </div>
+                        <span class="status-badge">Incorrect</span>
+                    </div>
+                    <div class="answer-row">
+                        <div class="answer-box">
+                            <div class="label">Your Answer</div>
+                            <div class="value">A) Equal representation for each state</div>
+                        </div>
+                        <div class="answer-box">
+                            <div class="label">Correct Answer</div>
+                            <div class="value">B) Population or wealth of each state</div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <div class="label">Explanation:</div>
+                        The Virginia Plan, proposed by James Madison, advocated for representation based on population or wealth, which favored larger states. This was one of the key points of contention at the Constitutional Convention.
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+
+        <!-- Topic Summary -->
+        <div class="topic-summary">
+            <h2>Topic Summary</h2>
+            <div class="topic-grid">
+                <div class="topic-column strengths">
+                    <h3>Strengths</h3>
+                    <ul>
+                        {{STRENGTHS}}
+                        <!-- Example:
+                        <li>Articles of Confederation</li>
+                        <li>Constitutional Compromises</li>
+                        -->
+                    </ul>
+                </div>
+                <div class="topic-column weaknesses">
+                    <h3>Areas for Improvement</h3>
+                    <ul>
+                        {{WEAKNESSES}}
+                        <!-- Example:
+                        <li>Federalism concepts</li>
+                        <li>Congressional procedures</li>
+                        -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Notice -->
+        <div class="feedback-notice">
+            <p><strong>If you disagree with any grading, take a screenshot and send it to the tutor!</strong></p>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <a href="/class/{{CLASS_NAME}}" class="btn btn-primary">Take Another Quiz</a>
+            <a href="/" class="btn btn-secondary">Return Home</a>
+            <button class="btn btn-outline" onclick="window.print()">Print Results</button>
+        </div>
+    </div>
+</body>
+</html>

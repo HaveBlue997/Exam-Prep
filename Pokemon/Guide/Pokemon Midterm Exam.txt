@@ -1,0 +1,189 @@
+Intro to Pokémon — Exam (Weeks 1–7)
+
+Total Questions: 25
+Question Types: Vocabulary Matching (10), Multiple Choice (13), Short Answer (2)
+Answer Key: Included under each section
+
+⸻
+
+Section A — Vocabulary Matching (10 questions)
+
+Directions: Match each term (1–10) with the best definition (A–J). Write the letter.
+
+Terms
+	1.	Pokédex
+	2.	Type
+	3.	Super-effective
+	4.	Not very effective
+	5.	Immunity
+	6.	Evolution
+	7.	Evolution line
+	8.	Dual-type
+	9.	Regional variant
+	10.	Battle role
+
+Definitions
+
+A) When an attack does reduced damage because the defender resists it
+B) A category like Fire, Water, or Grass that affects strengths/weaknesses
+C) When a Pokémon changes into a new species (often becoming stronger)
+D) A Pokémon version that looks different and may change type depending on the region
+E) A digital encyclopedia of Pokémon information
+F) When an attack does extra damage because the defender is weak to it
+G) A Pokémon’s function on a team (example: attacker, defender, support)
+H) A complete family path of evolutions (base → later forms)
+I) When a Pokémon has two types at the same time (example: Fire/Flying)
+J) When a type takes no damage from a certain type of attack
+
+Answer Key (Matching)
+
+1–E
+2–B
+3–F
+4–A
+5–J
+6–C
+7–H
+8–I
+9–D
+10–G
+
+⸻
+
+Section B — Multiple Choice (13 questions)
+
+Directions: Circle the best answer (A, B, C, or D).
+	11.	Which statement best describes the main idea of a “type matchup”?
+A) Pokémon levels decide everything
+B) Types determine strengths, weaknesses, and immunities
+C) Only legendary Pokémon have advantages
+D) Matchups are random
+
+Answer: B
+	12.	Which type is super-effective against Water?
+A) Fire
+B) Grass
+C) Ice
+D) Normal
+
+Answer: B
+	13.	Which type is super-effective against Fire?
+A) Water
+B) Grass
+C) Bug
+D) Electric
+
+Answer: A
+	14.	Which type is super-effective against Flying?
+A) Ground
+B) Electric
+C) Water
+D) Grass
+
+Answer: B
+	15.	Pikachu is what type?
+A) Normal
+B) Electric
+C) Fire
+D) Psychic
+
+Answer: B
+	16.	Charizard is which dual-type?
+A) Fire/Dragon
+B) Fire/Flying
+C) Fire/Ground
+D) Fire/Psychic
+
+Answer: B
+	17.	Which type is super-effective against Charizard (Fire/Flying)?
+A) Electric
+B) Water
+C) Rock
+D) Grass
+
+Answer: C
+(Rock moves are especially strong vs Fire/Flying.)
+	18.	What does it mean if an attack is “not very effective”?
+A) It does extra damage
+B) It does reduced damage
+C) It always misses
+D) It hits twice
+
+Answer: B
+	19.	A Pokémon with two types can have:
+A) Only one weakness total
+B) No weaknesses ever
+C) Multiple weaknesses and resistances based on both types
+D) Only resistances, never weaknesses
+
+Answer: C
+	20.	Which type is super-effective against Electric?
+A) Ground
+B) Water
+C) Flying
+D) Steel
+
+Answer: A
+	21.	What does “immunity” mean in battle?
+A) You take half damage
+B) You take double damage
+C) You take no damage from that type of move
+D) You heal instead of taking damage
+
+Answer: C
+	22.	Which battle role BEST fits a Pokémon that focuses on soaking hits and staying in battle a long time?
+A) Glass cannon
+B) Tank/Defender
+C) Speed sweeper
+D) Trickster
+
+Answer: B
+	23.	Which is the best example of a “regional variant”?
+A) Pikachu using Thunderbolt
+B) A Pokémon that looks different in another region and may have a different type
+C) A Pokémon gaining experience points
+D) A Pokémon holding an item
+
+Answer: B
+	24.	Which is the BEST description of an “evolution line”?
+A) A list of all Pokémon types
+B) The path of forms from base Pokémon to its evolutions
+C) A move list a Pokémon can learn
+D) A battle strategy that always wins
+
+Answer: B
+	25.	Which type is super-effective against Grass?
+A) Water
+B) Fire
+C) Electric
+D) Ground
+
+Answer: B
+
+⸻
+
+Section C — Short Answer (2 questions)
+
+Directions: Answer in 3–6 sentences each. Include at least one type matchup in your explanation.
+	26.	You are battling and your opponent sends out Charizard (Fire/Flying).
+Name two good types to attack Charizard with, and explain why each is a good choice.
+
+Correct Answer (example response):
+	•	Rock is strong because it hits Charizard’s Fire/Flying typing super-effectively (it’s one of Charizard’s biggest weaknesses).
+	•	Electric is also good because it is super-effective against Flying types, so it can deal strong damage to Charizard.
+(Other acceptable types: Water can be strong vs Fire, but Rock is the clearest “best” answer; a well-justified explanation earns full credit.)
+
+	27.	Explain the difference between evolution and a regional variant, and give one example of each.
+
+Correct Answer (example response):
+	•	Evolution is when a Pokémon changes into a new species in its evolution line, usually becoming stronger (example: Charmander → Charmeleon → Charizard).
+	•	A regional variant is a different version of a Pokémon that changes appearance and may change typing depending on the region (example: Alolan Vulpix as a regional form).
+
+⸻
+
+Scoring :
+	•	Matching: 10 points (1 each)
+	•	Multiple Choice: 13 points (1 each)
+	•	Short Answer: 12 points (6 each)
+Total: 35 points
+

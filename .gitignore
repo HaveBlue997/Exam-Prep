@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Student data (personal)
+*/Answers/
+*/Archive/
+
+# Development history
+prompts/completed/
+.claude/
+
+# Generated files
+quiz-generation-logs/
+grading-jobs/
+
+# OS files
+.DS_Store
+*.log
+
+# Personal class data (not for public repo)
+Government/
+Literature/
+Stats/

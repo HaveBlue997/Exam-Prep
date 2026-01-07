@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Exam Prep - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Exam Preparation</h1>
+        <p>Select a class to view quizzes and study materials</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>Available Classes</h2>
+            <div id="class-list" class="class-grid">
+                <p style="text-align: center; padding: 2rem; color: #999;">Loading classes...</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Server Information</h2>
+            <p style="margin-bottom: 1rem;">This server is running on your local network and accessible from any device.</p>
+            <ul style="margin-left: 2rem; line-height: 2;">
+                <li><strong>Access from this computer:</strong> <code>http://localhost:3000</code></li>
+                <li><strong>Access from iPad/other devices:</strong> Use your Mac's IP address</li>
+                <li><strong>Features:</strong> Interactive quizzes, study guides, save answers to server</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Load available classes
+        async function loadClasses() {
+            try {
+                const response = await fetch('/api/classes');
+                const data = await response.json();
+
+                const classList = document.getElementById('class-list');
+
+                if (data.classes && data.classes.length > 0) {
+                    classList.innerHTML = data.classes.map(cls => `
+                        <a href="/class/${cls.name}" class="class-card">
+                            <div class="icon">${cls.name.charAt(0)}</div>
+                            <h3>${cls.name}</h3>
+                        </a>
+                    `).join('');
+                } else {
+                    classList.innerHTML = '<div class="empty-state">No classes found. Add class folders to the project root directory.</div>';
+                }
+            } catch (error) {
+                console.error('Error loading classes:', error);
+                document.getElementById('class-list').innerHTML = '<div class="error-message">Failed to load classes. Please check the server connection.</div>';
+            }
+        }
+
+        // Load classes on page load
+        loadClasses();
+
+        // ===================================
+        // IPAD TOUCH ENHANCEMENTS
+        // ===================================
+
+        // Detect iPad
+        const isIPad = /iPad|Macintosh/i.test(navigator.userAgent) && 'ontouchend' in document;
+
+        if (isIPad) {
+            // Add iPad-specific class for CSS targeting
+            document.body.classList.add('ipad-device');
+
+            // Touch ripple effect for class cards
+            function createRipple(event) {
+                const button = event.currentTarget;
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = event.touches ? event.touches[0].clientX - rect.left - size / 2 :
+                    event.clientX - rect.left - size / 2;
+                const y = event.touches ? event.touches[0].clientY - rect.top - size / 2 :
+                    event.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+
+                const existingRipple = button.querySelector('.ripple');
+                if (existingRipple) {
+                    existingRipple.remove();
+                }
+
+                button.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            }
+
+            // Add ripple to class cards when they're loaded
+            const observer = new MutationObserver(() => {
+                document.querySelectorAll('.class-card').forEach(el => {
+                    if (!el.dataset.rippleAdded) {
+                        el.addEventListener('touchstart', createRipple);
+                        el.dataset.rippleAdded = 'true';
+                    }
+                });
+            });
+
+            observer.observe(document.getElementById('class-list'), {
+                childList: true,
+                subtree: true
+            });
+
+            // Prevent double-tap zoom
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        }
+
+        // Handle orientation changes
+        let currentOrientation = window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape';
+
+        window.addEventListener('resize', () => {
+            const newOrientation = window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape';
+
+            if (currentOrientation !== newOrientation) {
+                currentOrientation = newOrientation;
+
+                // Add classes to body for CSS targeting
+                document.body.classList.toggle('portrait', currentOrientation === 'portrait');
+                document.body.classList.toggle('landscape', currentOrientation === 'landscape');
+
+                // Trigger reflow for smooth transition
+                document.body.classList.add('orientation-changing');
+                setTimeout(() => {
+                    document.body.classList.remove('orientation-changing');
+                }, 300);
+            }
+        });
+
+        // Set initial orientation
+        document.body.classList.add(currentOrientation);
+    </script>
+</body>
+</html>

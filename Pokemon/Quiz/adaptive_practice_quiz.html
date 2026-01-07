@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Adaptive Practice Quiz - Pokémon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a2744;
+            --burgundy: #7c2d3e;
+            --cream: #f8f5f0;
+            --gold: #c9a959;
+            --dark-gray: #333333;
+            --medium-gray: #666666;
+            --light-gray: #e8e4df;
+            --white: #ffffff;
+            --success-green: #2d5a3d;
+            --error-red: #8b3a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--cream);
+            min-height: 100vh;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background: var(--navy);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-brand {
+            font-family: 'Libre Baskerville', serif;
+            color: var(--gold);
+            font-size: 1.3rem;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(201, 169, 89, 0.2);
+            color: var(--gold);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, #2a3f5f 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .header h1 {
+            font-family: 'Libre Baskerville', serif;
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .subtitle {
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .focus-areas {
+            color: var(--cream);
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--light-gray);
+        }
+
+        /* Student Info */
+        .name-date {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Source Sans 3', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--burgundy);
+        }
+
+        /* Instructions */
+        .instructions {
+            background: linear-gradient(135deg, #faf8f5 0%, #f5f2ed 100%);
+            padding: 1.5rem;
+            border-left: 4px solid var(--gold);
+            margin-bottom: 2rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .instructions h3 {
+            color: var(--burgundy);
+            margin-bottom: 0.75rem;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.1rem;
+        }
+
+        .instructions ul {
+            margin-left: 1.5rem;
+            color: var(--medium-gray);
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .encouragement {
+            background: linear-gradient(135deg, #f0f7f2 0%, #e8f3eb 100%);
+            padding: 1rem 1.5rem;
+            border-left: 4px solid var(--success-green);
+            margin-top: 1rem;
+            border-radius: 0 6px 6px 0;
+            color: var(--success-green);
+            font-weight: 600;
+        }
+
+        /* Progress */
+        .progress-indicator {
+            background: var(--cream);
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid var(--light-gray);
+        }
+
+        .progress-indicator strong {
+            color: var(--navy);
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            margin-left: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--burgundy) 0%, var(--gold) 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Section Titles */
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--burgundy);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Libre Baskerville', serif;
+            color: var(--navy);
+            font-size: 1.4rem;
+        }
+
+        .section-subtitle {
+            color: var(--medium-gray);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Questions */
+        .question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--cream);
+            border-radius: 8px;
+            border-left: 4px solid var(--navy);
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--burgundy);
+            color: var(--white);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 0.75rem;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            display: inline;
+        }
+
+        .question-header {
+            margin-bottom: 1rem;
+        }
+
+        /* Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: var(--burgundy);
+            background: rgba(124, 45, 62, 0.03);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--burgundy);
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            color: var(--dark-gray);
+            line-height: 1.5;
+        }
+
+        .option:has(input:checked) {
+            border-color: var(--burgundy);
+            background: rgba(124, 45, 62, 0.05);
+        }
+
+        .option:has(input:checked) label {
+            color: var(--burgundy);
+            font-weight: 600;
+        }
+
+        /* Textarea */
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--burgundy);
+        }
+
+        .answer-hint {
+            background: linear-gradient(135deg, #fdf9f0 0%, #faf5e8 100%);
+            padding: 1rem;
+            border-left: 4px solid var(--gold);
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .answer-hint strong {
+            color: var(--burgundy);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--burgundy) 0%, #9a3a4d 100%);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(124, 45, 62, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 45, 62, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Submit Section */
+        .submit-section {
+            text-align: center;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #faf8f5 0%, #f5f2ed 100%);
+            border-radius: 8px;
+            border: 2px solid var(--light-gray);
+        }
+
+        .submit-section h3 {
+            margin-bottom: 1rem;
+            color: var(--navy);
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        .submit-section p {
+            margin-bottom: 1.5rem;
+            color: var(--medium-gray);
+        }
+
+        /* Grading Overlay */
+        .grading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--navy) 0%, #2a3f5f 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .grading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .grading-overlay .spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(201, 169, 89, 0.3);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 2rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .grading-overlay h2 {
+            color: var(--white);
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .grading-overlay p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grading-overlay .status-message {
+            color: var(--gold);
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        .grading-overlay .error-message {
+            color: var(--error-red);
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .name-date {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .question {
+                padding: 1rem;
+            }
+
+            .nav-bar {
+                padding: 1rem;
+            }
+
+            .nav-brand {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .section-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .progress-indicator {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .progress-bar {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Grading Overlay -->
+    <div id="grading-overlay" class="grading-overlay">
+        <div class="spinner"></div>
+        <h2>Grading Your Quiz...</h2>
+        <p>Professor Oak is reviewing your answers</p>
+        <p class="status-message" id="grading-status">Initializing...</p>
+        <div id="grading-error" class="error-message" style="display: none;"></div>
+        <button id="grading-retry-btn" class="btn btn-primary" style="display: none;" onclick="retryGrading()">Try Again</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="/" class="nav-brand">Pokémon Studies</a>
+        <a href="/" class="nav-link">← Back to Home</a>
+    </nav>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>⚡ Adaptive Practice Quiz ⚡</h1>
+        <p class="subtitle">Personalized for Blake</p>
+        <p class="focus-areas">Focus: Dual-Types • Battle Roles • Gyarados & Charizard Analysis</p>
+    </div>
+
+    <div class="container">
+        <!-- Student Info Card -->
+        <div class="card">
+            <div class="name-date">
+                <div class="input-group">
+                    <label for="student-name">Trainer Name *</label>
+                    <input type="text" id="student-name" placeholder="Enter your name" value="Blake" required>
+                </div>
+                <div class="input-group">
+                    <label for="quiz-date">Date</label>
+                    <input type="date" id="quiz-date">
+                </div>
+            </div>
+
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <ul>
+                    <li>Answer all 19 multiple choice questions (1 point each)</li>
+                    <li>Complete the short answer question (2 points)</li>
+                    <li>Total possible score: 21 points</li>
+                    <li>Click "Submit Quiz" when finished</li>
+                </ul>
+                <div class="encouragement">
+                    🌟 Hey Blake! This quiz was created just for you to help strengthen areas where extra practice will help you shine on the exam. You've got this!
+                </div>
+            </div>
+
+            <div class="progress-indicator">
+                <strong>Progress: <span id="progress-text">0/20</span></strong>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section I: Multiple Choice -->
+        <div class="card">
+            <div class="section-header">
+                <div class="section-icon">I</div>
+                <div>
+                    <h2 class="section-title">Multiple Choice</h2>
+                    <p class="section-subtitle">Select the best answer for each question (19 questions)</p>
+                </div>
+            </div>
+
+            <!-- Q1: dual-type-mechanics (weak area) -->
+            <div class="question" data-topic="dual-type-mechanics">
+                <div class="question-header">
+                    <span class="question-number">1</span>
+                    <span class="question-text">Gyarados is Water/Flying type. What happens when an Electric-type move hits Gyarados?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1a" value="a">
+                        <label for="q1a">Normal damage (1x) because Water resists Electric</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1b" value="b">
+                        <label for="q1b">Super-effective damage (2x) because Flying is weak to Electric</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1c" value="c">
+                        <label for="q1c">4x damage because both Water and Flying are weak to Electric</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1d" value="d">
+                        <label for="q1d">No damage because Flying types are immune to Electric</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2: gyarados-analysis (weak area) -->
+            <div class="question" data-topic="gyarados-analysis">
+                <div class="question-header">
+                    <span class="question-number">2</span>
+                    <span class="question-text">Which of the following is TRUE about Gyarados's type combination?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2a" value="a">
+                        <label for="q2a">Water/Flying makes Gyarados immune to Ground-type moves</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2b" value="b">
+                        <label for="q2b">Water/Flying gives Gyarados a resistance to Electric-type moves</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2c" value="c">
+                        <label for="q2c">Water/Flying makes Gyarados weak to Grass but resistant to Fire</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2d" value="d">
+                        <label for="q2d">Water/Flying cancels out Electric weakness entirely</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q3: charizard-analysis (weak area) -->
+            <div class="question" data-topic="charizard-analysis">
+                <div class="question-header">
+                    <span class="question-number">3</span>
+                    <span class="question-text">Why does Charizard take 4x damage from Rock-type moves?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3a" value="a">
+                        <label for="q3a">Rock is super-effective against Fire, and also super-effective against Flying</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3b" value="b">
+                        <label for="q3b">Rock is super-effective against Fire, and Fire is weak to Rock</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3c" value="c">
+                        <label for="q3c">Charizard is a Dragon-type, and Dragons are weak to Rock</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3d" value="d">
+                        <label for="q3d">Rock moves always deal 4x damage to any dual-type Pokémon</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q4: battle-role-tank (weak area) -->
+            <div class="question" data-topic="battle-role-tank">
+                <div class="question-header">
+                    <span class="question-number">4</span>
+                    <span class="question-text">Which Pokémon best fits the "Tank/Defender" battle role?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4a" value="a">
+                        <label for="q4a">Gengar — because it's fast and hits hard</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4b" value="b">
+                        <label for="q4b">Snorlax — because it has high HP and can absorb hits</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4c" value="c">
+                        <label for="q4c">Pikachu — because Electric types resist many attacks</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4d" value="d">
+                        <label for="q4d">Charizard — because Fire types are naturally defensive</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q5: type-fire-water-grass (weak area) -->
+            <div class="question" data-topic="type-fire-water-grass">
+                <div class="question-header">
+                    <span class="question-number">5</span>
+                    <span class="question-text">In the Fire-Water-Grass type triangle, which statement is correct?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5a" value="a">
+                        <label for="q5a">Fire beats Water, Water beats Grass, Grass beats Fire</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5b" value="b">
+                        <label for="q5b">Water beats Fire, Fire beats Grass, Grass beats Water</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5c" value="c">
+                        <label for="q5c">Grass beats Fire, Fire beats Water, Water beats Grass</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5d" value="d">
+                        <label for="q5d">All three types are equally effective against each other</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q6: dual-type-mechanics (weak area) -->
+            <div class="question" data-topic="dual-type-mechanics">
+                <div class="question-header">
+                    <span class="question-number">6</span>
+                    <span class="question-text">When a Pokémon has two types that are BOTH weak to the same type, what multiplier does the attacking move get?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6a" value="a">
+                        <label for="q6a">2x (double damage)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6b" value="b">
+                        <label for="q6b">3x (triple damage)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6c" value="c">
+                        <label for="q6c">4x (quadruple damage)</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6d" value="d">
+                        <label for="q6d">8x (octuple damage)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q7: lucario-analysis (weak area) -->
+            <div class="question" data-topic="lucario-analysis">
+                <div class="question-header">
+                    <span class="question-number">7</span>
+                    <span class="question-text">Lucario is Fighting/Steel type. Which type is super-effective against Lucario?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7a" value="a">
+                        <label for="q7a">Psychic</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7b" value="b">
+                        <label for="q7b">Fire</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7c" value="c">
+                        <label for="q7c">Electric</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7d" value="d">
+                        <label for="q7d">Water</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q8: regional-variants (weak area) -->
+            <div class="question" data-topic="regional-variants">
+                <div class="question-header">
+                    <span class="question-number">8</span>
+                    <span class="question-text">What is a regional variant?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8a" value="a">
+                        <label for="q8a">A Pokémon that evolved into a completely different species</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8b" value="b">
+                        <label for="q8b">A version of an existing Pokémon with different appearance and possibly different typing based on its region</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8c" value="c">
+                        <label for="q8c">A Pokémon that can only be found in one specific location</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8d" value="d">
+                        <label for="q8d">A temporary form change during battle</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q9: gengar-analysis (weak area) -->
+            <div class="question" data-topic="gengar-analysis">
+                <div class="question-header">
+                    <span class="question-number">9</span>
+                    <span class="question-text">What makes Gengar immune to Normal-type moves?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9a" value="a">
+                        <label for="q9a">Its Poison typing provides immunity to Normal</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9b" value="b">
+                        <label for="q9b">Its Ghost typing provides immunity to Normal</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9c" value="c">
+                        <label for="q9c">Its high Speed stat lets it dodge Normal moves</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9d" value="d">
+                        <label for="q9d">It's not immune to Normal — it just resists it</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q10: eevee-eeveelutions (weak area) -->
+            <div class="question" data-topic="eevee-eeveelutions">
+                <div class="question-header">
+                    <span class="question-number">10</span>
+                    <span class="question-text">What is special about Eevee's evolution pattern?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q10" id="q10a" value="a">
+                        <label for="q10a">It can only evolve once, unlike other Pokémon</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" id="q10b" value="b">
+                        <label for="q10b">It has branching evolution — multiple possible evolutions into different types</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" id="q10c" value="c">
+                        <label for="q10c">It always evolves at the same level regardless of conditions</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" id="q10d" value="d">
+                        <label for="q10d">It can only evolve during nighttime</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q11: gardevoir-analysis (weak area) -->
+            <div class="question" data-topic="gardevoir-analysis">
+                <div class="question-header">
+                    <span class="question-number">11</span>
+                    <span class="question-text">Gardevoir is Psychic/Fairy type. Which types are super-effective against it?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q11" id="q11a" value="a">
+                        <label for="q11a">Fighting and Dark</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" id="q11b" value="b">
+                        <label for="q11b">Poison and Steel</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" id="q11c" value="c">
+                        <label for="q11c">Fire and Water</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" id="q11d" value="d">
+                        <label for="q11d">Electric and Ground</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q12: charizard-analysis (weak area) -->
+            <div class="question" data-topic="charizard-analysis">
+                <div class="question-header">
+                    <span class="question-number">12</span>
+                    <span class="question-text">Which battle role best describes Charizard?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q12" id="q12a" value="a">
+                        <label for="q12a">Tank/Defender — soaks up damage for the team</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" id="q12b" value="b">
+                        <label for="q12b">Support — helps teammates with status moves</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" id="q12c" value="c">
+                        <label for="q12c">Attacker/Sweeper — focuses on dealing high damage quickly</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" id="q12d" value="d">
+                        <label for="q12d">Counter — only used to beat specific threats</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q13: type-fire-water-grass (weak area) -->
+            <div class="question" data-topic="type-fire-water-grass">
+                <div class="question-header">
+                    <span class="question-number">13</span>
+                    <span class="question-text">Your opponent sends out Blastoise (Water type). Which of your Focus 10 Pokémon would have a type advantage?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q13" id="q13a" value="a">
+                        <label for="q13a">Charizard — Fire beats Water</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" id="q13b" value="b">
+                        <label for="q13b">Venusaur — Grass beats Water</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" id="q13c" value="c">
+                        <label for="q13c">Gyarados — Water resists Water</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" id="q13d" value="d">
+                        <label for="q13d">Gengar — Ghost beats Water</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q14: battle-role-tank (weak area) -->
+            <div class="question" data-topic="battle-role-tank">
+                <div class="question-header">
+                    <span class="question-number">14</span>
+                    <span class="question-text">What is the main weakness of using a Tank/Defender like Snorlax?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q14" id="q14a" value="a">
+                        <label for="q14a">Tanks deal no damage at all</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" id="q14b" value="b">
+                        <label for="q14b">Fighting-type moves are super-effective against Normal types like Snorlax</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" id="q14c" value="c">
+                        <label for="q14c">Tanks cannot learn defensive moves</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" id="q14d" value="d">
+                        <label for="q14d">Tanks are always slower than attackers</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q15: type-psychic-fairy (not yet tested) -->
+            <div class="question" data-topic="type-psychic-fairy">
+                <div class="question-header">
+                    <span class="question-number">15</span>
+                    <span class="question-text">Fairy-type moves are super-effective against which type?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q15" id="q15a" value="a">
+                        <label for="q15a">Steel</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" id="q15b" value="b">
+                        <label for="q15b">Fighting</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" id="q15c" value="c">
+                        <label for="q15c">Psychic</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" id="q15d" value="d">
+                        <label for="q15d">Normal</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q16: type-ghost-poison (not yet tested) -->
+            <div class="question" data-topic="type-ghost-poison">
+                <div class="question-header">
+                    <span class="question-number">16</span>
+                    <span class="question-text">Ghost-type moves are super-effective against which type?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q16" id="q16a" value="a">
+                        <label for="q16a">Normal</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" id="q16b" value="b">
+                        <label for="q16b">Fighting</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" id="q16c" value="c">
+                        <label for="q16c">Ghost</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" id="q16d" value="d">
+                        <label for="q16d">Steel</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q17: type-fighting-steel (not yet tested) -->
+            <div class="question" data-topic="type-fighting-steel">
+                <div class="question-header">
+                    <span class="question-number">17</span>
+                    <span class="question-text">Why is Steel considered a strong defensive type?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q17" id="q17a" value="a">
+                        <label for="q17a">Steel has no weaknesses</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" id="q17b" value="b">
+                        <label for="q17b">Steel resists many common attack types</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" id="q17c" value="c">
+                        <label for="q17c">Steel types always have high Speed stats</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" id="q17d" value="d">
+                        <label for="q17d">Steel is immune to all special attacks</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q18: pikachu-analysis (strong area - review) -->
+            <div class="question" data-topic="pikachu-analysis">
+                <div class="question-header">
+                    <span class="question-number">18</span>
+                    <span class="question-text">What is Pikachu's main counter (the type that threatens it most)?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q18" id="q18a" value="a">
+                        <label for="q18a">Water</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" id="q18b" value="b">
+                        <label for="q18b">Flying</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" id="q18c" value="c">
+                        <label for="q18c">Ground</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" id="q18d" value="d">
+                        <label for="q18d">Fire</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q19: evolution-lines (strong area - review) -->
+            <div class="question" data-topic="evolution-lines">
+                <div class="question-header">
+                    <span class="question-number">19</span>
+                    <span class="question-text">What is the correct evolution line for Charizard?</span>
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q19" id="q19a" value="a">
+                        <label for="q19a">Charmander → Charmeleon → Charizard</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" id="q19b" value="b">
+                        <label for="q19b">Charmeleon → Charmander → Charizard</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" id="q19c" value="c">
+                        <label for="q19c">Charmander → Charizard → Charmeleon</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" id="q19d" value="d">
+                        <label for="q19d">Charizard → Charmeleon → Charmander</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section II: Short Answer -->
+        <div class="card">
+            <div class="section-header">
+                <div class="section-icon">II</div>
+                <div>
+                    <h2 class="section-title">Short Answer</h2>
+                    <p class="section-subtitle">Answer in 3-6 sentences (1 question, 2 points)</p>
+                </div>
+            </div>
+
+            <!-- Q20: gyarados-analysis (highest priority weak area) -->
+            <div class="question" data-topic="gyarados-analysis">
+                <div class="question-header">
+                    <span class="question-number">20</span>
+                    <span class="question-text">Explain why Gyarados (Water/Flying) takes 4x damage from Electric-type moves, even though pure Water types only take 2x damage from Electric. How does dual-typing affect this weakness?</span>
+                </div>
+                <div class="answer-hint">
+                    <strong>Hint:</strong> Think about how each of Gyarados's types interacts with Electric separately, then consider how dual-type mechanics combine these interactions.
+                </div>
+                <textarea id="q20" placeholder="Type your answer here (3-6 sentences)..."></textarea>
+            </div>
+        </div>
+
+        <!-- Submit Section -->
+        <div class="card submit-section">
+            <h3>Ready to Submit?</h3>
+            <p>Review your answers, then click below to submit your quiz for grading.</p>
+            <button class="btn btn-primary" onclick="saveAnswers()">Submit Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        // Set today's date
+        document.getElementById('quiz-date').valueAsDate = new Date();
+
+        // Progress tracking
+        function updateProgress() {
+            const mcAnswered = Array.from({ length: 19 }, (_, i) => i + 1)
+                .filter(n => document.querySelector(`input[name="q${n}"]:checked`)).length;
+
+            const shortAnswer = document.getElementById('q20').value.trim().length > 0 ? 1 : 0;
+
+            const total = mcAnswered + shortAnswer;
+            const percentage = (total / 20) * 100;
+
+            document.getElementById('progress-text').textContent = `${total}/20`;
+            document.getElementById('progress-fill').style.width = `${percentage}%`;
+        }
+
+        // Add event listeners
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', updateProgress);
+        });
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', updateProgress);
+        });
+
+        // Grading overlay functions
+        function showGradingOverlay() {
+            document.getElementById('grading-overlay').classList.add('active');
+            document.getElementById('grading-status').textContent = 'Initializing...';
+            document.getElementById('grading-error').style.display = 'none';
+            document.getElementById('grading-retry-btn').style.display = 'none';
+        }
+
+        function hideGradingOverlay() {
+            document.getElementById('grading-overlay').classList.remove('active');
+        }
+
+        function updateGradingStatus(message) {
+            document.getElementById('grading-status').textContent = message;
+        }
+
+        function showGradingError(message) {
+            document.getElementById('grading-error').textContent = message;
+            document.getElementById('grading-error').style.display = 'block';
+            document.getElementById('grading-retry-btn').style.display = 'inline-block';
+            document.querySelector('#grading-overlay .spinner').style.display = 'none';
+        }
+
+        function retryGrading() {
+            hideGradingOverlay();
+            document.querySelector('#grading-overlay .spinner').style.display = 'block';
+            saveAnswers();
+        }
+
+        // Poll for grading status
+        async function pollGradingStatus(jobId) {
+            const maxAttempts = 120;
+            let attempts = 0;
+
+            const poll = async () => {
+                attempts++;
+                try {
+                    const response = await fetch(`/api/grading-status/${jobId}`);
+                    const data = await response.json();
+
+                    if (data.status === 'complete' && data.resultsUrl) {
+                        updateGradingStatus('Grading complete! Redirecting...');
+                        setTimeout(() => {
+                            window.location.href = data.resultsUrl;
+                        }, 1000);
+                        return;
+                    } else if (data.status === 'error') {
+                        showGradingError(data.error || 'Grading failed. Please try again.');
+                        return;
+                    } else if (data.status === 'processing') {
+                        updateGradingStatus(`Professor Oak is analyzing... (${attempts * 2}s)`);
+                        if (attempts < maxAttempts) {
+                            setTimeout(poll, 2000);
+                        } else {
+                            showGradingError('Grading is taking longer than expected. Please check back later.');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error polling status:', error);
+                    if (attempts < maxAttempts) {
+                        setTimeout(poll, 2000);
+                    } else {
+                        showGradingError('Connection lost. Please refresh the page.');
+                    }
+                }
+            };
+
+            poll();
+        }
+
+        // Save answers
+        async function saveAnswers() {
+            const name = document.getElementById('student-name').value || 'Unknown';
+            const date = document.getElementById('quiz-date').value || new Date().toISOString().split('T')[0];
+
+            // Validate name
+            if (!document.getElementById('student-name').value.trim()) {
+                alert('Please enter your trainer name before submitting!');
+                document.getElementById('student-name').focus();
+                return;
+            }
+
+            // Create timestamp
+            const now = new Date();
+            const timestamp = now.toISOString().replace(/[:.]/g, '-').replace('T', '_').split('.')[0];
+
+            let content = `ADAPTIVE PRACTICE QUIZ - POKÉMON\n`;
+            content += `Trainer: ${name}\n`;
+            content += `Date: ${date}\n`;
+            content += `Submitted: ${now.toLocaleString()}\n`;
+            content += `Focus Areas: Dual-Types, Battle Roles, Gyarados & Charizard Analysis\n`;
+            content += `\n${'='.repeat(60)}\n\n`;
+
+            // Multiple Choice
+            content += `PART I: MULTIPLE CHOICE (19 questions)\n`;
+            content += `${'-'.repeat(30)}\n`;
+            for (let i = 1; i <= 19; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const answer = selected ? selected.value : '(not answered)';
+                const question = document.querySelector(`[name="q${i}"]`).closest('.question');
+                const topic = question ? question.dataset.topic : 'unknown';
+                content += `Q${i} [${topic}]: ${answer}\n`;
+            }
+
+            // Short Answer
+            content += `\nPART II: SHORT ANSWER\n`;
+            content += `${'-'.repeat(30)}\n`;
+            const q20Answer = document.getElementById('q20').value || '(not answered)';
+            const q20Question = document.getElementById('q20').closest('.question');
+            const q20Topic = q20Question ? q20Question.dataset.topic : 'unknown';
+            content += `\nQ20 [${q20Topic}]:\n${q20Answer}\n`;
+
+            // Show grading overlay
+            showGradingOverlay();
+            updateGradingStatus('Saving your answers...');
+
+            // Try to save to server
+            try {
+                const response = await fetch('/api/answers/Pokemon', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        date,
+                        timestamp,
+                        answers: content,
+                        quizName: 'Adaptive_Practice_Quiz'
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Saved to server:', result);
+
+                    if (result.jobId) {
+                        updateGradingStatus('Answers saved. Professor Oak is grading...');
+                        pollGradingStatus(result.jobId);
+                    } else {
+                        hideGradingOverlay();
+                        alert('Success! Your answers have been saved.\n\nFile: ' + result.filename);
+                    }
+                } else {
+                    throw new Error('Server returned error: ' + response.status);
+                }
+            } catch (error) {
+                // Fallback to local download
+                console.error('Failed to save to server, downloading locally:', error);
+                hideGradingOverlay();
+                alert('Could not connect to server. Downloading answers to your device instead.');
+
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Adaptive_Practice_Quiz_${name.replace(/\s+/g, '_')}_${timestamp}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+    </script>
+</body>
+</html>

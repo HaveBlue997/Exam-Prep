@@ -1,0 +1,133 @@
+{
+  "quizzes": {
+    "pokemon_quiz": {
+      "title": "Intro to Pokémon Midterm Quiz",
+      "totalMCQuestions": 20,
+      "answers": {
+        "1": {
+          "correct": "b",
+          "topic": "type-matchups-basics",
+          "explanation": "Types determine strengths, weaknesses, and immunities between Pokémon"
+        },
+        "2": {
+          "correct": "b",
+          "topic": "type-fire-water-grass",
+          "explanation": "Grass is super-effective against Water type"
+        },
+        "3": {
+          "correct": "a",
+          "topic": "type-fire-water-grass",
+          "explanation": "Water is super-effective against Fire type"
+        },
+        "4": {
+          "correct": "b",
+          "topic": "type-electric-flying",
+          "explanation": "Electric is super-effective against Flying type"
+        },
+        "5": {
+          "correct": "b",
+          "topic": "pikachu-analysis",
+          "explanation": "Pikachu is an Electric type Pokémon"
+        },
+        "6": {
+          "correct": "b",
+          "topic": "charizard-analysis",
+          "explanation": "Charizard is Fire/Flying dual-type"
+        },
+        "7": {
+          "correct": "c",
+          "topic": "dual-type-mechanics",
+          "explanation": "Rock is 4x super-effective against Charizard (Fire/Flying) - Rock beats both Fire and Flying"
+        },
+        "8": {
+          "correct": "b",
+          "topic": "type-matchups-basics",
+          "explanation": "Not very effective means the attack does reduced damage"
+        },
+        "9": {
+          "correct": "c",
+          "topic": "dual-type-mechanics",
+          "explanation": "Dual-type Pokémon can have multiple weaknesses and resistances from both types"
+        },
+        "10": {
+          "correct": "a",
+          "topic": "type-rock-ground",
+          "explanation": "Ground is super-effective against Electric type"
+        },
+        "11": {
+          "correct": "c",
+          "topic": "type-matchups-basics",
+          "explanation": "Immunity means you take no damage from that type of move"
+        },
+        "12": {
+          "correct": "b",
+          "topic": "battle-role-tank",
+          "explanation": "Tank/Defender is the role for Pokémon that focus on soaking hits"
+        },
+        "13": {
+          "correct": "b",
+          "topic": "regional-variants",
+          "explanation": "Regional variants are Pokémon that look different in another region and may have different types"
+        },
+        "14": {
+          "correct": "b",
+          "topic": "evolution-lines",
+          "explanation": "An evolution line is the path of forms from base Pokémon to its evolutions"
+        },
+        "15": {
+          "correct": "b",
+          "topic": "type-fire-water-grass",
+          "explanation": "Fire is super-effective against Grass type"
+        },
+        "16": {
+          "correct": "a",
+          "topic": "gengar-analysis",
+          "explanation": "Gengar is Ghost/Poison dual-type"
+        },
+        "17": {
+          "correct": "c",
+          "topic": "gyarados-analysis",
+          "explanation": "Gyarados is Water/Flying dual-type (evolved from Magikarp)"
+        },
+        "18": {
+          "correct": "b",
+          "topic": "lucario-analysis",
+          "explanation": "Lucario is Fighting/Steel dual-type"
+        },
+        "19": {
+          "correct": "d",
+          "topic": "gardevoir-analysis",
+          "explanation": "Gardevoir is Psychic/Fairy dual-type"
+        },
+        "20": {
+          "correct": "c",
+          "topic": "eevee-eeveelutions",
+          "explanation": "Eevee is special because it has multiple possible evolutions (branching evolution)"
+        }
+      },
+      "essayTopics": {
+        "21": {
+          "topic": "charizard-analysis",
+          "keywords": ["rock", "electric", "water", "4x weakness", "dual-type", "flying", "fire"],
+          "expectedPoints": [
+            "Rock is super-effective (4x damage) because it beats both Fire and Flying",
+            "Electric is super-effective against Flying",
+            "Water is super-effective against Fire",
+            "Explanation of type advantages"
+          ]
+        },
+        "22": {
+          "topic": "evolution-lines",
+          "keywords": ["evolution", "changes", "stronger", "new species", "regional variant", "different", "region", "type", "appearance"],
+          "expectedPoints": [
+            "Evolution: Pokémon changes into new species, usually becoming stronger",
+            "Example of evolution line (e.g., Charmander → Charmeleon → Charizard)",
+            "Regional variant: Different version based on region with different appearance/type",
+            "Example of regional variant (e.g., Alolan forms)",
+            "Clear distinction between the two concepts"
+          ]
+        }
+      }
+    }
+  }
+}

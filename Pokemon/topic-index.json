@@ -1,0 +1,188 @@
+{
+  "class": "Pokemon",
+  "lastUpdated": "2026-01-06T12:00:00Z",
+  "topics": [
+    {
+      "id": "type-matchups-basics",
+      "name": "Type Matchup Fundamentals",
+      "priority": "high",
+      "category": "Core Mechanics",
+      "keywords": ["type", "super-effective", "not very effective", "immunity", "resist", "weakness", "matchup"]
+    },
+    {
+      "id": "type-fire-water-grass",
+      "name": "Fire, Water, Grass Triangle",
+      "priority": "high",
+      "category": "Core Types",
+      "keywords": ["fire", "water", "grass", "starter", "triangle", "type advantage"]
+    },
+    {
+      "id": "type-electric-flying",
+      "name": "Electric and Flying Types",
+      "priority": "high",
+      "category": "Core Types",
+      "keywords": ["electric", "flying", "pikachu", "charizard", "gyarados", "zapdos"]
+    },
+    {
+      "id": "type-rock-ground",
+      "name": "Rock and Ground Types",
+      "priority": "high",
+      "category": "Core Types",
+      "keywords": ["rock", "ground", "earthquake", "stone edge", "stealth rock"]
+    },
+    {
+      "id": "type-psychic-fairy",
+      "name": "Psychic and Fairy Types",
+      "priority": "medium",
+      "category": "Core Types",
+      "keywords": ["psychic", "fairy", "gardevoir", "alakazam", "type advantage"]
+    },
+    {
+      "id": "type-ghost-poison",
+      "name": "Ghost and Poison Types",
+      "priority": "medium",
+      "category": "Core Types",
+      "keywords": ["ghost", "poison", "gengar", "haunter", "venusaur", "immunity"]
+    },
+    {
+      "id": "type-fighting-steel",
+      "name": "Fighting and Steel Types",
+      "priority": "medium",
+      "category": "Core Types",
+      "keywords": ["fighting", "steel", "lucario", "machamp", "resistance", "coverage"]
+    },
+    {
+      "id": "dual-type-mechanics",
+      "name": "Dual-Type Mechanics and Interactions",
+      "priority": "high",
+      "category": "Advanced Mechanics",
+      "keywords": ["dual-type", "double weakness", "4x weakness", "resistance stacking", "charizard", "gyarados"]
+    },
+    {
+      "id": "evolution-lines",
+      "name": "Evolution Lines and Families",
+      "priority": "medium",
+      "category": "Pokémon Forms",
+      "keywords": ["evolution", "evolution line", "stage 1", "stage 2", "evolution family", "charmander", "squirtle", "bulbasaur"]
+    },
+    {
+      "id": "regional-variants",
+      "name": "Regional Variants",
+      "priority": "medium",
+      "category": "Pokémon Forms",
+      "keywords": ["regional variant", "alolan", "galarian", "hisuian", "alternate form", "regional form"]
+    },
+    {
+      "id": "alternate-forms",
+      "name": "Alternate Forms and Transformations",
+      "priority": "low",
+      "category": "Pokémon Forms",
+      "keywords": ["mega evolution", "gigantamax", "dynamax", "primal", "form change", "alternate form"]
+    },
+    {
+      "id": "pikachu-analysis",
+      "name": "Pikachu - Electric Type Attacker",
+      "priority": "high",
+      "category": "Focus Pokémon #1",
+      "keywords": ["pikachu", "electric", "raichu", "pichu", "thunderbolt", "volt tackle", "speedster"]
+    },
+    {
+      "id": "charizard-analysis",
+      "name": "Charizard - Fire/Flying Sweeper",
+      "priority": "high",
+      "category": "Focus Pokémon #2",
+      "keywords": ["charizard", "fire", "flying", "4x weakness", "rock", "flamethrower", "air slash", "sweeper"]
+    },
+    {
+      "id": "blastoise-analysis",
+      "name": "Blastoise - Water Type Tank",
+      "priority": "medium",
+      "category": "Focus Pokémon #3",
+      "keywords": ["blastoise", "water", "hydro pump", "rapid spin", "tank", "defender", "squirtle"]
+    },
+    {
+      "id": "venusaur-analysis",
+      "name": "Venusaur - Grass/Poison Support",
+      "priority": "medium",
+      "category": "Focus Pokémon #4",
+      "keywords": ["venusaur", "grass", "poison", "sleep powder", "synthesis", "status", "bulbasaur"]
+    },
+    {
+      "id": "gengar-analysis",
+      "name": "Gengar - Ghost/Poison Speedster",
+      "priority": "high",
+      "category": "Focus Pokémon #5",
+      "keywords": ["gengar", "ghost", "poison", "shadow ball", "immunity", "speed", "haunter", "gastly"]
+    },
+    {
+      "id": "lucario-analysis",
+      "name": "Lucario - Fighting/Steel Balanced Attacker",
+      "priority": "medium",
+      "category": "Focus Pokémon #6",
+      "keywords": ["lucario", "fighting", "steel", "aura sphere", "close combat", "riolu", "balanced"]
+    },
+    {
+      "id": "gyarados-analysis",
+      "name": "Gyarados - Water/Flying Physical Sweeper",
+      "priority": "high",
+      "category": "Focus Pokémon #7",
+      "keywords": ["gyarados", "water", "flying", "dragon dance", "waterfall", "intimidate", "magikarp"]
+    },
+    {
+      "id": "eevee-eeveelutions",
+      "name": "Eevee and Eeveelutions",
+      "priority": "medium",
+      "category": "Focus Pokémon #8",
+      "keywords": ["eevee", "eeveelution", "vaporeon", "jolteon", "flareon", "espeon", "umbreon", "leafeon", "glaceon", "sylveon", "branching evolution"]
+    },
+    {
+      "id": "snorlax-analysis",
+      "name": "Snorlax - Normal Type Wall",
+      "priority": "medium",
+      "category": "Focus Pokémon #9",
+      "keywords": ["snorlax", "normal", "rest", "body slam", "wall", "tank", "high hp", "munchlax"]
+    },
+    {
+      "id": "gardevoir-analysis",
+      "name": "Gardevoir - Psychic/Fairy Special Attacker",
+      "priority": "medium",
+      "category": "Focus Pokémon #10",
+      "keywords": ["gardevoir", "psychic", "fairy", "moonblast", "psychic", "ralts", "kirlia", "special attacker"]
+    },
+    {
+      "id": "battle-role-attacker",
+      "name": "Battle Role: Attacker/Sweeper",
+      "priority": "high",
+      "category": "Battle Strategy",
+      "keywords": ["attacker", "sweeper", "offensive", "ko", "knockout", "damage", "speed"]
+    },
+    {
+      "id": "battle-role-tank",
+      "name": "Battle Role: Tank/Defender/Wall",
+      "priority": "high",
+      "category": "Battle Strategy",
+      "keywords": ["tank", "defender", "wall", "defensive", "bulk", "hp", "defense", "special defense"]
+    },
+    {
+      "id": "battle-role-support",
+      "name": "Battle Role: Support",
+      "priority": "low",
+      "category": "Battle Strategy",
+      "keywords": ["support", "status", "heal", "setup", "screens", "hazards", "utility"]
+    },
+    {
+      "id": "battle-role-counter",
+      "name": "Battle Role: Counter/Check",
+      "priority": "medium",
+      "category": "Battle Strategy",
+      "keywords": ["counter", "check", "matchup", "answer", "threat", "switch-in"]
+    },
+    {
+      "id": "pokedex-basics",
+      "name": "Pokédex Literacy",
+      "priority": "low",
+      "category": "Game Fundamentals",
+      "keywords": ["pokedex", "encyclopedia", "stats", "abilities", "data", "information"]
+    }
+  ]
+}
