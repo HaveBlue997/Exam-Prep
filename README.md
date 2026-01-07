@@ -78,6 +78,7 @@ Exam-Prep/
 │   ├── Answers/      # Student submissions will be saved here
 │   ├── Archive/      # Move old quizzes here when done
 │   └── Prepare/      # Preparation materials
+├── init-class.sh     # Script to initialize a new class (generates quizzes from Guide materials)
 └── start-ngrok.sh    # Script to start server with ngrok tunnel
 ```
 
@@ -107,10 +108,29 @@ To add a new class or subject:
 
    You can add multiple files of each type and use any naming convention that works for you.
 
-4. **Add quiz files to the Quiz/ directory**
+   **Material Priority** (for AI analysis):
+   - Syllabus and study guides are most important (define course scope)
+   - Previous tests are second (show exam format and teacher expectations)
+   - Previous quizzes are third (additional question styles)
 
-   Place your HTML quiz files in the Quiz/ folder. See the Pokemon/Quiz/ folder for examples of the quiz format.
+4. **Initialize the class**
+   ```bash
+   ./init-class.sh YourClassName
+   ```
 
-5. **The server will automatically detect and display the new class**
+   This script reads your Guide materials and generates:
+   - `Prepare/ScoreCard.txt` - Study plan with topic checklist
+   - `topic-index.json` - Topic taxonomy for AI grading
+   - `ScoreCard.json` - Performance tracker (starts empty)
+   - `Quiz/YourClassName_diagnostic_quiz.html` - Initial quiz to assess baseline knowledge
 
-   Simply restart the server (or it will pick up changes on the next request), and your new class will appear on the home page.
+   **Note:** This takes 2-3 minutes as it involves multiple AI processing steps.
+
+5. **Start using the system**
+
+   Start the server and take the diagnostic quiz:
+   ```bash
+   cd Server && npm start
+   ```
+
+   Open http://localhost:3000, select your class, and take the diagnostic quiz. After grading, the system will automatically generate adaptive quizzes targeting areas that need work.
