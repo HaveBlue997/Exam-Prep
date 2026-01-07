@@ -23,8 +23,17 @@ app.use(cors()); // Enable CORS for local network access
 app.use(express.json({ limit: '10mb' })); // Parse JSON bodies (with larger limit for essay answers)
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from public directory with cache control
+app.use(express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, filepath) => {
+        // Disable caching for HTML files to ensure clients always get latest version
+        if (filepath.endsWith('.html')) {
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.setHeader('Pragma', 'no-cache');
+            res.setHeader('Expires', '0');
+        }
+    }
+}));
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -162,6 +171,11 @@ app.get('/quiz/:className/:quizFile', async (req, res) => {
         if (!exists) {
             return res.status(404).send('Quiz not found');
         }
+
+        // Disable caching for quiz HTML files
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
 
         res.sendFile(quizPath);
     } catch (error) {
@@ -373,6 +387,11 @@ app.get('/results/:className/:filename', async (req, res) => {
         if (!exists) {
             return res.status(404).send('Results not found');
         }
+
+        // Disable caching for results HTML files (they may be updated after grading)
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
 
         res.type('text/html').sendFile(resultsPath);
     } catch (error) {
