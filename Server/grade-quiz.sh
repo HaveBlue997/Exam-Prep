@@ -119,14 +119,56 @@ QUIZ_HTML_CONTENT=$(cat "$QUIZ_FILE")
 # Read the grading prompt template
 if [ -f "$GRADING_PROMPT_FILE" ]; then
     GRADING_PROMPT_TEMPLATE=$(cat "$GRADING_PROMPT_FILE")
-    echo "Loaded grading prompt template" | tee -a "$LOG_FILE"
+    echo "Loaded grading prompt template from file" | tee -a "$LOG_FILE"
+    USE_TEMPLATE=true
 else
-    echo "WARNING: Grading prompt template not found, using inline prompt" | tee -a "$LOG_FILE"
+    echo "WARNING: Grading prompt template not found at $GRADING_PROMPT_FILE, using inline prompt" | tee -a "$LOG_FILE"
     GRADING_PROMPT_TEMPLATE=""
+    USE_TEMPLATE=false
 fi
 
 # Build the comprehensive grading prompt
-GRADING_PROMPT="You are a warm, encouraging tutor helping Blake learn from his quiz results.
+if [ "$USE_TEMPLATE" = true ]; then
+    # Use the detailed prompt template file (grade-quiz-prompt.md)
+    GRADING_PROMPT="$GRADING_PROMPT_TEMPLATE
+
+=== CONTEXT VARIABLES ===
+CLASS_NAME: $CLASS_NAME
+QUIZ_NAME: $QUIZ_NAME
+STUDENT_NAME: $STUDENT_NAME
+TIMESTAMP: $TIMESTAMP
+RESULTS_FILENAME: $RESULTS_FILENAME
+ANSWERS_FILE: (content below)
+QUIZ_FILE: (content below)
+TOPIC_INDEX_FILE: (content below)
+SCORECARD_JSON_FILE: (content below)
+STUDY_GUIDES_DIR: $PREPARE_DIR
+
+=== STUDENT'S ANSWERS ===
+$ANSWERS_CONTENT
+
+=== QUIZ HTML (for question text and structure) ===
+$QUIZ_HTML_CONTENT
+
+=== TOPIC INDEX (for tagging questions) ===
+$TOPIC_INDEX_CONTENT
+
+=== CURRENT SCORECARD.JSON ===
+$SCORECARD_JSON_CONTENT
+
+=== STUDY GUIDE CONTEXT (ScoreCard.txt) ===
+$SCORECARD_TXT_CONTENT
+
+=== MULTIPLE CHOICE ANSWER KEY ===
+$ANSWER_KEY_CONTENT
+
+=== CRITICAL REMINDER ===
+You MUST follow ALL tasks in the prompt template above, including Task 6 (ChatGPT Help Buttons).
+Output ONLY the complete HTML document starting with <!DOCTYPE html> followed by the scorecard update comment.
+Do NOT include any thinking, reasoning, or explanatory text before the HTML."
+else
+    # Fallback to inline prompt if template file not found
+    GRADING_PROMPT="You are a warm, encouraging tutor helping Blake learn from his quiz results.
 Your grading philosophy emphasizes LEARNING - give credit for partial understanding while clearly explaining what was missed.
 
 === CONTEXT ===
@@ -222,6 +264,7 @@ Output ONLY:
 2. Followed by the scorecard update comment
 
 Do NOT include any text before the <!DOCTYPE html> or after the closing --> of the scorecard update."
+fi
 
 # Run Claude CLI for grading
 echo "Invoking Claude CLI for grading..." | tee -a "$LOG_FILE"
@@ -349,8 +392,9 @@ fi
 
 echo "Claude CLI completed successfully" | tee -a "$LOG_FILE"
 
-# Extract the HTML (everything before <!--SCORECARD_UPDATE:)
-sed -n '1,/<!--SCORECARD_UPDATE:/p' "$TEMP_OUTPUT" | sed '$d' > "$RESULTS_FILE"
+# Extract the HTML (from <!DOCTYPE html> to <!--SCORECARD_UPDATE:)
+# This skips any thinking/reasoning text Claude might output before the HTML
+sed -n '/<!DOCTYPE html>/,/<!--SCORECARD_UPDATE:/p' "$TEMP_OUTPUT" | sed '$d' > "$RESULTS_FILE"
 
 # Extract the ScoreCard update JSON (between <!--SCORECARD_UPDATE: and -->)
 SCORECARD_UPDATE=$(sed -n '/<!--SCORECARD_UPDATE:/,/-->/p' "$TEMP_OUTPUT" | sed '1d;$d')

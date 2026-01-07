@@ -175,9 +175,16 @@ Create an HTML document using this exact styling (matches the quiz):
 
 ### Task 6: Add ChatGPT Help Buttons for Incorrect Short Answer Questions
 
-**IMPORTANT**: ONLY add ChatGPT Help buttons for SHORT ANSWER and ESSAY questions that Blake got wrong. Do NOT add buttons for incorrect multiple choice questions.
+**CRITICAL REQUIREMENT**: For EVERY short answer or essay question where the student did NOT receive FULL credit, you MUST add a ChatGPT Help button immediately after your explanation. This means:
+- Short answer with 0/2 or 1/2 points → ADD BUTTON ✓
+- Short answer with 2/2 points → NO BUTTON
+- Essay with 0/5, 1/5, 2/5, 3/5, or 4/5 points → ADD BUTTON ✓
+- Essay with 5/5 points → NO BUTTON
+- Multiple choice (correct or incorrect) → NO BUTTON
 
-For short answer/essay questions Blake got wrong, add a "ChatGPT Help" button after your explanation. This provides Blake with on-demand deeper explanation when your initial feedback isn't sufficient.
+Do NOT add buttons for multiple choice questions under any circumstances.
+
+For every short answer/essay that didn't get full credit, you MUST add a "ChatGPT Help" button after your explanation. This provides the student with on-demand deeper explanation when your initial feedback isn't sufficient.
 
 #### ChatGPT Prompt Requirements
 
@@ -309,6 +316,48 @@ I'm a high school student named Blake studying for my Government finals. Can you
 ```
 
 This would be URL encoded and inserted into the button href.
+
+#### Complete HTML Example for Partial Credit Short Answer
+
+Here's exactly what the HTML should look like for a short answer question that received partial credit:
+
+```html
+<div class="question-review partial">
+    <div class="question-header">
+        <div>
+            <span class="question-number">21</span>
+            <span class="topic-tag">charizard-analysis</span>
+        </div>
+        <div class="question-status">
+            <span class="performance-badge moderate">1/2 pts</span>
+        </div>
+    </div>
+    <p class="question-text">Explain why Gyarados takes 4x damage from Electric moves.</p>
+    <div class="short-answer-response">
+        "Student's answer here..."
+    </div>
+    <div class="explanation">
+        <div class="explanation-title">Feedback:</div>
+        <p class="explanation-text">Your feedback explaining the correct answer...</p>
+    </div>
+
+    <!-- CRITICAL: ChatGPT Help Button MUST appear here for partial credit -->
+    <div class="chatgpt-help-section" style="margin-top: 1.5rem; padding: 1rem; background: rgba(201, 169, 89, 0.1); border-left: 3px solid var(--gold); border-radius: 6px;">
+        <p style="margin-bottom: 0.75rem; font-size: 0.9rem; color: var(--ink);">
+            <strong>Need more help?</strong> Get a different explanation from ChatGPT
+        </p>
+        <a href="https://chatgpt.com/?hints=search&q=Help%20me%20understand%20this%20concept..."
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn-chatgpt"
+           style="display: inline-block; padding: 0.75rem 1.5rem; background: transparent; border: 2px solid var(--gold); color: var(--gold); text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s;">
+            💬 ChatGPT Help
+        </a>
+    </div>
+</div>
+```
+
+**You MUST include the ChatGPT button section for EVERY short answer/essay that doesn't get full credit.**
 
 ### Task 7: Update ScoreCard.json
 

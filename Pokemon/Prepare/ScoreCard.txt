@@ -8,9 +8,9 @@ OVERVIEW
 ===============================================================================
 
 Total Topics: 45
-Mastered: 5 (8%)
-In Progress: 10 (16%)
-Not Started: 45 (75%)
+Mastered: 10 (16%)
+In Progress: 13 (21%)
+Not Started: 37 (61%)
 
 High Priority Topics: 15 - Focus here first!
 Medium Priority Topics: 20 - Important for solid performance
@@ -79,7 +79,7 @@ frequently on the final exam.
     Why this matters: Classic dual-type vulnerability tested on every exam
     Study resources: Midterm Q17, Week 6 lab
 
-[ ] Fighting > Normal (Snorlax vulnerability)
+[x] Fighting > Normal (Snorlax vulnerability)
     What mastery looks like: Identify Fighting moves as Snorlax's main threat
     Why this matters: Common wall-breaker strategy
     Study resources: Week 13, Final Study Guide Q5
@@ -120,7 +120,7 @@ These topics appear regularly and demonstrate deeper understanding.
     What mastery looks like: Explain defensive role, Grass and Electric weaknesses
     Study resources: Week 7, Final Study Guide Focus 10
 
-[ ] Venusaur (Grass/Poison) - Status effects and dual-type benefits
+[x] Venusaur (Grass/Poison) - Status effects and dual-type benefits
     What mastery looks like: Identify strengths vs Water, weaknesses to Psychic/Fire/Flying
     Study resources: Week 8, Final Study Guide Q9
 
@@ -132,7 +132,7 @@ These topics appear regularly and demonstrate deeper understanding.
     What mastery looks like: Name at least 5 Eeveelutions and explain branching
     Study resources: Week 12, Final Study Guide Focus 10
 
-[ ] Snorlax (Normal) - Wall role and Normal type characteristics
+[x] Snorlax (Normal) - Wall role and Normal type characteristics
     What mastery looks like: Explain high HP tanking, Fighting weakness
     Study resources: Week 13, Final Study Guide Q5
 
@@ -317,6 +317,16 @@ PROGRESS NOTES
 
 Study sessions and mastery tracking:
 
+- 2026-01-07: Quiz - Score: N/A/N/A (N/A%)
+- 2026-01-07-13-20-50: Quiz - Score: 14/21 (67%)
+  Strong areas: pikachu-analysis, type-fire-water-grass, battle-role-attacker, charizard-analysis, gengar-analysis, blastoise-analysis, venusaur-analysis, snorlax-analysis, battle-role-counter
+  Needs work: evolution-lines, lucario-analysis, dual-type-mechanics, gyarados-analysis, eevee-eeveelutions, gardevoir-analysis, battle-role-tank, regional-variants
+- 2026-01-07-12-52-37: Quiz - Score: 11/21 (52%)
+  Strong areas: gengar-analysis, gardevoir-analysis, type-matchups-basics, type-rock-ground, type-electric-flying, battle-role-tank
+  Needs work: evolution-lines, pikachu-analysis, lucario-analysis, type-fire-water-grass, battle-role-attacker, charizard-analysis, dual-type-mechanics, eevee-eeveelutions, gyarados-analysis
+- 2026-01-07-12-43-20: Quiz - Score: 17/21 (81%)
+  Strong areas: charizard-analysis, battle-role-tank, regional-variants, type-psychic-fairy, type-ghost-poison, type-fighting-steel
+  Needs work: dual-type-mechanics, gyarados-analysis, lucario-analysis, gengar-analysis, gardevoir-analysis, pikachu-analysis, evolution-lines, type-fire-water-grass, eevee-eeveelutions
 - [Date]: [Quiz] - Score: XX/30 (XX%)
   Strong areas: [topics where you scored well]
   Needs work: [topics needing more practice]
@@ -341,16 +351,16 @@ Core Knowledge:
 
 Type Matchups:
 [ ] Explain super-effective vs not very effective vs immunity
-[ ] Instantly recall Fire-Water-Grass triangle
-[ ] Know Electric > Water/Flying and Ground > Electric
-[ ] Explain why Rock is 4x effective against Charizard
+[~] Instantly recall Fire-Water-Grass triangle
+[x] Know Electric > Water/Flying and Ground > Electric
+[x] Explain why Rock is 4x effective against Charizard
 [ ] Identify Fighting as Snorlax's main weakness
 
 Forms:
 [ ] Define evolution and evolution line with examples
 [ ] Define regional variant with examples
 [ ] Explain difference between evolution and regional variant
-[ ] Map Charmander → Charmeleon → Charizard
+[~] Map Charmander → Charmeleon → Charizard
 [ ] Explain Eevee branching evolution
 
 Battle Scenarios:

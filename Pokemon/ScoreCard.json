@@ -1,7 +1,366 @@
 {
   "class": "Pokemon",
-  "sessions": [],
-  "overallWeakAreas": [],
-  "overallStrongAreas": [],
-  "lastUpdated": null
+  "sessions": [
+    {
+      "date": "2026-01-07_12-43-20",
+      "quiz": "Quiz",
+      "student": "Chad",
+      "score": 17,
+      "totalQuestions": 21,
+      "percentage": 81,
+      "byTopic": {
+        "dual-type-mechanics": {
+          "correct": 1,
+          "total": 2,
+          "percentage": 50
+        },
+        "gyarados-analysis": {
+          "correct": 1,
+          "total": 3,
+          "percentage": 33
+        },
+        "charizard-analysis": {
+          "correct": 2,
+          "total": 2,
+          "percentage": 100
+        },
+        "battle-role-tank": {
+          "correct": 2,
+          "total": 2,
+          "percentage": 100
+        },
+        "type-fire-water-grass": {
+          "correct": 1,
+          "total": 2,
+          "percentage": 50
+        },
+        "lucario-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "regional-variants": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "gengar-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "eevee-eeveelutions": {
+          "correct": 1,
+          "total": 2,
+          "percentage": 50
+        },
+        "gardevoir-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "type-psychic-fairy": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "type-ghost-poison": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "type-fighting-steel": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "pikachu-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "evolution-lines": {
+          "correct": 0,
+          "total": 2,
+          "percentage": 0
+        }
+      },
+      "weakAreas": [
+        "dual-type-mechanics",
+        "gyarados-analysis",
+        "lucario-analysis",
+        "gengar-analysis",
+        "gardevoir-analysis",
+        "pikachu-analysis",
+        "evolution-lines",
+        "type-fire-water-grass",
+        "eevee-eeveelutions"
+      ],
+      "strongAreas": [
+        "charizard-analysis",
+        "battle-role-tank",
+        "regional-variants",
+        "type-psychic-fairy",
+        "type-ghost-poison",
+        "type-fighting-steel"
+      ],
+      "resultsFile": "Quiz_Unknown_2026-01-07_12-43-20_results.html"
+    },
+    {
+      "date": "2026-01-07_12-52-37",
+      "quiz": "Quiz",
+      "student": "Chad",
+      "score": 11,
+      "totalQuestions": 21,
+      "percentage": 52,
+      "byTopic": {
+        "dual-type-mechanics": {
+          "correct": 1,
+          "total": 3,
+          "percentage": 33
+        },
+        "gyarados-analysis": {
+          "correct": 1,
+          "total": 2,
+          "percentage": 50
+        },
+        "evolution-lines": {
+          "correct": 0,
+          "total": 2,
+          "percentage": 0
+        },
+        "gengar-analysis": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "pikachu-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "eevee-eeveelutions": {
+          "correct": 1,
+          "total": 2,
+          "percentage": 50
+        },
+        "lucario-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "gardevoir-analysis": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "type-fire-water-grass": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "type-matchups-basics": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "type-rock-ground": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "battle-role-attacker": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "type-electric-flying": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "charizard-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "battle-role-tank": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        }
+      },
+      "weakAreas": [
+        "evolution-lines",
+        "pikachu-analysis",
+        "lucario-analysis",
+        "type-fire-water-grass",
+        "battle-role-attacker",
+        "charizard-analysis",
+        "dual-type-mechanics",
+        "eevee-eeveelutions",
+        "gyarados-analysis"
+      ],
+      "strongAreas": [
+        "gengar-analysis",
+        "gardevoir-analysis",
+        "type-matchups-basics",
+        "type-rock-ground",
+        "type-electric-flying",
+        "battle-role-tank"
+      ],
+      "resultsFile": "Quiz_Unknown_2026-01-07_12-52-37_results.html"
+    },
+    {
+      "date": "2026-01-07_13-20-50",
+      "quiz": "Quiz",
+      "student": "Chad",
+      "score": 14,
+      "totalQuestions": 21,
+      "percentage": 67,
+      "byTopic": {
+        "evolution-lines": {
+          "correct": 1,
+          "total": 3,
+          "percentage": 33
+        },
+        "pikachu-analysis": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "lucario-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "type-fire-water-grass": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "dual-type-mechanics": {
+          "correct": 1,
+          "total": 2,
+          "percentage": 50
+        },
+        "battle-role-attacker": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "charizard-analysis": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "gyarados-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "eevee-eeveelutions": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "gengar-analysis": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "gardevoir-analysis": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "blastoise-analysis": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "venusaur-analysis": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "snorlax-analysis": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "battle-role-counter": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "battle-role-tank": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        },
+        "regional-variants": {
+          "correct": 0,
+          "total": 1,
+          "percentage": 0
+        }
+      },
+      "weakAreas": [
+        "evolution-lines",
+        "lucario-analysis",
+        "dual-type-mechanics",
+        "gyarados-analysis",
+        "eevee-eeveelutions",
+        "gardevoir-analysis",
+        "battle-role-tank",
+        "regional-variants"
+      ],
+      "strongAreas": [
+        "pikachu-analysis",
+        "type-fire-water-grass",
+        "battle-role-attacker",
+        "charizard-analysis",
+        "gengar-analysis",
+        "blastoise-analysis",
+        "venusaur-analysis",
+        "snorlax-analysis",
+        "battle-role-counter"
+      ],
+      "resultsFile": "Quiz_Unknown_2026-01-07_13-20-50_results.html"
+    },
+    {
+      "date": "2026-01-07T13:29:12-05:00",
+      "quiz": "Quiz",
+      "student": "Unknown",
+      "resultsFile": "Quiz_Unknown_2026-01-07_13-25-55_results.html"
+    }
+  ],
+  "overallWeakAreas": [
+    "battle-role-attacker",
+    "battle-role-tank",
+    "charizard-analysis",
+    "dual-type-mechanics",
+    "eevee-eeveelutions",
+    "evolution-lines",
+    "gardevoir-analysis",
+    "gengar-analysis",
+    "gyarados-analysis",
+    "lucario-analysis",
+    "pikachu-analysis",
+    "regional-variants",
+    "type-fire-water-grass"
+  ],
+  "overallStrongAreas": [
+    "battle-role-counter",
+    "blastoise-analysis",
+    "snorlax-analysis",
+    "type-electric-flying",
+    "type-fighting-steel",
+    "type-ghost-poison",
+    "type-matchups-basics",
+    "type-psychic-fairy",
+    "type-rock-ground",
+    "venusaur-analysis"
+  ],
+  "lastUpdated": "2026-01-07T18:29:12Z"
 }
