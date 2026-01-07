@@ -1,10 +1,22 @@
-# Exam Prep Server
+# Exam Prep
 
-A Node.js web server for hosting interactive quizzes with iOS compatibility.
+An AI-powered exam tutoring system that helps students master course material through adaptive quizzing and personalized feedback.
 
-## Problem Solved
+## What It Does
 
-JavaScript features in HTML files don't work when opened directly on iOS devices (via Files app or email attachments). This server hosts the quiz files locally, making all interactive features work properly on any device with a web browser.
+This application acts as a personal exam tutor that:
+
+- **Assesses mastery** - Analyzes student responses to identify strengths and areas needing improvement
+- **Generates adaptive quizzes** - Creates personalized practice quizzes (multiple choice and short answer) that focus on topics where the student needs more work
+- **Provides AI-graded feedback** - Delivers detailed explanations on incorrect answers to reinforce learning
+- **Tracks progress** - Maintains a scorecard showing improvement over time across different topics
+- **Builds confidence** - Helps students feel prepared and confident by systematically addressing knowledge gaps
+
+The system uses study guides, syllabi, and previous exams as source material to generate relevant quiz questions aligned with actual course content.
+
+## Technical Overview
+
+Built on Node.js with Express, the server hosts interactive HTML quizzes that work on any device with a web browser, including iOS devices where JavaScript-heavy HTML files don't work when opened directly.
 
 ## Quick Start
 
@@ -69,7 +81,7 @@ Exam-Prep/
 └── start-ngrok.sh    # Script to start server with ngrok tunnel
 ```
 
-**Note:** The Pokemon class is included as a working example to demonstrate all features of the quiz system. Explore it to see how quizzes and study guides are structured.
+**Note:** The Pokemon class is included as a working example demonstrating the full tutoring workflow: study guides, quizzes, AI grading, and adaptive quiz generation. Explore it to see how the system works before adding your own classes.
 
 ## Adding New Classes
 
