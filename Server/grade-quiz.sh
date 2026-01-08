@@ -57,12 +57,29 @@ echo "Answers file: $ANSWERS_FILE" | tee -a "$LOG_FILE"
 echo "Results will be saved to: $RESULTS_FILE" | tee -a "$LOG_FILE"
 
 # Find the corresponding quiz file
-QUIZ_FILE=$(ls -t "$QUIZ_DIR"/*.html 2>/dev/null | head -1)
+# IMPORTANT: Exclude results files that may have been accidentally placed in Quiz folder
+# Look for files matching *quiz*.html pattern, excluding *results*.html
+
+# First, check for any misplaced results files and warn
+MISPLACED_RESULTS=$(ls "$QUIZ_DIR"/*results*.html 2>/dev/null)
+if [ -n "$MISPLACED_RESULTS" ]; then
+    echo "WARNING: Found results file(s) in Quiz folder - these should be in Archive:" | tee -a "$LOG_FILE"
+    echo "$MISPLACED_RESULTS" | tee -a "$LOG_FILE"
+fi
+
+# Find quiz files, excluding results files, sorted by modification time (newest first)
+QUIZ_FILE=$(ls -t "$QUIZ_DIR"/*.html 2>/dev/null | grep -iv '_results' | head -1)
 
 if [ -z "$QUIZ_FILE" ]; then
-    echo "ERROR: No quiz file found in $QUIZ_DIR" | tee -a "$LOG_FILE"
+    echo "ERROR: No quiz file found in $QUIZ_DIR (excluding results files)" | tee -a "$LOG_FILE"
     echo '{"status":"error","error":"No quiz file found"}' > "$GRADING_JOBS_DIR/${JOB_ID}.status"
     exit 1
+fi
+
+# Validate the selected file looks like a quiz (contains quiz-related content)
+if ! grep -qi 'class="question"\|data-topic=\|multiple.choice\|quiz' "$QUIZ_FILE"; then
+    echo "WARNING: Selected file may not be a valid quiz file: $QUIZ_FILE" | tee -a "$LOG_FILE"
+    echo "  File does not contain expected quiz markers (class=\"question\", data-topic, etc.)" | tee -a "$LOG_FILE"
 fi
 
 echo "Quiz file: $QUIZ_FILE" | tee -a "$LOG_FILE"

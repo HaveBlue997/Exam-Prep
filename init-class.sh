@@ -66,6 +66,45 @@ log_error() {
     log "${RED}✗${NC} $1"
 }
 
+# Helper function to extract JSON from Claude output that may be wrapped in markdown
+# Handles: raw JSON, ```json ... ```, ``` ... ```, or text with embedded JSON
+extract_json() {
+    local input_file="$1"
+    local output_file="$2"
+
+    # First, try to parse as raw JSON
+    if jq . "$input_file" > "$output_file" 2>/dev/null; then
+        return 0
+    fi
+
+    # Try to extract JSON from markdown code blocks (```json or ```)
+    local extracted
+    extracted=$(sed -n '/^```json/,/^```$/p' "$input_file" | sed '1d;$d')
+    if [ -z "$extracted" ]; then
+        # Try without 'json' language specifier
+        extracted=$(sed -n '/^```/,/^```$/p' "$input_file" | sed '1d;$d')
+    fi
+
+    if [ -n "$extracted" ]; then
+        if echo "$extracted" | jq . > "$output_file" 2>/dev/null; then
+            log "  ${YELLOW}Note: Extracted JSON from markdown code block${NC}"
+            return 0
+        fi
+    fi
+
+    # Try to find JSON object by looking for first { to last }
+    extracted=$(sed -n '/{/,/}/p' "$input_file" | head -1000)
+    if [ -n "$extracted" ]; then
+        if echo "$extracted" | jq . > "$output_file" 2>/dev/null; then
+            log "  ${YELLOW}Note: Extracted JSON object from mixed content${NC}"
+            return 0
+        fi
+    fi
+
+    # All extraction attempts failed
+    return 1
+}
+
 # Helper function to log and execute claude commands
 # Arguments: prompt_file output_file timeout_val description
 run_claude() {
@@ -443,7 +482,13 @@ REQUIREMENTS:
    - Variations and synonyms
 5. Preserve the priority level from the ScoreCard section
 
-OUTPUT: Only valid JSON, no markdown code blocks or explanations."
+CRITICAL OUTPUT REQUIREMENTS:
+1. Output ONLY the raw JSON object - nothing else
+2. Your response MUST start with the character { (opening brace)
+3. Your response MUST end with the character } (closing brace)
+4. Do NOT wrap in markdown code blocks (no \`\`\`json or \`\`\`)
+5. Do NOT include any explanatory text before or after the JSON
+6. The JSON must be valid and parseable by jq"
 
 PROMPT_FILE="$LOG_DIR/prompt_topicindex_${TIMESTAMP}.tmp"
 printf '%s' "$TOPIC_INDEX_PROMPT" > "$PROMPT_FILE"
@@ -471,15 +516,22 @@ if [ "$DRY_RUN" = true ]; then
     mv "$TEMP_OUTPUT" "$TOPIC_INDEX"
     log_success "topic-index.json created: $TOPIC_INDEX"
 elif command -v jq &> /dev/null; then
-    if jq . "$TEMP_OUTPUT" > "$TOPIC_INDEX" 2>/dev/null; then
+    # Use extract_json helper to handle markdown-wrapped output
+    if extract_json "$TEMP_OUTPUT" "$TOPIC_INDEX"; then
         log_success "topic-index.json created: $TOPIC_INDEX"
     else
-        log_warning "JSON validation failed, saving raw output"
-        mv "$TEMP_OUTPUT" "$TOPIC_INDEX"
+        log_error "Failed to generate valid JSON for topic-index.json"
+        log_error "Claude output (first 500 chars):"
+        head -c 500 "$TEMP_OUTPUT" | tee -a "$LOG_FILE"
+        log ""
+        log_error "Please check the prompt and try again"
+        rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+        exit 1
     fi
 else
-    mv "$TEMP_OUTPUT" "$TOPIC_INDEX"
-    log_success "topic-index.json created: $TOPIC_INDEX"
+    log_error "jq is required for JSON validation. Please install jq."
+    rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+    exit 1
 fi
 
 # In dry-run mode, preserve prompt file; otherwise remove it
