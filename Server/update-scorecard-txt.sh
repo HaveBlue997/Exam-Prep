@@ -11,9 +11,9 @@ PROJECT_ROOT="${PROJECT_ROOT:-/Users/chadc/dev/GitRepo/Exam-Prep}"
 
 # File paths
 SCORECARD_JSON="$PROJECT_ROOT/$CLASS_NAME/ScoreCard.json"
-SCORECARD_TXT="$PROJECT_ROOT/$CLASS_NAME/Prepare/ScoreCard.txt"
+SCORECARD_TXT="$PROJECT_ROOT/$CLASS_NAME/ScoreCard.txt"
 TOPIC_INDEX="$PROJECT_ROOT/$CLASS_NAME/topic-index.json"
-TEMP_FILE="$PROJECT_ROOT/$CLASS_NAME/Prepare/ScoreCard.txt.tmp"
+TEMP_FILE="$PROJECT_ROOT/$CLASS_NAME/ScoreCard.txt.tmp"
 
 # Logging
 LOG_PREFIX="[update-scorecard-txt]"

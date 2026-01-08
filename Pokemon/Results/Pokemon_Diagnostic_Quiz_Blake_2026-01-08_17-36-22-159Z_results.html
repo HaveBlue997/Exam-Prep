@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results - Blake - Pokemon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a2744;
+            --burgundy: #7c2d3e;
+            --cream: #f8f5f0;
+            --gold: #c9a959;
+            --ink: #2d2d2d;
+            --paper: #fffef9;
+            --shadow: rgba(26, 39, 68, 0.12);
+            --success: #2e7d4a;
+            --success-light: #e8f5eb;
+            --error: #c62828;
+            --error-light: #ffebee;
+            --partial: #f57c00;
+            --partial-light: #fff3e0;
+            --dark-navy: #0f1829;
+            --light-gold: rgba(201, 169, 89, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%);
+            min-height: 100vh;
+            padding: 0;
+            color: var(--ink);
+        }
+
+        .navbar {
+            background: var(--dark-navy);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .navbar a:hover {
+            color: var(--cream);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .main-content {
+            padding: 2rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--cream);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 4px solid var(--navy);
+        }
+
+        .header h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--burgundy);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0 var(--gold);
+            line-height: 1.6;
+        }
+
+        .header .subtitle {
+            color: var(--navy);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .meta {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background: var(--cream);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--navy);
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--burgundy);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        /* Score Display */
+        .score-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success) 0%, #1b5e20 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(46, 125, 74, 0.4);
+            border: 4px solid var(--gold);
+        }
+
+        .score-circle .score {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .score-circle .percentage {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .score-circle .grade {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-top: 0.25rem;
+        }
+
+        .score-message {
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .score-message h3 {
+            color: var(--success);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-message p {
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        /* Section Breakdown */
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .breakdown-item {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--navy);
+        }
+
+        .breakdown-item h4 {
+            color: var(--navy);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .breakdown-item .score-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--burgundy);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(26, 39, 68, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--gold));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Topic Performance */
+        .topic-grid {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--success);
+        }
+
+        .topic-item.weak {
+            border-left-color: var(--error);
+        }
+
+        .topic-item.moderate {
+            border-left-color: var(--gold);
+        }
+
+        .topic-name {
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .topic-score {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .topic-percentage {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .topic-percentage.strong {
+            color: var(--success);
+        }
+
+        .topic-percentage.weak {
+            color: var(--error);
+        }
+
+        .topic-percentage.moderate {
+            color: var(--partial);
+        }
+
+        .priority-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-badge.high {
+            background: var(--error-light);
+            color: var(--error);
+        }
+
+        .priority-badge.medium {
+            background: var(--partial-light);
+            color: var(--partial);
+        }
+
+        .priority-badge.low {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        /* Question Review */
+        .question-review {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--success);
+        }
+
+        .question-review.incorrect {
+            border-left-color: var(--error);
+            background: var(--error-light);
+        }
+
+        .question-review.partial {
+            border-left-color: var(--partial);
+            background: var(--partial-light);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: var(--navy);
+            color: var(--gold);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .topic-tag {
+            display: inline-block;
+            background: var(--light-gold);
+            color: var(--navy);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .question-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .performance-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .performance-badge.correct {
+            background: var(--success);
+            color: white;
+        }
+
+        .performance-badge.incorrect {
+            background: var(--error);
+            color: white;
+        }
+
+        .performance-badge.moderate {
+            background: var(--partial);
+            color: white;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .answer-display {
+            display: grid;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .answer-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .answer-label {
+            font-weight: 600;
+            color: var(--navy);
+            min-width: 120px;
+        }
+
+        .answer-value {
+            color: var(--ink);
+        }
+
+        .answer-value.correct {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .answer-value.incorrect {
+            color: var(--error);
+        }
+
+        .short-answer-response {
+            background: rgba(26, 39, 68, 0.05);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-style: italic;
+            border-left: 3px solid var(--gold);
+        }
+
+        .explanation {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(46, 125, 74, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid var(--success);
+        }
+
+        .explanation.needs-improvement {
+            background: rgba(245, 124, 0, 0.1);
+            border-left-color: var(--partial);
+        }
+
+        .explanation-title {
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation-text {
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .summary-card {
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .summary-card.strengths {
+            background: var(--success-light);
+            border: 2px solid var(--success);
+        }
+
+        .summary-card.improvements {
+            background: var(--partial-light);
+            border: 2px solid var(--partial);
+        }
+
+        .summary-card h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .summary-card.strengths h4 {
+            color: var(--success);
+        }
+
+        .summary-card.improvements h4 {
+            color: var(--partial);
+        }
+
+        .summary-list {
+            list-style: none;
+        }
+
+        .summary-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--ink);
+        }
+
+        .summary-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Feedback Notice */
+        .feedback-notice {
+            background: var(--light-gold);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px dashed var(--gold);
+            margin-top: 1rem;
+        }
+
+        .feedback-notice p {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        /* Encouragement */
+        .encouragement {
+            background: linear-gradient(135deg, var(--success-light) 0%, rgba(201, 169, 89, 0.2) 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--gold);
+        }
+
+        .encouragement h3 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--burgundy);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .encouragement p {
+            color: var(--navy);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .encouragement .highlight {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--burgundy);
+            color: var(--cream);
+            box-shadow: 0 4px 12px rgba(124, 45, 62, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--navy);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(26, 39, 68, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+        }
+
+        .btn-secondary:hover {
+            background: var(--navy);
+            color: var(--cream);
+        }
+
+        /* ChatGPT Help Button */
+        .chatgpt-help-section {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(201, 169, 89, 0.1);
+            border-left: 3px solid var(--gold);
+            border-radius: 6px;
+        }
+
+        .btn-chatgpt {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-chatgpt:hover {
+            background: var(--gold);
+            color: var(--navy);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1rem;
+            }
+
+            .navbar {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .score-circle {
+                width: 150px;
+                height: 150px;
+            }
+
+            .score-circle .score {
+                font-size: 1.5rem;
+            }
+
+            .btn-chatgpt {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media print {
+            .navbar, .nav-buttons, .actions {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+
+            .question-review {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="window.print()">Print Results</button>
+            <a href="/Pokemon/Quiz/" class="nav-btn">Take Another Quiz</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Quiz Results</h1>
+            <p class="subtitle">Pokemon Diagnostic Quiz</p>
+            <p class="meta">Trainer: Blake | January 8, 2026</p>
+        </div>
+
+        <!-- Score Summary -->
+        <div class="card">
+            <h2 class="section-title">Your Score</h2>
+            <div class="score-container">
+                <div class="score-circle">
+                    <span class="score">20/21</span>
+                    <span class="percentage">95%</span>
+                    <span class="grade">A</span>
+                </div>
+                <div class="score-message">
+                    <h3>Outstanding Performance!</h3>
+                    <p>Blake, you absolutely crushed this diagnostic quiz! You demonstrated excellent knowledge of Pokemon types, matchups, and battle concepts. This is an incredible foundation to build on!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Breakdown -->
+        <div class="card">
+            <h2 class="section-title">Section Breakdown</h2>
+            <div class="breakdown-grid">
+                <div class="breakdown-item">
+                    <h4>Multiple Choice</h4>
+                    <div class="score-text">19/19</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <h4>Short Answer</h4>
+                    <div class="score-text">1/2</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 50%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Per-Topic Performance -->
+        <div class="card">
+            <h2 class="section-title">Performance by Topic</h2>
+            <div class="topic-grid">
+                <div class="topic-item">
+                    <span class="topic-name">Type Definition</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Pikachu (Electric)</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Fire-Water-Grass Triangle</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Super-effective</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Charizard (Fire/Flying)</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Blastoise (Water)</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Evolution</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Electric Type Matchups</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Tank/Defender</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Snorlax (Normal)</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Dual-type</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Gengar (Ghost/Poison)</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Immunity</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Eevee + Eeveelutions</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Regional Variant</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Gyarados (Water/Flying)</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge high">High</span>
+                    </div>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Not Very Effective / Resist</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage strong">100%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+                <div class="topic-item moderate">
+                    <span class="topic-name">Evolution Line (Short Answer)</span>
+                    <div class="topic-score">
+                        <span class="topic-percentage moderate">50%</span>
+                        <span class="priority-badge medium">Medium</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Question Review -->
+        <div class="card">
+            <h2 class="section-title">Detailed Question Review</h2>
+
+            <!-- Q1 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">1</span>
+                        <span class="topic-tag">type-definition</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What is a "type" in Pokemon?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - A category like Fire, Water, or Grass that affects strengths and weaknesses</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">2</span>
+                        <span class="topic-tag">pikachu-electric</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What type is Pikachu?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - Electric</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">3</span>
+                        <span class="topic-tag">fire-water-grass-triangle</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">In the Fire-Water-Grass triangle, which type beats Fire?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">A - Water</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">4</span>
+                        <span class="topic-tag">super-effective</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What does "super-effective" mean?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - The attack does extra damage because the defender is weak to it</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">5</span>
+                        <span class="topic-tag">charizard-fire-flying</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What are Charizard's types?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - Fire/Flying</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">6</span>
+                        <span class="topic-tag">blastoise-water</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What type is Blastoise?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">A - Water</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">7</span>
+                        <span class="topic-tag">fire-water-grass-triangle</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">Which type is super-effective against Grass?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - Fire</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">8</span>
+                        <span class="topic-tag">evolution</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What is "evolution" in Pokemon?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - When a Pokemon changes into a new, usually stronger species</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q9 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">9</span>
+                        <span class="topic-tag">electric-type-matchups</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">Electric-type moves are super-effective against which types?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">A - Water and Flying</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q10 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">10</span>
+                        <span class="topic-tag">tank-defender</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What is a "Tank" or "Defender" in battle?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - A Pokemon that survives hits and stays in battle a long time</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q11 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">11</span>
+                        <span class="topic-tag">snorlax-normal</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What type is Snorlax?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">A - Normal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q12 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">12</span>
+                        <span class="topic-tag">dual-type</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What does "dual-type" mean?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - A Pokemon that has two types at the same time</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q13 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">13</span>
+                        <span class="topic-tag">gengar-ghost-poison</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What are Gengar's types?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">A - Ghost/Poison</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q14 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">14</span>
+                        <span class="topic-tag">immunity</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What does "immunity" mean in a type matchup?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">C - Taking no damage at all from that type</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q15 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">15</span>
+                        <span class="topic-tag">electric-type-matchups</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">Which type is super-effective against Electric?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">A - Ground</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q16 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">16</span>
+                        <span class="topic-tag">eevee-eeveelutions</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What makes Eevee special among Pokemon?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - It has multiple possible evolutions (branching evolution)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q17 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">17</span>
+                        <span class="topic-tag">regional-variant</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What is a "regional variant"?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">A - A Pokemon that looks different and may have a different type depending on the region</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q18 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">18</span>
+                        <span class="topic-tag">gyarados-water-flying</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">Gyarados is Water/Flying. What type deals 4x damage to it?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - Electric</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q19 -->
+            <div class="question-review">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">19</span>
+                        <span class="topic-tag">not-very-effective-resist</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge correct">Correct</span>
+                    </div>
+                </div>
+                <p class="question-text">What does it mean if an attack is "not very effective"?</p>
+                <div class="answer-display">
+                    <div class="answer-row">
+                        <span class="answer-label">Your answer:</span>
+                        <span class="answer-value correct">B - The attack does reduced damage because the defender resists it</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q20 - Short Answer -->
+            <div class="question-review partial">
+                <div class="question-header">
+                    <div>
+                        <span class="question-number">20</span>
+                        <span class="topic-tag">evolution-line</span>
+                    </div>
+                    <div class="question-status">
+                        <span class="performance-badge moderate">1/2 pts</span>
+                    </div>
+                </div>
+                <p class="question-text">Name one complete evolution line (from the starter Pokemon families) and explain what happens at each stage. For example, what is the base form, what does it evolve into, and what is its final form?</p>
+                <div class="short-answer-response">
+                    "I know you want a starter but imma do oddish the weed Pokemon who evolves into gloom a kinda uglier weed with drool which in the Pokemon anime his drool was used for perfumes and finally evolving into vileplume turning into a fully bloomed flower whose flower is used to help clean up the air."
+                </div>
+                <div class="explanation needs-improvement">
+                    <div class="explanation-title">Feedback:</div>
+                    <p class="explanation-text">Blake, I can tell you really know your Pokemon! Your description of the Oddish evolution line is actually quite detailed and shows great understanding of how evolution works - you correctly identified all three stages (Oddish -> Gloom -> Vileplume) and even included cool lore details about Gloom's drool and Vileplume's flower!</p>
+                    <p class="explanation-text" style="margin-top: 0.75rem;"><strong>Why partial credit:</strong> The question specifically asked for a <em>starter Pokemon family</em> (Charmander, Squirtle, or Bulbasaur lines). To get full credit, you would need to describe one of these three evolution lines. For example: "Charmander is the base form Fire-type. It evolves into Charmeleon, which is larger and more aggressive. Finally, it evolves into Charizard, gaining the Flying type and becoming a powerful Fire/Flying dual-type."</p>
+                    <p class="explanation-text" style="margin-top: 0.75rem;"><strong>What you did well:</strong> You demonstrated excellent understanding of evolution mechanics and showed creativity in your answer!</p>
+                </div>
+
+                <!-- ChatGPT Help Button -->
+                <div class="chatgpt-help-section" style="margin-top: 1.5rem; padding: 1rem; background: rgba(201, 169, 89, 0.1); border-left: 3px solid var(--gold); border-radius: 6px;">
+                    <p style="margin-bottom: 0.75rem; font-size: 0.9rem; color: var(--ink);">
+                        <strong>Need more help?</strong> Get a different explanation from ChatGPT
+                    </p>
+                    <a href="https://chatgpt.com/?hints=search&q=Help%20me%20understand%20this%20Evolution%20Line%20concept.%0A%0AQuestion%3A%20Name%20one%20complete%20evolution%20line%20(from%20the%20starter%20Pokemon%20families)%20and%20explain%20what%20happens%20at%20each%20stage.%20For%20example%2C%20what%20is%20the%20base%20form%2C%20what%20does%20it%20evolve%20into%2C%20and%20what%20is%20its%20final%20form%3F%0A%0AMy%20answer%3A%20I%20described%20the%20Oddish%20line%20(Oddish%20-%3E%20Gloom%20-%3E%20Vileplume)%20instead%20of%20a%20starter%20family.%0A%0ACorrect%20answer%3A%20The%20question%20asked%20for%20a%20starter%20Pokemon%20family%20like%20Charmander%20-%3E%20Charmeleon%20-%3E%20Charizard%2C%20Squirtle%20-%3E%20Wartortle%20-%3E%20Blastoise%2C%20or%20Bulbasaur%20-%3E%20Ivysaur%20-%3E%20Venusaur.%0A%0AI%27m%20a%20high%20school%20student%20named%20Blake%20studying%20for%20my%20Pokemon%20finals.%20Can%20you%20explain%20what%20makes%20the%20starter%20evolution%20lines%20special%20and%20help%20me%20remember%20all%20three%20Kanto%20starter%20families%3F%20Please%20use%20simple%20examples%20and%20analogies."
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn-chatgpt"
+                       style="display: inline-block; padding: 0.75rem 1.5rem; background: transparent; border: 2px solid var(--gold); color: var(--gold); text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s;">
+                        &#x1F4AC; ChatGPT Help
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topic Summary -->
+        <div class="card">
+            <h2 class="section-title">Topic Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-card strengths">
+                    <h4>&#x2705; Strengths (>=85%)</h4>
+                    <ul class="summary-list">
+                        <li>Type Definition (100%)</li>
+                        <li>Pikachu - Electric (100%)</li>
+                        <li>Fire-Water-Grass Triangle (100%)</li>
+                        <li>Super-effective (100%)</li>
+                        <li>Charizard - Fire/Flying (100%)</li>
+                        <li>Blastoise - Water (100%)</li>
+                        <li>Evolution Concept (100%)</li>
+                        <li>Electric Type Matchups (100%)</li>
+                        <li>Tank/Defender Role (100%)</li>
+                        <li>Snorlax - Normal (100%)</li>
+                        <li>Dual-type (100%)</li>
+                        <li>Gengar - Ghost/Poison (100%)</li>
+                        <li>Immunity (100%)</li>
+                        <li>Eevee + Eeveelutions (100%)</li>
+                        <li>Regional Variant (100%)</li>
+                        <li>Gyarados - Water/Flying (100%)</li>
+                        <li>Not Very Effective / Resist (100%)</li>
+                    </ul>
+                </div>
+                <div class="summary-card improvements">
+                    <h4>&#x1F4DD; Areas for Improvement (<85%)</h4>
+                    <ul class="summary-list">
+                        <li>Evolution Line - Short Answer (50%)</li>
+                        <li style="font-size: 0.9rem; color: #666; padding-top: 0.5rem;"><em>Tip: When a question asks for something specific (like "starter Pokemon"), make sure to answer with exactly what's requested, even if you know other examples!</em></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Notice -->
+        <div class="card">
+            <div class="feedback-notice">
+                <p>&#x1F4F8; If you disagree with any grading, take a screenshot and send it to the tutor!</p>
+            </div>
+        </div>
+
+        <!-- Encouragement Section -->
+        <div class="card">
+            <div class="encouragement">
+                <h3>Amazing Work, Blake!</h3>
+                <p>You scored <span class="highlight">95%</span> on your diagnostic quiz - that's an incredible baseline! You clearly have a strong foundation in Pokemon types, matchups, and battle concepts.</p>
+                <p><strong>What you nailed:</strong></p>
+                <ul style="text-align: left; max-width: 500px; margin: 1rem auto; line-height: 2;">
+                    <li>Perfect score on all 19 multiple choice questions!</li>
+                    <li>You know your Focus 10 Pokemon types cold</li>
+                    <li>Fire-Water-Grass triangle? No problem!</li>
+                    <li>Type matchups and effectiveness - mastered!</li>
+                    <li>Even the tricky concepts like immunity and 4x weaknesses</li>
+                </ul>
+                <p><strong>Next steps:</strong> Just remember to read questions carefully - especially when they ask for something specific! Your knowledge of non-starter Pokemon like Oddish shows you've been paying attention in class. Keep that enthusiasm going!</p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <a href="/Pokemon/Quiz/" class="btn btn-primary">Take Another Quiz</a>
+            <a href="/" class="btn btn-secondary">Return Home</a>
+            <button class="btn btn-secondary" onclick="window.print()">Print Results</button>
+        </div>
+    </div>
+</body>
+</html>

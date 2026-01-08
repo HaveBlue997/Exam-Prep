@@ -79,6 +79,36 @@ For each question in the quiz:
 - Be encouraging! Note what was done well before explaining what was missed
 - NOTE: Regular adaptive quizzes do NOT include essays - only 19 MC + 1 SA
 
+### Task 3.5: Score Calculation Verification (CRITICAL)
+
+**BEFORE generating the results HTML**, you MUST perform this calculation verification to ensure the score summary matches the individual question grades:
+
+1. **Count Multiple Choice Results:**
+   - Count questions you marked CORRECT: ___
+   - Count questions you marked INCORRECT: ___
+   - Verify: correct + incorrect = total MC questions (usually 19)
+
+2. **Calculate MC Score:**
+   - MC Score = number of CORRECT MC questions
+   - MC Total = total MC questions
+
+3. **Calculate Short Answer Score:**
+   - Award 0, 1, or 2 points based on grading criteria
+   - SA Score = points awarded
+   - SA Total = 2
+
+4. **Calculate Total Score:**
+   - Total Score = MC Score + SA Score
+   - Total Possible = MC Total + SA Total (usually 21)
+   - Percentage = (Total Score / Total Possible) × 100
+
+5. **Cross-Reference Check:**
+   - Re-read your grading for each question
+   - Confirm the INCORRECT count matches the number of questions you marked with "✗ Incorrect"
+   - Confirm the MC Score equals (Total MC questions - Incorrect Count)
+
+**CRITICAL**: The score circle, section breakdown, and topic performance MUST all use these verified numbers. Common error: If you marked 2 MC questions as "✗ Incorrect" but your summary shows 18/19 MC, that is WRONG - it should show 17/19. Always verify the math!
+
 ### Task 4: Calculate Per-Topic Performance
 
 For each topic that appeared in the quiz:
@@ -89,6 +119,8 @@ For each topic that appeared in the quiz:
    - **Weak Area**: < 70% correct on that topic
 
 ### Task 5: Generate Beautiful Results HTML
+
+**IMPORTANT**: Use the VERIFIED scores from Task 3.5 for all score displays. The score circle, section breakdown percentages, and grade badge must match the actual count of correct/incorrect answers from your grading.
 
 Create an HTML document using this exact styling (matches the quiz):
 

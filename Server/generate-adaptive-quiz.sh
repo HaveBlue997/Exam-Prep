@@ -85,11 +85,27 @@ if [ -n "$EXISTING_QUIZ" ] && [ -f "$EXISTING_QUIZ" ]; then
 fi
 
 # Read study guide materials from Guide directory
+# IMPORTANT: Skip binary files (PDFs, images, etc.) - they can't be read as text
 GUIDE_CONTENT=""
 if [ -d "$GUIDE_DIR" ]; then
     for guide_file in "$GUIDE_DIR"/*; do
         if [ -f "$guide_file" ]; then
-            echo "Loading guide: $guide_file" | tee -a "$LOG_FILE"
+            # Skip binary files - cat on PDFs outputs garbage and crashes Claude CLI
+            case "$guide_file" in
+                *.pdf|*.PDF|*.docx|*.DOCX|*.xlsx|*.XLSX|*.png|*.PNG|*.jpg|*.JPG|*.jpeg|*.JPEG|*.gif|*.GIF)
+                    echo "Skipping binary file: $guide_file" | tee -a "$LOG_FILE"
+                    continue
+                    ;;
+            esac
+
+            # Check file size - skip if too large (>50KB)
+            FILE_SIZE=$(wc -c < "$guide_file" 2>/dev/null | tr -d ' ')
+            if [ "$FILE_SIZE" -gt 50000 ]; then
+                echo "Skipping large file ($FILE_SIZE bytes): $guide_file" | tee -a "$LOG_FILE"
+                continue
+            fi
+
+            echo "Loading guide: $guide_file ($FILE_SIZE bytes)" | tee -a "$LOG_FILE"
             GUIDE_CONTENT="$GUIDE_CONTENT
 
 === $(basename "$guide_file") ===
@@ -97,6 +113,17 @@ $(cat "$guide_file")"
         fi
     done
 fi
+
+# Build list of PDF file paths for Claude to read directly
+# (Claude CLI can read PDFs when given absolute paths in prompt)
+PDF_REFS=""
+for pdf_file in "$GUIDE_DIR"/*.pdf "$GUIDE_DIR"/*.PDF; do
+    if [ -f "$pdf_file" ]; then
+        echo "Adding PDF reference: $pdf_file" | tee -a "$LOG_FILE"
+        PDF_REFS="$PDF_REFS
+- $pdf_file"
+    fi
+done
 
 # Extract weak and strong areas using jq if available
 WEAK_AREAS=""
@@ -137,6 +164,11 @@ $SCORECARD_TXT_CONTENT
 
 === COURSE MATERIALS (Guide Directory) ===
 $GUIDE_CONTENT
+
+=== PDF STUDY MATERIALS (Read these files for additional questions) ===
+The following PDF files contain exam questions and study content.
+Read each file and use the questions as inspiration for creating similar quiz questions:
+$PDF_REFS
 
 === EXISTING QUIZ (Template for Style/Format) ===
 $EXISTING_QUIZ_CONTENT
@@ -206,48 +238,71 @@ HTML REQUIREMENTS:
 4. Add data-topic attribute to each question div:
    <div class=\"question\" data-topic=\"topic-id-here\">
 
-=== OUTPUT FORMAT ===
+=== CRITICAL OUTPUT REQUIREMENTS ===
+Your output MUST follow this EXACT format with NO exceptions:
 
-You must output TWO things:
+1. The VERY FIRST characters of your response must be: <!DOCTYPE html>
+2. Do NOT include ANY text before <!DOCTYPE html> - no thinking, no analysis, no planning
+3. Do NOT use markdown code blocks (\`\`\`) around the HTML
+4. After the closing </html> tag, output the answer key on a NEW line
+5. The answer key format: <!--ANSWER_KEY: {json} -->
+6. Do NOT include ANY text after the closing --> of the answer key
 
-1. FIRST: The complete HTML document for the quiz
-   - Start with <!DOCTYPE html>
-   - Include all CSS, HTML, and JavaScript
-   - End with </html>
+INCORRECT (will break the system):
+\"Now I have the quiz template...\" or \"Based on the weak areas...\" before HTML
 
-2. SECOND: After the HTML, on a new line, output the answer key:
-   <!--ANSWER_KEY:
-   {
-     \"quizName\": \"Adaptive Practice Quiz\",
-     \"generatedFor\": \"Blake\",
-     \"generatedAt\": \"$TIMESTAMP\",
-     \"focusAreas\": [...weak areas...],
-     \"format\": \"19 multiple choice + 1 short answer = 20 total questions\",
-     \"answers\": {
-       \"q1\": {\"correct\": \"b\", \"topic\": \"topic-id\", \"explanation\": \"Brief explanation\"},
-       \"q2\": {\"correct\": \"c\", \"topic\": \"topic-id\", \"explanation\": \"Brief explanation\"},
-       ...
-       \"q19\": {\"correct\": \"a\", \"topic\": \"topic-id\", \"explanation\": \"Brief explanation\"},
-       \"q20\": {\"type\": \"short_answer\", \"topic\": \"highest-priority-weak-topic\", \"keyPoints\": [\"point1\", \"point2\", \"point3\"]}
-     },
-     \"totalPoints\": {
-       \"multipleChoice\": 19,
-       \"shortAnswer\": 2,
-       \"total\": 21
-     },
-     \"grading\": {
-       \"multipleChoice\": \"1 point each (19 total)\",
-       \"shortAnswer\": \"0-2 points (2 = complete/accurate, 1 = partial, 0 = incorrect)\"
-     }
-   }
-   -->
+CORRECT:
+<!DOCTYPE html>
+<html>...
+
+=== ANSWER KEY FORMAT ===
+
+After the closing </html> tag, output the answer key in this format:
+<!--ANSWER_KEY:
+{
+  \"quizName\": \"Adaptive Practice Quiz\",
+  \"generatedFor\": \"Blake\",
+  \"generatedAt\": \"$TIMESTAMP\",
+  \"focusAreas\": [...weak areas...],
+  \"format\": \"19 multiple choice + 1 short answer = 20 total questions\",
+  \"answers\": {
+    \"q1\": {\"correct\": \"b\", \"topic\": \"topic-id\", \"explanation\": \"Brief explanation\"},
+    \"q2\": {\"correct\": \"c\", \"topic\": \"topic-id\", \"explanation\": \"Brief explanation\"},
+    ...
+    \"q19\": {\"correct\": \"a\", \"topic\": \"topic-id\", \"explanation\": \"Brief explanation\"},
+    \"q20\": {\"type\": \"short_answer\", \"topic\": \"highest-priority-weak-topic\", \"keyPoints\": [\"point1\", \"point2\", \"point3\"]}
+  },
+  \"totalPoints\": {
+    \"multipleChoice\": 19,
+    \"shortAnswer\": 2,
+    \"total\": 21
+  },
+  \"grading\": {
+    \"multipleChoice\": \"1 point each (19 total)\",
+    \"shortAnswer\": \"0-2 points (2 = complete/accurate, 1 = partial, 0 = incorrect)\"
+  }
+}
+-->
 
 IMPORTANT:
-- Output ONLY the HTML document and answer key comment
-- Do NOT include any text before <!DOCTYPE html>
-- Do NOT include any text after the closing --> of the answer key
 - Make sure the quiz is COMPLETE and FUNCTIONAL
-- Ensure all JavaScript event handlers are properly attached"
+- Ensure all JavaScript event handlers are properly attached
+
+=== FINAL OUTPUT INSTRUCTIONS - THIS IS THE MOST IMPORTANT PART ===
+
+YOUR RESPONSE MUST START WITH EXACTLY: <!DOCTYPE html>
+
+RULES (violations will break the system):
+1. First character = '<' (the < of <!DOCTYPE html>)
+2. NO text before <!DOCTYPE html> - no 'Now I have...', no 'Based on...', no 'Let me...', no planning
+3. NO markdown code blocks around HTML
+4. After </html>, add on new line: <!--ANSWER_KEY: {json} -->
+5. Nothing after the closing -->
+
+The system uses: sed -n '/<!DOCTYPE html>/,/<!--ANSWER_KEY:/p'
+If you output ANYTHING before <!DOCTYPE html>, quiz generation FAILS.
+
+START YOUR RESPONSE NOW: <!DOCTYPE html>"
 
 # Write prompt to temporary file
 PROMPT_FILE="$LOG_DIR/prompt_${TIMESTAMP}.tmp"

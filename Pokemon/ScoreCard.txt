@@ -1,0 +1,340 @@
+# POKEMON SCORECARD - EXAM PREPARATION
+## Student: (Your Name)
+## Created: January 08, 2026
+## Last Updated: January 08, 2026
+
+===============================================================================
+OVERVIEW
+===============================================================================
+
+Total Topics: 28
+Mastered: 0 (0%)
+In Progress: 0 (0%)
+Not Started: 28 (100%)
+
+High Priority Topics: 12 - Focus here first!
+Medium Priority Topics: 10 - Important for solid performance
+Low Priority Topics: 6 - Maintain existing mastery
+
+===============================================================================
+HIGH PRIORITY TOPICS (Critical for Exam Success)
+===============================================================================
+
+These topics appear repeatedly across the syllabus, study guide, and midterm exam.
+They form the core of exam questions and account for the majority of points.
+
+### The 10 Focus Pokémon (Must-Know Individual Profiles)
+
+[ ] Pikachu (Electric)
+    What mastery looks like: Can state type, 2 strengths, 2 weaknesses, and battle role from memory
+    Why this matters: First case study Pokémon; Electric type fundamentals
+    Study resources: Week 5 case study, Final Exam Guide Section 1
+
+[ ] Charizard (Fire/Flying)
+    What mastery looks like: Can explain 4x Rock weakness, identify counters, explain dual-type risks
+    Why this matters: Heavily tested (midterm Q17, Q26); teaches dual-type vulnerability concept
+    Study resources: Week 6 case study, Midterm Q26 short answer
+
+[ ] Blastoise (Water)
+    What mastery looks like: Can explain Water type fundamentals and defensive role
+    Why this matters: Part of core Water-Fire-Grass triangle
+    Study resources: Week 7 case study, Midterm Prep Sheet
+
+[ ] Venusaur (Grass/Poison)
+    What mastery looks like: Can identify Psychic and Fire threats, explain status support role
+    Why this matters: Completes starter triangle; Poison typing adds complexity
+    Study resources: Week 8 case study, Final Exam Guide Section 1
+
+[ ] Gengar (Ghost/Poison)
+    What mastery looks like: Can explain immunities (Normal), Ghost-on-Ghost matchups, Psychic weakness
+    Why this matters: Tests understanding of immunities and mind-game strategy
+    Study resources: Week 9 case study, Final Exam Guide Section 3
+
+[ ] Lucario (Fighting/Steel)
+    What mastery looks like: Can explain Steel defensive value, Fighting offensive role, Fairy weakness
+    Why this matters: Demonstrates offensive/defensive type synergy concept
+    Study resources: Week 10 case study, Final Exam Guide Section 1
+
+[ ] Gyarados (Water/Flying)
+    What mastery looks like: Can identify Electric 4x weakness, explain dual-type tradeoffs
+    Why this matters: Another 4x weakness example; Final Exam Guide Q8
+    Study resources: Week 11 case study, Final Exam Guide Practice Q8
+
+[ ] Eevee + Eeveelutions (Normal → Various)
+    What mastery looks like: Can explain branching evolution concept, match Eeveelution to scenario
+    Why this matters: Unique evolution mechanic; tests "same base, different purpose" concept
+    Study resources: Week 12 case study, Original Variant Concept project
+
+[ ] Snorlax (Normal)
+    What mastery looks like: Can explain Tank role, Fighting weakness, defensive patterns
+    Why this matters: Tests Tank/Defender role understanding; Final Exam Guide Q5
+    Study resources: Week 13 case study, "Break the wall" lab
+
+[ ] Gardevoir (Psychic/Fairy)
+    What mastery looks like: Can explain Fairy > Fighting, role clarity, counterplay options
+    Why this matters: Final case study; dual-type with strong offensive presence
+    Study resources: Week 14 case study, Final Exam Guide Section 1
+
+### Core Type Matchups
+
+[ ] Fire-Water-Grass Triangle
+    What mastery looks like: Can instantly answer any direction (Water > Fire > Grass > Water)
+    Why this matters: Foundation of all type reasoning; appears in multiple questions
+    Study resources: Week 2 Type chart, Midterm Q12, Q13, Q25
+
+[ ] Electric Type Matchups
+    What mastery looks like: Electric > Water, Electric > Flying, Ground > Electric (immunity or super-effective)
+    Why this matters: Tested in midterm Q14, Q20; relevant to Pikachu and Gyarados
+    Study resources: Week 2, Week 5, Final Exam Guide Section 3
+
+===============================================================================
+MEDIUM PRIORITY TOPICS (Important for Solid Performance)
+===============================================================================
+
+These topics support the high-priority material and appear in specific exam sections.
+
+### Key Vocabulary Terms
+
+[ ] Type
+    What mastery looks like: Can define as "category that affects strengths/weaknesses"
+    Why this matters: Midterm matching Q2; foundation term
+    Study resources: Syllabus Core Topics, Midterm Section A
+
+[ ] Super-effective
+    What mastery looks like: Can define as "extra damage because defender is weak"
+    Why this matters: Midterm matching Q3; used throughout all matchup questions
+    Study resources: Week 2, Final Exam Guide Section 3
+
+[ ] Not very effective / Resist
+    What mastery looks like: Can define as "reduced damage because defender resists"
+    Why this matters: Midterm matching Q4, Q18; opposite of super-effective
+    Study resources: Week 2, Final Exam Guide vocabulary
+
+[ ] Immunity
+    What mastery looks like: Can define as "takes no damage from that type"
+    Why this matters: Midterm Q5, Q21; Ghost immune to Normal is key example
+    Study resources: Week 9 Gengar case study, Final Exam Guide
+
+[ ] Dual-type
+    What mastery looks like: Can explain two types at once = combined weaknesses/resistances
+    Why this matters: Midterm Q8, Q19; essential for Charizard/Gyarados analysis
+    Study resources: Week 6, Final Exam Guide Section 1
+
+### Forms and Evolution Concepts
+
+[ ] Evolution
+    What mastery looks like: Can define as "Pokémon changing into new species, usually stronger"
+    Why this matters: Midterm Q6, Q27; distinct from regional variant
+    Study resources: Week 3, Midterm short answer Q27
+
+[ ] Evolution Line
+    What mastery looks like: Can define as "complete family path from base to final form"
+    Why this matters: Midterm Q7, Q24; must know at least 2 lines from memory
+    Study resources: Week 3, Final Exam Guide Section 2
+
+[ ] Regional Variant
+    What mastery looks like: Can define as "different appearance/type based on region"
+    Why this matters: Midterm Q9, Q23, Q27; distinct from evolution
+    Study resources: Week 4, Midterm short answer Q27
+
+### Battle Roles
+
+[ ] Attacker/Sweeper
+    What mastery looks like: Can identify as "tries to KO quickly"
+    Why this matters: Midterm Q10, Q22; role assignment for focus Pokémon
+    Study resources: Week 10, Final Exam Guide Section 4
+
+[ ] Tank/Defender
+    What mastery looks like: Can identify as "survives hits and stays in battle"
+    Why this matters: Midterm Q22; Snorlax and Blastoise examples
+    Study resources: Week 7, Week 13, Final Exam Guide Section 4
+
+===============================================================================
+LOW PRIORITY TOPICS (Review/Foundational)
+===============================================================================
+
+These are foundational concepts or less frequently tested material.
+
+[ ] Pokédex
+    What mastery looks like: Can define as "digital encyclopedia of Pokémon information"
+    Why this matters: Midterm Q1; basic terminology
+    Study resources: Syllabus Materials/Tools section
+
+[ ] Support Role
+    What mastery looks like: Can identify as "helps team with status, healing, setups"
+    Why this matters: Mentioned in Final Exam Guide Section 4; intro level only
+    Study resources: Week 10 team roles intro
+
+[ ] Counter (Battle Role)
+    What mastery looks like: Can identify as "chosen because it matches up well against a threat"
+    Why this matters: Final Exam Guide scenario questions
+    Study resources: Final Exam Guide Section 4
+
+[ ] Alternate Forms (Mega, Gigantamax, etc.)
+    What mastery looks like: Can explain concept: "same Pokémon, different form = different stats/type"
+    Why this matters: Syllabus Big Goal 2; concept understanding over memorization
+    Study resources: Week 4, Final Exam Guide Section 2C
+
+[ ] PokéJournal Requirements
+    What mastery looks like: Know weekly format: new Pokémon + matchup diagram + form note
+    Why this matters: 25% of grade; ongoing assignment
+    Study resources: Syllabus Grading section
+
+[ ] Ethical Creation/IP Rules
+    What mastery looks like: Understand "no copied assets, original work must be original"
+    Why this matters: Required for Original Variant Concept project
+    Study resources: Syllabus Academic Integrity section
+
+===============================================================================
+STUDY PLAN RECOMMENDATIONS
+===============================================================================
+
+### Phase 1: Foundation Building
+- Create "Focus 10 deck" with flashcards (Type, 2 strengths, 2 weaknesses, role)
+- Master Fire-Water-Grass triangle until automatic
+- Review all vocabulary terms from midterm matching section
+- Practice: Complete 1 evolution line from memory
+
+### Phase 2: Type Mastery Drills
+- Daily 15-minute type matchup drills
+- Focus on Electric, Rock, Ground, Psychic, Ghost, Fighting matchups
+- Create scenarios: "Type A attacks Type B — what happens?"
+- Special focus: 4x weaknesses (Charizard to Rock, Gyarados to Electric)
+
+### Phase 3: Case Study Deep Dives
+- Review each Focus 10 Pokémon individually
+- Write one sentence per Pokémon: "This Pokémon plays the role of ___ because ___"
+- Identify 2 good counters for each Focus 10 Pokémon
+- Practice short answer format: "Name two good types to attack X and explain why"
+
+### Phase 4: Scenario Practice
+- Write 8 mini-scenarios and solve them
+- Practice "switch-in" reasoning: "What would you switch into?"
+- Focus on dual-type analysis and 4x weakness identification
+- Review midterm short answer questions and model responses
+
+### Phase 5: Final Review
+- Complete Final Self-Check (night before exam)
+- Review any topics marked [~] In Progress
+- Do a "teach it to someone" session for difficult concepts
+- Quick review of evolution vs regional variant distinction
+
+===============================================================================
+QUICK REFERENCE CHARTS
+===============================================================================
+
+### Fire-Water-Grass Triangle
+Fire > Grass > Water > Fire
+
+### Electric Matchups
+Electric > Water
+Electric > Flying
+Ground > Electric (often immunity)
+
+### Rock Matchups (Important!)
+Rock > Fire
+Rock > Flying
+Rock > Fire/Flying (4x damage - CHARIZARD!)
+
+### Fighting Matchups
+Fighting > Normal (Snorlax weakness!)
+Fairy > Fighting (threatens Lucario)
+
+### Ghost Matchups
+Ghost > Ghost
+Normal → Ghost (Immune - no damage!)
+Psychic > Poison (threatens Gengar)
+
+### Steel Type Note
+Steel resists many types (defensive powerhouse)
+Fighting, Fire, Ground > Steel
+
+### 4x Weakness Alert List
+- Charizard (Fire/Flying): ROCK does 4x damage
+- Gyarados (Water/Flying): ELECTRIC does 4x damage
+
+### Evolution Lines to Know Cold
+1. Charmander → Charmeleon → Charizard
+2. Squirtle → Wartortle → Blastoise
+3. Bulbasaur → Ivysaur → Venusaur
+4. Pichu → Pikachu → Raichu (if covered)
+
+### Battle Roles Quick Reference
+- Attacker/Sweeper: KO quickly (offensive)
+- Tank/Defender: Survive and stay in (defensive)
+- Support: Help team (status, healing)
+- Counter: Chosen to beat specific threat
+
+===============================================================================
+PROGRESS NOTES
+===============================================================================
+
+Study sessions and mastery tracking:
+
+- [Date]: [Quiz] - Score: XX/30 (XX%)
+  Strong areas: [topics where you scored well]
+  Needs work: [topics needing more practice]
+- [Date]: [Topic] - Mastered after [study activity]
+- [Date]: [Topic] - Still needs work on [specific aspect]
+
+Example entries to add as you study:
+- Jan 10: Type matchup drill - Nailed Fire/Water/Grass, struggled with Ghost immunities
+- Jan 12: Focus 10 flashcards - Can name all types, need work on weaknesses for Gengar
+- Jan 14: Practice Quiz - Score: 28/35 (80%), missed dual-type questions
+
+===============================================================================
+FINAL EXAM SELF-CHECK (Use This Night Before)
+===============================================================================
+
+You're ready if you can do ALL of this without notes:
+
+□ List the type(s) of all 10 Focus Pokémon from memory
+□ Give 2 weaknesses for each Focus Pokémon
+□ Give 2 strengths for each Focus Pokémon
+□ State the battle role for each Focus Pokémon
+□ Explain super-effective vs not very effective vs immunity with examples
+□ Complete Fire-Water-Grass triangle instantly
+□ Identify what beats Electric types (Ground)
+□ Explain why Rock is devastating to Charizard (4x weakness)
+□ Explain why Electric is devastating to Gyarados (4x weakness)
+□ Explain evolution line vs regional variant with specific examples
+□ Map at least 2 evolution lines from memory
+□ Solve 5 battle scenarios with clear "because" reasoning
+□ Explain what a Tank/Defender does vs an Attacker/Sweeper
+□ Define all 10 vocabulary terms from midterm matching section
+
+===============================================================================
+TIPS FOR SUCCESS
+===============================================================================
+
+1. MAKE FLASHCARDS FOR THE FOCUS 10
+   Physical or digital cards with Type, 2 Strengths, 2 Weaknesses, Role for each
+
+2. DRILL TYPE MATCHUPS DAILY
+   15 minutes a day beats 2 hours once a week; use rapid-fire Q&A
+
+3. MASTER THE TRIANGLE FIRST
+   Fire > Grass > Water > Fire is the foundation of everything else
+
+4. FOCUS ON "WHY" NOT JUST "WHAT"
+   Exam rewards reasoning: "Rock beats Charizard BECAUSE it hits both Fire AND Flying"
+
+5. PRACTICE SHORT ANSWER FORMAT
+   Use the template: "[Type] is good against [Pokémon] because [reason with type logic]"
+
+6. KNOW YOUR 4x WEAKNESSES COLD
+   Charizard + Rock and Gyarados + Electric are likely test questions
+
+7. DISTINGUISH EVOLUTION FROM REGIONAL VARIANT
+   Evolution = new species in a line; Regional variant = same Pokémon, different region/type
+
+8. STUDY THE MIDTERM QUESTIONS
+   The final will use similar formats; practice with the actual midterm questions
+
+9. TEACH CONCEPTS OUT LOUD
+   If you can explain it simply to someone else, you truly understand it
+
+10. USE THE SELF-CHECK THE NIGHT BEFORE
+    Go through every checkbox; any hesitation = review that topic immediately
+
+Good luck!

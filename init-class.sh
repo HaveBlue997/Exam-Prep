@@ -92,9 +92,11 @@ extract_json() {
         fi
     fi
 
-    # Try to find JSON object by looking for first { to last }
-    extracted=$(sed -n '/{/,/}/p' "$input_file" | head -1000)
-    if [ -n "$extracted" ]; then
+    # Try to extract JSON by finding first line starting with { and taking everything after
+    local first_brace_line
+    first_brace_line=$(grep -n '^[[:space:]]*{' "$input_file" | head -1 | cut -d: -f1)
+    if [ -n "$first_brace_line" ]; then
+        extracted=$(tail -n +"$first_brace_line" "$input_file")
         if echo "$extracted" | jq . > "$output_file" 2>/dev/null; then
             log "  ${YELLOW}Note: Extracted JSON object from mixed content${NC}"
             return 0
@@ -407,7 +409,7 @@ printf '%s' "$SCORECARD_PROMPT" > "$PROMPT_FILE"
 
 TEMP_OUTPUT="$LOG_DIR/output_scorecard_${TIMESTAMP}.tmp"
 
-run_claude "$PROMPT_FILE" "$TEMP_OUTPUT" 300 "Generate ScoreCard.txt (study plan)"
+run_claude "$PROMPT_FILE" "$TEMP_OUTPUT" 600 "Generate ScoreCard.txt (study plan)"
 
 if [ $? -ne 0 ]; then
     log_error "Failed to generate ScoreCard.txt"

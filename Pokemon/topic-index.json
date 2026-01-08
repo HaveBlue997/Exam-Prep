@@ -1,1 +1,419 @@
-DRY RUN - no actual generation
+{
+  "class": "Pokemon",
+  "lastUpdated": "2026-01-08T16:06:43Z",
+  "topics": [
+    {
+      "id": "pikachu-electric",
+      "name": "Pikachu (Electric)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Pikachu",
+        "Electric",
+        "type",
+        "strengths",
+        "weaknesses",
+        "battle role",
+        "Electric type fundamentals",
+        "Week 5"
+      ]
+    },
+    {
+      "id": "charizard-fire-flying",
+      "name": "Charizard (Fire/Flying)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Charizard",
+        "Fire",
+        "Flying",
+        "dual-type",
+        "4x Rock weakness",
+        "counters",
+        "vulnerability",
+        "Week 6"
+      ]
+    },
+    {
+      "id": "blastoise-water",
+      "name": "Blastoise (Water)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Blastoise",
+        "Water",
+        "defensive role",
+        "starter triangle",
+        "Fire-Water-Grass",
+        "Week 7"
+      ]
+    },
+    {
+      "id": "venusaur-grass-poison",
+      "name": "Venusaur (Grass/Poison)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Venusaur",
+        "Grass",
+        "Poison",
+        "Psychic threat",
+        "Fire threat",
+        "status support",
+        "starter triangle",
+        "Week 8"
+      ]
+    },
+    {
+      "id": "gengar-ghost-poison",
+      "name": "Gengar (Ghost/Poison)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Gengar",
+        "Ghost",
+        "Poison",
+        "immunity",
+        "Normal immunity",
+        "Psychic weakness",
+        "Ghost-on-Ghost",
+        "Week 9"
+      ]
+    },
+    {
+      "id": "lucario-fighting-steel",
+      "name": "Lucario (Fighting/Steel)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Lucario",
+        "Fighting",
+        "Steel",
+        "defensive value",
+        "offensive role",
+        "Fairy weakness",
+        "type synergy",
+        "Week 10"
+      ]
+    },
+    {
+      "id": "gyarados-water-flying",
+      "name": "Gyarados (Water/Flying)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Gyarados",
+        "Water",
+        "Flying",
+        "Electric 4x weakness",
+        "dual-type tradeoffs",
+        "Week 11"
+      ]
+    },
+    {
+      "id": "eevee-eeveelutions",
+      "name": "Eevee + Eeveelutions (Normal → Various)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Eevee",
+        "Eeveelutions",
+        "Normal",
+        "branching evolution",
+        "evolution mechanic",
+        "Original Variant Concept",
+        "Week 12"
+      ]
+    },
+    {
+      "id": "snorlax-normal",
+      "name": "Snorlax (Normal)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Snorlax",
+        "Normal",
+        "Tank",
+        "Defender",
+        "Fighting weakness",
+        "defensive patterns",
+        "Week 13"
+      ]
+    },
+    {
+      "id": "gardevoir-psychic-fairy",
+      "name": "Gardevoir (Psychic/Fairy)",
+      "priority": "high",
+      "category": "The 10 Focus Pokémon",
+      "keywords": [
+        "Gardevoir",
+        "Psychic",
+        "Fairy",
+        "Fairy beats Fighting",
+        "counterplay",
+        "offensive presence",
+        "Week 14"
+      ]
+    },
+    {
+      "id": "fire-water-grass-triangle",
+      "name": "Fire-Water-Grass Triangle",
+      "priority": "high",
+      "category": "Core Type Matchups",
+      "keywords": [
+        "Fire",
+        "Water",
+        "Grass",
+        "triangle",
+        "type matchup",
+        "foundation",
+        "Water beats Fire",
+        "Fire beats Grass",
+        "Grass beats Water"
+      ]
+    },
+    {
+      "id": "electric-type-matchups",
+      "name": "Electric Type Matchups",
+      "priority": "high",
+      "category": "Core Type Matchups",
+      "keywords": [
+        "Electric",
+        "Water",
+        "Flying",
+        "Ground",
+        "immunity",
+        "super-effective",
+        "Pikachu",
+        "Gyarados"
+      ]
+    },
+    {
+      "id": "type-definition",
+      "name": "Type",
+      "priority": "medium",
+      "category": "Key Vocabulary Terms",
+      "keywords": [
+        "type",
+        "category",
+        "strengths",
+        "weaknesses",
+        "definition",
+        "vocabulary",
+        "matching"
+      ]
+    },
+    {
+      "id": "super-effective",
+      "name": "Super-effective",
+      "priority": "medium",
+      "category": "Key Vocabulary Terms",
+      "keywords": [
+        "super-effective",
+        "extra damage",
+        "weakness",
+        "defender weak",
+        "vocabulary",
+        "matching"
+      ]
+    },
+    {
+      "id": "not-very-effective-resist",
+      "name": "Not very effective / Resist",
+      "priority": "medium",
+      "category": "Key Vocabulary Terms",
+      "keywords": [
+        "not very effective",
+        "resist",
+        "reduced damage",
+        "defender resists",
+        "vocabulary",
+        "matching"
+      ]
+    },
+    {
+      "id": "immunity",
+      "name": "Immunity",
+      "priority": "medium",
+      "category": "Key Vocabulary Terms",
+      "keywords": [
+        "immunity",
+        "no damage",
+        "immune",
+        "Ghost immune Normal",
+        "zero damage",
+        "vocabulary"
+      ]
+    },
+    {
+      "id": "dual-type",
+      "name": "Dual-type",
+      "priority": "medium",
+      "category": "Key Vocabulary Terms",
+      "keywords": [
+        "dual-type",
+        "two types",
+        "combined weaknesses",
+        "combined resistances",
+        "Charizard",
+        "Gyarados"
+      ]
+    },
+    {
+      "id": "evolution",
+      "name": "Evolution",
+      "priority": "medium",
+      "category": "Forms and Evolution Concepts",
+      "keywords": [
+        "evolution",
+        "changing species",
+        "stronger form",
+        "new species",
+        "distinct from variant"
+      ]
+    },
+    {
+      "id": "evolution-line",
+      "name": "Evolution Line",
+      "priority": "medium",
+      "category": "Forms and Evolution Concepts",
+      "keywords": [
+        "evolution line",
+        "family path",
+        "base form",
+        "final form",
+        "Charmander line",
+        "Squirtle line",
+        "Bulbasaur line"
+      ]
+    },
+    {
+      "id": "regional-variant",
+      "name": "Regional Variant",
+      "priority": "medium",
+      "category": "Forms and Evolution Concepts",
+      "keywords": [
+        "regional variant",
+        "different appearance",
+        "different type",
+        "region",
+        "Alolan",
+        "Galarian",
+        "distinct from evolution"
+      ]
+    },
+    {
+      "id": "attacker-sweeper",
+      "name": "Attacker/Sweeper",
+      "priority": "medium",
+      "category": "Battle Roles",
+      "keywords": [
+        "Attacker",
+        "Sweeper",
+        "KO quickly",
+        "offensive",
+        "damage dealer",
+        "role"
+      ]
+    },
+    {
+      "id": "tank-defender",
+      "name": "Tank/Defender",
+      "priority": "medium",
+      "category": "Battle Roles",
+      "keywords": [
+        "Tank",
+        "Defender",
+        "survive hits",
+        "stay in battle",
+        "defensive",
+        "Snorlax",
+        "Blastoise"
+      ]
+    },
+    {
+      "id": "pokedex",
+      "name": "Pokédex",
+      "priority": "low",
+      "category": "Foundational",
+      "keywords": [
+        "Pokédex",
+        "Pokedex",
+        "digital encyclopedia",
+        "Pokémon information",
+        "basic terminology"
+      ]
+    },
+    {
+      "id": "support-role",
+      "name": "Support Role",
+      "priority": "low",
+      "category": "Foundational",
+      "keywords": [
+        "Support",
+        "team help",
+        "status",
+        "healing",
+        "setups",
+        "battle role"
+      ]
+    },
+    {
+      "id": "counter-battle-role",
+      "name": "Counter (Battle Role)",
+      "priority": "low",
+      "category": "Foundational",
+      "keywords": [
+        "Counter",
+        "matchup",
+        "threat",
+        "chosen to beat",
+        "battle role",
+        "scenario"
+      ]
+    },
+    {
+      "id": "alternate-forms",
+      "name": "Alternate Forms (Mega, Gigantamax, etc.)",
+      "priority": "low",
+      "category": "Foundational",
+      "keywords": [
+        "alternate forms",
+        "Mega",
+        "Gigantamax",
+        "different form",
+        "different stats",
+        "different type"
+      ]
+    },
+    {
+      "id": "pokejournal-requirements",
+      "name": "PokéJournal Requirements",
+      "priority": "low",
+      "category": "Foundational",
+      "keywords": [
+        "PokéJournal",
+        "Pokejournal",
+        "weekly format",
+        "matchup diagram",
+        "form note",
+        "assignment",
+        "25% grade"
+      ]
+    },
+    {
+      "id": "ethical-creation-ip-rules",
+      "name": "Ethical Creation/IP Rules",
+      "priority": "low",
+      "category": "Foundational",
+      "keywords": [
+        "ethical creation",
+        "IP rules",
+        "no copied assets",
+        "original work",
+        "academic integrity",
+        "Original Variant Concept"
+      ]
+    }
+  ]
+}

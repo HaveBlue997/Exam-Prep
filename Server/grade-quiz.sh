@@ -181,8 +181,22 @@ $ANSWER_KEY_CONTENT
 
 === CRITICAL REMINDER ===
 You MUST follow ALL tasks in the prompt template above, including Task 6 (ChatGPT Help Buttons).
-Output ONLY the complete HTML document starting with <!DOCTYPE html> followed by the scorecard update comment.
-Do NOT include any thinking, reasoning, or explanatory text before the HTML."
+
+=== FINAL OUTPUT INSTRUCTIONS - THIS IS THE MOST IMPORTANT PART ===
+
+YOUR RESPONSE MUST START WITH EXACTLY: <!DOCTYPE html>
+
+RULES (violations will break the system):
+1. First character = '<' (the < of <!DOCTYPE html>)
+2. NO text before <!DOCTYPE html> - no 'Let me...', no 'Based on...', no 'I will...', no analysis
+3. NO markdown code blocks around HTML
+4. After </html>, add on new line: <!--SCORECARD_UPDATE: {json} -->
+5. Nothing after the closing -->
+
+The system uses: sed -n '/<!DOCTYPE html>/,/<!--SCORECARD_UPDATE:/p'
+If you output ANYTHING before <!DOCTYPE html>, the student gets an EMPTY results page.
+
+START YOUR RESPONSE NOW: <!DOCTYPE html>"
 else
     # Fallback to inline prompt if template file not found
     GRADING_PROMPT="You are a warm, encouraging tutor helping Blake learn from his quiz results.
@@ -275,12 +289,21 @@ $ANSWER_KEY_CONTENT
 - Use Blake's NAME and reference specific things he wrote
 - Frame weaknesses as 'areas for improvement'
 
-=== OUTPUT FORMAT ===
-Output ONLY:
-1. The complete HTML document (no markdown code blocks)
-2. Followed by the scorecard update comment
+=== FINAL OUTPUT INSTRUCTIONS - THIS IS THE MOST IMPORTANT PART ===
 
-Do NOT include any text before the <!DOCTYPE html> or after the closing --> of the scorecard update."
+YOUR RESPONSE MUST START WITH EXACTLY: <!DOCTYPE html>
+
+RULES (violations will break the system):
+1. First character = '<' (the < of <!DOCTYPE html>)
+2. NO text before <!DOCTYPE html> - no 'Let me...', no 'Based on...', no 'I will...', no analysis
+3. NO markdown code blocks around HTML
+4. After </html>, add on new line: <!--SCORECARD_UPDATE: {json} -->
+5. Nothing after the closing -->
+
+The system uses: sed -n '/<!DOCTYPE html>/,/<!--SCORECARD_UPDATE:/p'
+If you output ANYTHING before <!DOCTYPE html>, the student gets an EMPTY results page.
+
+START YOUR RESPONSE NOW: <!DOCTYPE html>"
 fi
 
 # Run Claude CLI for grading
@@ -412,6 +435,32 @@ echo "Claude CLI completed successfully" | tee -a "$LOG_FILE"
 # Extract the HTML (from <!DOCTYPE html> to <!--SCORECARD_UPDATE:)
 # This skips any thinking/reasoning text Claude might output before the HTML
 sed -n '/<!DOCTYPE html>/,/<!--SCORECARD_UPDATE:/p' "$TEMP_OUTPUT" | sed '$d' > "$RESULTS_FILE"
+
+# Fallback: if results file is empty, try alternate extraction methods
+if [ ! -s "$RESULTS_FILE" ]; then
+    echo "WARNING: Primary HTML extraction failed, trying fallback methods..." | tee -a "$LOG_FILE"
+
+    # Try 1: Extract everything from <!DOCTYPE to end of file
+    if grep -q '<!DOCTYPE html>' "$TEMP_OUTPUT"; then
+        echo "Fallback 1: Extracting from <!DOCTYPE to end..." | tee -a "$LOG_FILE"
+        sed -n '/<!DOCTYPE html>/,$p' "$TEMP_OUTPUT" > "$RESULTS_FILE"
+    fi
+fi
+
+# If still empty, try extracting just the HTML without the scorecard marker
+if [ ! -s "$RESULTS_FILE" ]; then
+    if grep -q '<html' "$TEMP_OUTPUT"; then
+        echo "Fallback 2: Extracting from <html tag..." | tee -a "$LOG_FILE"
+        sed -n '/<html/,$p' "$TEMP_OUTPUT" > "$RESULTS_FILE"
+    fi
+fi
+
+# Log diagnostic info if still empty
+if [ ! -s "$RESULTS_FILE" ]; then
+    echo "ERROR: All HTML extraction methods failed" | tee -a "$LOG_FILE"
+    echo "First 50 lines of Claude output:" | tee -a "$LOG_FILE"
+    head -50 "$TEMP_OUTPUT" | tee -a "$LOG_FILE"
+fi
 
 # Extract the ScoreCard update JSON (between <!--SCORECARD_UPDATE: and -->)
 SCORECARD_UPDATE=$(sed -n '/<!--SCORECARD_UPDATE:/,/-->/p' "$TEMP_OUTPUT" | sed '1d;$d')

@@ -1,1 +1,13 @@
-DRY RUN - no actual generation
+I've created the ScoreCard.txt file at `/Users/chadc/dev/GitRepo/Exam-Prep/Pokemon/ScoreCard.txt`. The study plan includes:
+
+- **28 total topics** organized by priority (12 high, 10 medium, 6 low)
+- **All 10 Focus Pokémon** with specific mastery criteria
+- **Key type matchups** based on what appeared in the midterm and study guide
+- **Vocabulary terms** from the matching section (tested on midterm)
+- **Battle roles** and form concepts
+- **Quick reference charts** for the type matchups, 4x weaknesses, and evolution lines
+- **5-phase study plan** covering foundation through final review
+- **14-item self-check** for the night before the exam
+- **10 course-specific study tips**
+
+The scorecard is formatted with checkbox symbols ([ ], [~], [x]) so you can track progress as you study.

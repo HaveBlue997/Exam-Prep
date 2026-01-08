@@ -1,1 +1,1339 @@
-<!-- DRY RUN - no actual generation -->
+Now I have all the course materials. Let me create a diagnostic quiz that covers topics broadly, builds confidence, and follows the standardized format with 19 multiple choice questions and 1 short answer question.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Pokémon Diagnostic Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a2744;
+            --burgundy: #7c2d3e;
+            --cream: #f8f5f0;
+            --gold: #c9a959;
+            --light-gold: rgba(201, 169, 89, 0.2);
+            --dark-navy: #0f1829;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: var(--dark-navy);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .navbar a:hover {
+            color: var(--cream);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .main-content {
+            padding: 2rem 1rem;
+        }
+
+        .header {
+            background: var(--cream);
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 4px solid var(--navy);
+        }
+
+        .header h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--burgundy);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 0 var(--gold);
+            line-height: 1.6;
+        }
+
+        .header p {
+            color: var(--navy);
+            font-size: 1.1rem;
+        }
+
+        .quiz-type-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--cream);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--navy);
+        }
+
+        .intro-message {
+            background: var(--light-gold);
+            padding: 1.5rem;
+            border-left: 4px solid var(--gold);
+            margin-bottom: 2rem;
+            border-radius: 6px;
+        }
+
+        .intro-message h3 {
+            color: var(--burgundy);
+            margin-bottom: 0.75rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+        }
+
+        .intro-message p {
+            color: var(--navy);
+            line-height: 1.7;
+        }
+
+        .name-date {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            padding: 0.75rem;
+            border: 2px solid var(--navy);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Roboto', sans-serif;
+            background: white;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--burgundy);
+            box-shadow: 0 0 0 3px rgba(124, 45, 62, 0.1);
+        }
+
+        .instructions {
+            background: rgba(26, 39, 68, 0.1);
+            padding: 1.5rem;
+            border-left: 4px solid var(--navy);
+            margin-bottom: 2rem;
+            border-radius: 6px;
+        }
+
+        .instructions h3 {
+            color: var(--burgundy);
+            margin-bottom: 0.75rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+        }
+
+        .instructions ul {
+            margin-left: 1.5rem;
+            color: var(--navy);
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--burgundy);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--navy);
+        }
+
+        .question-number {
+            display: inline-block;
+            background: var(--navy);
+            color: var(--gold);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            margin-right: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            display: inline;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--cream);
+            border: 2px solid var(--navy);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            border-color: var(--burgundy);
+            background: var(--light-gold);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--burgundy);
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            color: var(--navy);
+        }
+
+        .option input[type="radio"]:checked + label {
+            color: var(--burgundy);
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid var(--navy);
+            border-radius: 6px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            margin-top: 1rem;
+            background: white;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--burgundy);
+            box-shadow: 0 0 0 3px rgba(124, 45, 62, 0.1);
+        }
+
+        .essay-hint {
+            background: var(--light-gold);
+            padding: 1rem;
+            border-left: 4px solid var(--gold);
+            margin: 1rem 0;
+            border-radius: 6px;
+        }
+
+        .essay-hint strong {
+            color: var(--burgundy);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+        }
+
+        .btn-primary {
+            background: var(--burgundy);
+            color: var(--cream);
+            box-shadow: 0 4px 12px rgba(124, 45, 62, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--navy);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(26, 39, 68, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(26, 39, 68, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--cream);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 2px solid var(--navy);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-header strong {
+            color: var(--burgundy);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background: rgba(26, 39, 68, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--burgundy), var(--gold));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* Grading Overlay */
+        .grading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--burgundy) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .grading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .grading-overlay .spinner {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(201, 169, 89, 0.3);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 2rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .grading-overlay h2 {
+            color: var(--cream);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .grading-overlay p {
+            color: rgba(248, 245, 240, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grading-overlay .status-message {
+            color: var(--gold);
+            font-weight: 700;
+            margin-top: 1rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+        }
+
+        .grading-overlay .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            max-width: 400px;
+            text-align: center;
+            border: 3px solid var(--navy);
+        }
+
+        .grading-overlay .btn {
+            margin-top: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1rem;
+            }
+
+            .name-date {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                font-size: 0.6rem;
+                padding: 0.75rem 1.5rem;
+            }
+
+            .navbar {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .question {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media print {
+            .navbar, .nav-buttons, .submit-section, .grading-overlay {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .main-content {
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+
+            .question {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Grading Overlay -->
+    <div id="grading-overlay" class="grading-overlay">
+        <div class="spinner"></div>
+        <h2>Grading Quiz...</h2>
+        <p>Professor Oak is analyzing your answers</p>
+        <p class="status-message" id="grading-status">Initializing...</p>
+        <div id="grading-error" class="error-message" style="display: none;"></div>
+        <button id="grading-retry-btn" class="btn btn-primary" style="display: none;" onclick="retryGrading()">Try Again</button>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="window.print()">Print</button>
+            <button class="nav-btn" onclick="clearAll()">Clear All</button>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Pokemon Diagnostic Quiz</h1>
+            <p>Baseline Knowledge Assessment</p>
+            <div class="quiz-type-badge">DIAGNOSTIC</div>
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <div class="intro-message">
+                    <h3>Welcome, Trainer!</h3>
+                    <p>This diagnostic quiz helps identify your current knowledge level. Don't worry about getting everything right - this is just a starting point! Your results will help guide your study plan for mastering Pokemon types, matchups, and battle strategy.</p>
+                </div>
+
+                <div class="name-date">
+                    <div class="input-group">
+                        <label for="student-name">Trainer Name *</label>
+                        <input type="text" id="student-name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="quiz-date">Date</label>
+                        <input type="date" id="quiz-date">
+                    </div>
+                </div>
+
+                <div class="instructions">
+                    <h3>Instructions</h3>
+                    <ul>
+                        <li>Answer all 19 multiple choice questions (1 point each)</li>
+                        <li>Complete the short answer question (up to 2 points)</li>
+                        <li>Total possible score: 21 points</li>
+                        <li>Your progress is saved automatically</li>
+                        <li>Click "Submit Quiz" when finished</li>
+                    </ul>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <strong>Progress</strong>
+                        <span id="progress-text">0/20 questions answered</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section A: Multiple Choice -->
+            <div class="card">
+                <h2 class="section-title">Part I: Multiple Choice (19 points)</h2>
+                <p style="margin-bottom: 2rem; color: var(--navy);">Select the best answer for each question.</p>
+
+                <div class="question" data-topic="type-definition">
+                    <span class="question-number">1</span>
+                    <span class="question-text">What is a "type" in Pokemon?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1a" value="a">
+                            <label for="q1a">A Pokemon's personality</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1b" value="b">
+                            <label for="q1b">A category like Fire, Water, or Grass that affects strengths and weaknesses</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1c" value="c">
+                            <label for="q1c">The size of a Pokemon</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1d" value="d">
+                            <label for="q1d">How fast a Pokemon can run</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="pikachu-electric">
+                    <span class="question-number">2</span>
+                    <span class="question-text">What type is Pikachu?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2a" value="a">
+                            <label for="q2a">Normal</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2b" value="b">
+                            <label for="q2b">Electric</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2c" value="c">
+                            <label for="q2c">Fire</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2d" value="d">
+                            <label for="q2d">Water</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="fire-water-grass-triangle">
+                    <span class="question-number">3</span>
+                    <span class="question-text">In the Fire-Water-Grass triangle, which type beats Fire?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3a" value="a">
+                            <label for="q3a">Water</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3b" value="b">
+                            <label for="q3b">Grass</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3c" value="c">
+                            <label for="q3c">Electric</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3d" value="d">
+                            <label for="q3d">Normal</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="super-effective">
+                    <span class="question-number">4</span>
+                    <span class="question-text">What does "super-effective" mean?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4a" value="a">
+                            <label for="q4a">The attack misses</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4b" value="b">
+                            <label for="q4b">The attack does extra damage because the defender is weak to it</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4c" value="c">
+                            <label for="q4c">The attack does reduced damage</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4d" value="d">
+                            <label for="q4d">The attack heals the opponent</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="charizard-fire-flying">
+                    <span class="question-number">5</span>
+                    <span class="question-text">What are Charizard's types?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5a" value="a">
+                            <label for="q5a">Fire/Dragon</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5b" value="b">
+                            <label for="q5b">Fire/Flying</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5c" value="c">
+                            <label for="q5c">Fire/Ground</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5d" value="d">
+                            <label for="q5d">Fire only</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="blastoise-water">
+                    <span class="question-number">6</span>
+                    <span class="question-text">What type is Blastoise?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q6" id="q6a" value="a">
+                            <label for="q6a">Water</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q6" id="q6b" value="b">
+                            <label for="q6b">Water/Rock</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q6" id="q6c" value="c">
+                            <label for="q6c">Ice/Water</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q6" id="q6d" value="d">
+                            <label for="q6d">Normal</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="fire-water-grass-triangle">
+                    <span class="question-number">7</span>
+                    <span class="question-text">Which type is super-effective against Grass?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q7" id="q7a" value="a">
+                            <label for="q7a">Water</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q7" id="q7b" value="b">
+                            <label for="q7b">Fire</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q7" id="q7c" value="c">
+                            <label for="q7c">Electric</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q7" id="q7d" value="d">
+                            <label for="q7d">Ground</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="evolution">
+                    <span class="question-number">8</span>
+                    <span class="question-text">What is "evolution" in Pokemon?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q8" id="q8a" value="a">
+                            <label for="q8a">When a Pokemon learns a new move</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q8" id="q8b" value="b">
+                            <label for="q8b">When a Pokemon changes into a new, usually stronger species</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q8" id="q8c" value="c">
+                            <label for="q8c">When a Pokemon falls asleep</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q8" id="q8d" value="d">
+                            <label for="q8d">When a Pokemon loses a battle</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="electric-type-matchups">
+                    <span class="question-number">9</span>
+                    <span class="question-text">Electric-type moves are super-effective against which types?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q9" id="q9a" value="a">
+                            <label for="q9a">Water and Flying</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q9" id="q9b" value="b">
+                            <label for="q9b">Fire and Grass</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q9" id="q9c" value="c">
+                            <label for="q9c">Ground and Rock</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q9" id="q9d" value="d">
+                            <label for="q9d">Normal and Fighting</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="tank-defender">
+                    <span class="question-number">10</span>
+                    <span class="question-text">What is a "Tank" or "Defender" in battle?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q10" id="q10a" value="a">
+                            <label for="q10a">A Pokemon that tries to knock out opponents quickly</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q10" id="q10b" value="b">
+                            <label for="q10b">A Pokemon that survives hits and stays in battle a long time</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q10" id="q10c" value="c">
+                            <label for="q10c">A Pokemon that always runs away</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q10" id="q10d" value="d">
+                            <label for="q10d">A Pokemon that can only use one move</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="snorlax-normal">
+                    <span class="question-number">11</span>
+                    <span class="question-text">What type is Snorlax?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q11" id="q11a" value="a">
+                            <label for="q11a">Normal</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q11" id="q11b" value="b">
+                            <label for="q11b">Fighting</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q11" id="q11c" value="c">
+                            <label for="q11c">Psychic</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q11" id="q11d" value="d">
+                            <label for="q11d">Ground</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="dual-type">
+                    <span class="question-number">12</span>
+                    <span class="question-text">What does "dual-type" mean?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q12" id="q12a" value="a">
+                            <label for="q12a">A Pokemon that has two different forms</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q12" id="q12b" value="b">
+                            <label for="q12b">A Pokemon that has two types at the same time</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q12" id="q12c" value="c">
+                            <label for="q12c">A Pokemon that can attack twice per turn</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q12" id="q12d" value="d">
+                            <label for="q12d">A Pokemon with two trainers</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="gengar-ghost-poison">
+                    <span class="question-number">13</span>
+                    <span class="question-text">What are Gengar's types?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q13" id="q13a" value="a">
+                            <label for="q13a">Ghost/Poison</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q13" id="q13b" value="b">
+                            <label for="q13b">Ghost/Dark</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q13" id="q13c" value="c">
+                            <label for="q13c">Dark/Poison</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q13" id="q13d" value="d">
+                            <label for="q13d">Ghost only</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="immunity">
+                    <span class="question-number">14</span>
+                    <span class="question-text">What does "immunity" mean in a type matchup?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q14" id="q14a" value="a">
+                            <label for="q14a">Taking half damage</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q14" id="q14b" value="b">
+                            <label for="q14b">Taking double damage</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q14" id="q14c" value="c">
+                            <label for="q14c">Taking no damage at all from that type</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q14" id="q14d" value="d">
+                            <label for="q14d">The move always misses</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="electric-type-matchups">
+                    <span class="question-number">15</span>
+                    <span class="question-text">Which type is super-effective against Electric?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q15" id="q15a" value="a">
+                            <label for="q15a">Ground</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q15" id="q15b" value="b">
+                            <label for="q15b">Water</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q15" id="q15c" value="c">
+                            <label for="q15c">Flying</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q15" id="q15d" value="d">
+                            <label for="q15d">Fire</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="eevee-eeveelutions">
+                    <span class="question-number">16</span>
+                    <span class="question-text">What makes Eevee special among Pokemon?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q16" id="q16a" value="a">
+                            <label for="q16a">It can never evolve</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q16" id="q16b" value="b">
+                            <label for="q16b">It has multiple possible evolutions (branching evolution)</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q16" id="q16c" value="c">
+                            <label for="q16c">It is the strongest Normal type</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q16" id="q16d" value="d">
+                            <label for="q16d">It can learn every move in the game</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="regional-variant">
+                    <span class="question-number">17</span>
+                    <span class="question-text">What is a "regional variant"?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q17" id="q17a" value="a">
+                            <label for="q17a">A Pokemon that looks different and may have a different type depending on the region</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q17" id="q17b" value="b">
+                            <label for="q17b">A Pokemon that only appears once per game</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q17" id="q17c" value="c">
+                            <label for="q17c">A Pokemon that changes type every battle</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q17" id="q17d" value="d">
+                            <label for="q17d">The evolved form of a Pokemon</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="gyarados-water-flying">
+                    <span class="question-number">18</span>
+                    <span class="question-text">Gyarados is Water/Flying. What type deals 4x damage to it?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q18" id="q18a" value="a">
+                            <label for="q18a">Fire</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q18" id="q18b" value="b">
+                            <label for="q18b">Electric</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q18" id="q18c" value="c">
+                            <label for="q18c">Ground</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q18" id="q18d" value="d">
+                            <label for="q18d">Ice</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question" data-topic="not-very-effective-resist">
+                    <span class="question-number">19</span>
+                    <span class="question-text">What does it mean if an attack is "not very effective"?</span>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q19" id="q19a" value="a">
+                            <label for="q19a">The attack does extra damage</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q19" id="q19b" value="b">
+                            <label for="q19b">The attack does reduced damage because the defender resists it</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q19" id="q19c" value="c">
+                            <label for="q19c">The attack always misses</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q19" id="q19d" value="d">
+                            <label for="q19d">The attack hits multiple times</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section B: Short Answer -->
+            <div class="card">
+                <h2 class="section-title">Part II: Short Answer (2 points)</h2>
+                <p style="margin-bottom: 2rem; color: var(--navy);">Answer in 3-6 sentences.</p>
+
+                <div class="question" data-topic="evolution-line">
+                    <span class="question-number">20</span>
+                    <span class="question-text">Name one complete evolution line (from the starter Pokemon families) and explain what happens at each stage. For example, what is the base form, what does it evolve into, and what is its final form?</span>
+                    <div class="essay-hint">
+                        <strong>Hint:</strong> Think about the Kanto starters: Charmander, Squirtle, or Bulbasaur. Each one evolves twice to reach its final form.
+                    </div>
+                    <textarea id="q20" placeholder="Type your answer here..."></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="card submit-section">
+                <h3 style="margin-bottom: 1.5rem; color: var(--navy); font-family: 'Press Start 2P', cursive; font-size: 0.9rem;">Ready to Submit?</h3>
+                <p style="margin-bottom: 2rem; color: var(--navy);">Make sure you've answered all questions. This diagnostic will help identify areas to focus on!</p>
+                <button class="btn btn-primary" onclick="saveAnswers()">Submit Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set today's date
+        document.getElementById('quiz-date').valueAsDate = new Date();
+
+        // Auto-save key
+        const STORAGE_KEY = 'pokemon_diagnostic_quiz_autosave';
+
+        // Progress tracking
+        function updateProgress() {
+            const mcAnswered = Array.from({ length: 19 }, (_, i) => i + 1)
+                .filter(n => document.querySelector(`input[name="q${n}"]:checked`)).length;
+
+            const essay = document.getElementById('q20').value.trim().length > 0 ? 1 : 0;
+
+            const total = mcAnswered + essay;
+            const percentage = (total / 20) * 100;
+            
+            document.getElementById('progress-text').textContent = `${total}/20 questions answered`;
+            document.getElementById('progress-fill').style.width = `${percentage}%`;
+            
+            // Auto-save
+            autoSave();
+        }
+
+        // Auto-save functionality
+        function autoSave() {
+            const data = {
+                name: document.getElementById('student-name').value,
+                date: document.getElementById('quiz-date').value,
+                answers: {}
+            };
+
+            // Save MC answers
+            for (let i = 1; i <= 19; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) {
+                    data.answers[`q${i}`] = selected.value;
+                }
+            }
+
+            // Save short answer
+            data.answers.q20 = document.getElementById('q20').value;
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        // Load auto-saved data
+        function loadAutoSave() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    
+                    if (data.name) document.getElementById('student-name').value = data.name;
+                    if (data.date) document.getElementById('quiz-date').value = data.date;
+                    
+                    if (data.answers) {
+                        // Load MC answers
+                        for (let i = 1; i <= 19; i++) {
+                            if (data.answers[`q${i}`]) {
+                                const radio = document.querySelector(`input[name="q${i}"][value="${data.answers[`q${i}`]}"]`);
+                                if (radio) radio.checked = true;
+                            }
+                        }
+                        
+                        // Load short answer
+                        if (data.answers.q20) {
+                            document.getElementById('q20').value = data.answers.q20;
+                        }
+                    }
+                    
+                    updateProgress();
+                } catch (e) {
+                    console.error('Error loading auto-save:', e);
+                }
+            }
+        }
+
+        // Clear all answers
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all answers? This cannot be undone.')) {
+                // Clear MC answers
+                for (let i = 1; i <= 19; i++) {
+                    const radios = document.querySelectorAll(`input[name="q${i}"]`);
+                    radios.forEach(r => r.checked = false);
+                }
+                
+                // Clear short answer
+                document.getElementById('q20').value = '';
+                
+                // Clear name (but keep date)
+                document.getElementById('student-name').value = '';
+                
+                // Clear auto-save
+                localStorage.removeItem(STORAGE_KEY);
+                
+                updateProgress();
+            }
+        }
+
+        // Add event listeners
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', updateProgress);
+        });
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', updateProgress);
+        });
+        document.getElementById('student-name').addEventListener('input', autoSave);
+
+        // Load saved data on page load
+        loadAutoSave();
+
+        // Grading overlay functions
+        function showGradingOverlay() {
+            document.getElementById('grading-overlay').classList.add('active');
+            document.getElementById('grading-status').textContent = 'Initializing...';
+            document.getElementById('grading-error').style.display = 'none';
+            document.getElementById('grading-retry-btn').style.display = 'none';
+        }
+
+        function hideGradingOverlay() {
+            document.getElementById('grading-overlay').classList.remove('active');
+        }
+
+        function updateGradingStatus(message) {
+            document.getElementById('grading-status').textContent = message;
+        }
+
+        function showGradingError(message) {
+            document.getElementById('grading-error').textContent = message;
+            document.getElementById('grading-error').style.display = 'block';
+            document.getElementById('grading-retry-btn').style.display = 'inline-block';
+            document.querySelector('#grading-overlay .spinner').style.display = 'none';
+        }
+
+        function retryGrading() {
+            hideGradingOverlay();
+            document.querySelector('#grading-overlay .spinner').style.display = 'block';
+            saveAnswers();
+        }
+
+        // Poll for grading status
+        async function pollGradingStatus(jobId) {
+            const maxAttempts = 120;
+            let attempts = 0;
+
+            const poll = async () => {
+                attempts++;
+                try {
+                    const response = await fetch(`/api/grading-status/${jobId}`);
+                    const data = await response.json();
+
+                    if (data.status === 'complete' && data.resultsUrl) {
+                        updateGradingStatus('Grading complete! Redirecting...');
+                        localStorage.removeItem(STORAGE_KEY);
+                        setTimeout(() => {
+                            window.location.href = data.resultsUrl;
+                        }, 1000);
+                        return;
+                    } else if (data.status === 'error') {
+                        showGradingError(data.error || 'Grading failed. Please try again.');
+                        return;
+                    } else if (data.status === 'processing') {
+                        updateGradingStatus(`Professor Oak is analyzing... (${attempts * 2}s)`);
+                        if (attempts < maxAttempts) {
+                            setTimeout(poll, 2000);
+                        } else {
+                            showGradingError('Grading is taking longer than expected. Please check back later.');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error polling status:', error);
+                    if (attempts < maxAttempts) {
+                        setTimeout(poll, 2000);
+                    } else {
+                        showGradingError('Connection lost. Please refresh the page.');
+                    }
+                }
+            };
+
+            poll();
+        }
+
+        // Save answers
+        async function saveAnswers() {
+            const name = document.getElementById('student-name').value || 'Unknown';
+            const date = document.getElementById('quiz-date').value || new Date().toISOString().split('T')[0];
+
+            // Validate name
+            if (!document.getElementById('student-name').value.trim()) {
+                alert('Please enter your trainer name before submitting!');
+                document.getElementById('student-name').focus();
+                return;
+            }
+
+            // Create timestamp
+            const now = new Date();
+            const timestamp = now.toISOString().replace(/[:.]/g, '-').replace('T', '_').split('.')[0];
+
+            let content = `POKEMON DIAGNOSTIC QUIZ\n`;
+            content += `Trainer: ${name}\n`;
+            content += `Date: ${date}\n`;
+            content += `Submitted: ${now.toLocaleString()}\n`;
+            content += `Quiz Type: Diagnostic (Baseline Assessment)\n`;
+            content += `\n${'='.repeat(60)}\n\n`;
+
+            // Multiple Choice
+            content += `PART I: MULTIPLE CHOICE (19 questions, 1 point each)\n`;
+            content += `${'-'.repeat(40)}\n`;
+            for (let i = 1; i <= 19; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const answer = selected ? selected.value : '(not answered)';
+                content += `Q${i}: ${answer}\n`;
+            }
+
+            // Short Answer
+            content += `\nPART II: SHORT ANSWER (1 question, 0-2 points)\n`;
+            content += `${'-'.repeat(40)}\n`;
+            const answer20 = document.getElementById('q20').value || '(not answered)';
+            content += `\nQ20:\n${answer20}\n`;
+
+            // Show grading overlay
+            showGradingOverlay();
+            updateGradingStatus('Saving your answers...');
+
+            // Try to save to server
+            try {
+                const response = await fetch('/api/answers/Pokemon', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        date,
+                        timestamp,
+                        answers: content,
+                        quizName: 'Pokemon_Diagnostic_Quiz'
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Saved to server:', result);
+
+                    if (result.jobId) {
+                        updateGradingStatus('Answers saved. Professor Oak is grading...');
+                        pollGradingStatus(result.jobId);
+                    } else {
+                        hideGradingOverlay();
+                        localStorage.removeItem(STORAGE_KEY);
+                        alert('Success! Your answers have been saved.\n\nFile: ' + result.filename);
+                    }
+                } else {
+                    throw new Error('Server returned error: ' + response.status);
+                }
+            } catch (error) {
+                // Fallback to local download
+                console.error('Failed to save to server, downloading locally:', error);
+                hideGradingOverlay();
+                alert('Could not connect to server. Downloading answers to your device instead.');
+
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Pokemon_Diagnostic_Quiz_${name.replace(/\s+/g, '_')}_${timestamp}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+    </script>
+</body>
+</html>

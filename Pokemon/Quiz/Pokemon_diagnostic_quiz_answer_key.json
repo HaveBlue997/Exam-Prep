@@ -1,1 +1,153 @@
-{"dryRun": true, "message": "DRY RUN - no actual generation"}
+{
+  "quizName": "Pokemon Diagnostic Quiz",
+  "generatedFor": "Student",
+  "generatedAt": "2026-01-08_11-04-50",
+  "quizType": "diagnostic",
+  "format": "19 multiple choice + 1 short answer = 20 total questions",
+  "answers": {
+    "q1": {
+      "correct": "b",
+      "topic": "type-definition",
+      "explanation": "A type is a category like Fire, Water, or Grass that determines a Pokemon's strengths and weaknesses in battle."
+    },
+    "q2": {
+      "correct": "b",
+      "topic": "pikachu-electric",
+      "explanation": "Pikachu is the iconic Electric-type Pokemon, known for its electric attacks like Thunderbolt."
+    },
+    "q3": {
+      "correct": "a",
+      "topic": "fire-water-grass-triangle",
+      "explanation": "In the Fire-Water-Grass triangle, Water beats Fire, Fire beats Grass, and Grass beats Water."
+    },
+    "q4": {
+      "correct": "b",
+      "topic": "super-effective",
+      "explanation": "Super-effective means the attack does extra damage (typically 2x) because the defender's type is weak to the attack type."
+    },
+    "q5": {
+      "correct": "b",
+      "topic": "charizard-fire-flying",
+      "explanation": "Charizard is a Fire/Flying dual-type Pokemon, which gives it a 4x weakness to Rock-type moves."
+    },
+    "q6": {
+      "correct": "a",
+      "topic": "blastoise-water",
+      "explanation": "Blastoise is a pure Water-type Pokemon, the final evolution of Squirtle."
+    },
+    "q7": {
+      "correct": "b",
+      "topic": "fire-water-grass-triangle",
+      "explanation": "Fire is super-effective against Grass in the type triangle. Ice and Flying are also super-effective against Grass."
+    },
+    "q8": {
+      "correct": "b",
+      "topic": "evolution",
+      "explanation": "Evolution is when a Pokemon changes into a new species, usually becoming stronger with improved stats."
+    },
+    "q9": {
+      "correct": "a",
+      "topic": "electric-type-matchups",
+      "explanation": "Electric-type moves are super-effective against Water and Flying types, making Pokemon like Pikachu great against Gyarados."
+    },
+    "q10": {
+      "correct": "b",
+      "topic": "tank-defender",
+      "explanation": "A Tank or Defender is a Pokemon that can survive many hits and stay in battle, like Snorlax or Blastoise."
+    },
+    "q11": {
+      "correct": "a",
+      "topic": "snorlax-normal",
+      "explanation": "Snorlax is a Normal-type Pokemon known for its high HP and defensive capabilities. Fighting beats Normal."
+    },
+    "q12": {
+      "correct": "b",
+      "topic": "dual-type",
+      "explanation": "Dual-type means a Pokemon has two types simultaneously, like Charizard being Fire/Flying, combining both types' strengths and weaknesses."
+    },
+    "q13": {
+      "correct": "a",
+      "topic": "gengar-ghost-poison",
+      "explanation": "Gengar is a Ghost/Poison dual-type Pokemon, giving it immunity to Normal and Fighting-type moves."
+    },
+    "q14": {
+      "correct": "c",
+      "topic": "immunity",
+      "explanation": "Immunity means taking zero damage from a certain type. For example, Ghost types are immune to Normal-type moves."
+    },
+    "q15": {
+      "correct": "a",
+      "topic": "electric-type-matchups",
+      "explanation": "Ground is the only type that is super-effective against Electric. Ground types are also immune to Electric moves."
+    },
+    "q16": {
+      "correct": "b",
+      "topic": "eevee-eeveelutions",
+      "explanation": "Eevee has multiple possible evolutions (Eeveelutions) including Vaporeon, Jolteon, Flareon, and others, making it unique among Pokemon."
+    },
+    "q17": {
+      "correct": "a",
+      "topic": "regional-variant",
+      "explanation": "A regional variant is when a Pokemon looks different and may have different types in another region, like Alolan Vulpix being Ice-type instead of Fire."
+    },
+    "q18": {
+      "correct": "b",
+      "topic": "gyarados-water-flying",
+      "explanation": "Electric deals 4x damage to Gyarados because both Water and Flying are weak to Electric, and weaknesses multiply in dual-types."
+    },
+    "q19": {
+      "correct": "b",
+      "topic": "not-very-effective-resist",
+      "explanation": "Not very effective means the attack does reduced damage (typically 0.5x) because the defender resists that type."
+    },
+    "q20": {
+      "type": "short_answer",
+      "topic": "evolution-line",
+      "keyPoints": [
+        "Names a complete three-stage evolution line (e.g., Charmander -> Charmeleon -> Charizard)",
+        "Correctly identifies the base form, middle evolution, and final form",
+        "Explains that Pokemon become stronger/change appearance as they evolve"
+      ]
+    }
+  },
+  "totalPoints": {
+    "multipleChoice": 19,
+    "shortAnswer": 2,
+    "total": 21
+  },
+  "difficultyDistribution": {
+    "foundational": "50% - Questions 1, 2, 3, 4, 6, 8, 10, 11, 14, 19",
+    "intermediate": "35% - Questions 5, 7, 9, 12, 13, 15, 16",
+    "challenging": "15% - Questions 17, 18, 20"
+  },
+  "topicCoverage": {
+    "focusPokemon": [
+      "pikachu-electric",
+      "charizard-fire-flying",
+      "blastoise-water",
+      "gengar-ghost-poison",
+      "gyarados-water-flying",
+      "eevee-eeveelutions",
+      "snorlax-normal"
+    ],
+    "coreMatchups": [
+      "fire-water-grass-triangle",
+      "electric-type-matchups"
+    ],
+    "vocabulary": [
+      "type-definition",
+      "super-effective",
+      "not-very-effective-resist",
+      "immunity",
+      "dual-type"
+    ],
+    "formsEvolution": [
+      "evolution",
+      "evolution-line",
+      "regional-variant"
+    ],
+    "battleRoles": [
+      "tank-defender"
+    ]
+  }
+}

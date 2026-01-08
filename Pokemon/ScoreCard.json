@@ -1,7 +1,159 @@
 {
   "class": "Pokemon",
-  "sessions": [],
-  "overallWeakAreas": [],
-  "overallStrongAreas": [],
-  "lastUpdated": null
+  "sessions": [
+    {
+      "date": "2026-01-08T17:36:22Z",
+      "quiz": "Pokemon_Diagnostic_Quiz",
+      "student": "Blake",
+      "score": 20,
+      "totalQuestions": 20,
+      "totalPoints": 21,
+      "earnedPoints": 20,
+      "percentage": 95,
+      "byTopic": {
+        "type-definition": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "pikachu-electric": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "fire-water-grass-triangle": {
+          "correct": 2,
+          "total": 2,
+          "percentage": 100
+        },
+        "super-effective": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "charizard-fire-flying": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "blastoise-water": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "evolution": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "electric-type-matchups": {
+          "correct": 2,
+          "total": 2,
+          "percentage": 100
+        },
+        "tank-defender": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "snorlax-normal": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "dual-type": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "gengar-ghost-poison": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "immunity": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "eevee-eeveelutions": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "regional-variant": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "gyarados-water-flying": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "not-very-effective-resist": {
+          "correct": 1,
+          "total": 1,
+          "percentage": 100
+        },
+        "evolution-line": {
+          "correct": 1,
+          "total": 2,
+          "percentage": 50
+        }
+      },
+      "weakAreas": [
+        "evolution-line"
+      ],
+      "strongAreas": [
+        "type-definition",
+        "pikachu-electric",
+        "fire-water-grass-triangle",
+        "super-effective",
+        "charizard-fire-flying",
+        "blastoise-water",
+        "evolution",
+        "electric-type-matchups",
+        "tank-defender",
+        "snorlax-normal",
+        "dual-type",
+        "gengar-ghost-poison",
+        "immunity",
+        "eevee-eeveelutions",
+        "regional-variant",
+        "gyarados-water-flying",
+        "not-very-effective-resist"
+      ],
+      "resultsFile": "Pokemon_Diagnostic_Quiz_Blake_2026-01-08_17-36-22-159Z_results.html"
+    },
+    {
+      "date": "2026-01-08T12:39:54-05:00",
+      "quiz": "Pokemon_Diagnostic_Quiz",
+      "student": "Blake",
+      "resultsFile": "Pokemon_Diagnostic_Quiz_Blake_2026-01-08_17-36-22-159Z_results.html"
+    }
+  ],
+  "overallWeakAreas": [
+    "evolution-line"
+  ],
+  "overallStrongAreas": [
+    "type-definition",
+    "pikachu-electric",
+    "fire-water-grass-triangle",
+    "super-effective",
+    "charizard-fire-flying",
+    "blastoise-water",
+    "evolution",
+    "electric-type-matchups",
+    "tank-defender",
+    "snorlax-normal",
+    "dual-type",
+    "gengar-ghost-poison",
+    "immunity",
+    "eevee-eeveelutions",
+    "regional-variant",
+    "gyarados-water-flying",
+    "not-very-effective-resist"
+  ],
+  "lastUpdated": "2026-01-08T17:39:54Z"
 }
