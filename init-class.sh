@@ -1,7 +1,11 @@
 #!/bin/bash
 # init-class.sh - Initialize a new class or regenerate an existing one
 #
-# Usage: ./init-class.sh ClassName
+# Usage: ./init-class.sh ClassName [--dry-run|-n]
+#
+# Options:
+#   --dry-run, -n   Log commands without executing claude CLI invocations.
+#                   Preserves prompt files for inspection and creates placeholder outputs.
 #
 # This script reads Guide materials and generates:
 # 1. Prepare/ScoreCard.txt - Human-readable study plan with topic checklist
@@ -17,6 +21,12 @@
 # Processing time: ~2-3 minutes (involves multiple AI calls)
 
 CLASS_NAME=$1
+DRY_RUN=false
+
+# Parse optional second argument for dry-run mode
+if [ "$2" = "--dry-run" ] || [ "$2" = "-n" ]; then
+    DRY_RUN=true
+fi
 
 # Get project root (directory containing this script)
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
@@ -56,6 +66,53 @@ log_error() {
     log "${RED}✗${NC} $1"
 }
 
+# Helper function to log and execute claude commands
+# Arguments: prompt_file output_file timeout_val description
+run_claude() {
+    local prompt_file="$1"
+    local output_file="$2"
+    local timeout_val="$3"
+    local description="$4"
+
+    log ""
+    log "=== EXECUTING COMMAND ==="
+    log "  Description: $description"
+    log "  Prompt file: $prompt_file"
+    log "  Output file: $output_file"
+    log "  Timeout: ${timeout_val}s"
+
+    # Determine which timeout command to use
+    local timeout_cmd=""
+    if command -v gtimeout &> /dev/null; then
+        timeout_cmd="gtimeout $timeout_val"
+    elif command -v timeout &> /dev/null; then
+        timeout_cmd="timeout $timeout_val"
+    fi
+
+    if [ -n "$timeout_cmd" ]; then
+        log "  Command: $timeout_cmd claude -p --dangerously-skip-permissions < \"$prompt_file\" > \"$output_file\""
+    else
+        log "  Command: claude -p --dangerously-skip-permissions < \"$prompt_file\" > \"$output_file\""
+    fi
+    log "========================="
+
+    if [ "$DRY_RUN" = true ]; then
+        log "  ${YELLOW}[DRY RUN - Skipping execution]${NC}"
+        # Create placeholder output
+        echo "DRY RUN - no actual generation" > "$output_file"
+        return 0
+    fi
+
+    # Actual execution
+    if [ -n "$timeout_cmd" ]; then
+        $timeout_cmd claude -p --dangerously-skip-permissions < "$prompt_file" > "$output_file" 2>> "$LOG_FILE"
+    else
+        claude -p --dangerously-skip-permissions < "$prompt_file" > "$output_file" 2>> "$LOG_FILE"
+    fi
+
+    return $?
+}
+
 # Header
 log ""
 log "============================================="
@@ -64,13 +121,20 @@ log "============================================="
 log "Class: $CLASS_NAME"
 log "Timestamp: $TIMESTAMP"
 log "Log file: $LOG_FILE"
+if [ "$DRY_RUN" = true ]; then
+    log "${YELLOW}Mode: DRY RUN (no claude invocations)${NC}"
+fi
 log "============================================="
 log ""
 
 # Validate argument
 if [ -z "$CLASS_NAME" ]; then
     log_error "No class name provided"
-    log "Usage: ./init-class.sh ClassName"
+    log "Usage: ./init-class.sh ClassName [--dry-run|-n]"
+    log ""
+    log "Options:"
+    log "  --dry-run, -n   Log commands without executing claude CLI invocations."
+    log "                  Preserves prompt files for inspection and creates placeholder outputs."
     exit 1
 fi
 
@@ -125,57 +189,48 @@ if ! command -v claude &> /dev/null; then
     exit 1
 fi
 
-# Read Guide materials with priority ordering
-log_step "Reading Guide materials..."
+# Build list of Guide material file paths (Claude will read them directly)
+log_step "Cataloging Guide materials..."
 
-GUIDE_CONTENT=""
-SYLLABUS_CONTENT=""
-TEST_CONTENT=""
-QUIZ_CONTENT=""
-OTHER_CONTENT=""
+GUIDE_FILES=""
+SYLLABUS_FILES=""
+TEST_FILES=""
+QUIZ_FILES=""
+OTHER_FILES=""
 
 for guide_file in "$GUIDE_DIR"/*; do
     if [ -f "$guide_file" ] && [ "$(basename "$guide_file")" != ".gitkeep" ]; then
         filename=$(basename "$guide_file")
         filename_lower=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
-        file_content=$(cat "$guide_file")
 
-        log "  Loading: $filename"
+        log "  Found: $filename"
 
-        # Categorize by priority
+        # Categorize by priority (pass file paths, not contents)
         if [[ "$filename_lower" == *"syllabus"* ]] || [[ "$filename_lower" == *"study"* ]] || [[ "$filename_lower" == *"guide"* ]]; then
-            SYLLABUS_CONTENT="$SYLLABUS_CONTENT
-
-=== $filename (SYLLABUS/STUDY GUIDE - HIGH PRIORITY) ===
-$file_content"
+            SYLLABUS_FILES="$SYLLABUS_FILES
+- $guide_file (SYLLABUS/STUDY GUIDE - HIGH PRIORITY)"
         elif [[ "$filename_lower" == *"test"* ]] || [[ "$filename_lower" == *"exam"* ]] || [[ "$filename_lower" == *"midterm"* ]] || [[ "$filename_lower" == *"final"* ]]; then
-            TEST_CONTENT="$TEST_CONTENT
-
-=== $filename (PREVIOUS TEST - MEDIUM PRIORITY) ===
-$file_content"
+            TEST_FILES="$TEST_FILES
+- $guide_file (PREVIOUS TEST - MEDIUM PRIORITY)"
         elif [[ "$filename_lower" == *"quiz"* ]]; then
-            QUIZ_CONTENT="$QUIZ_CONTENT
-
-=== $filename (PREVIOUS QUIZ - LOWER PRIORITY) ===
-$file_content"
+            QUIZ_FILES="$QUIZ_FILES
+- $guide_file (PREVIOUS QUIZ - LOWER PRIORITY)"
         else
-            OTHER_CONTENT="$OTHER_CONTENT
-
-=== $filename ===
-$file_content"
+            OTHER_FILES="$OTHER_FILES
+- $guide_file"
         fi
     fi
 done
 
 # Combine in priority order
-GUIDE_CONTENT="$SYLLABUS_CONTENT$TEST_CONTENT$QUIZ_CONTENT$OTHER_CONTENT"
+GUIDE_FILES="$SYLLABUS_FILES$TEST_FILES$QUIZ_FILES$OTHER_FILES"
 
-if [ -z "$GUIDE_CONTENT" ]; then
-    log_error "Failed to read any Guide materials"
+if [ -z "$GUIDE_FILES" ]; then
+    log_error "No Guide materials found"
     exit 1
 fi
 
-log_success "Guide materials loaded"
+log_success "Guide materials cataloged"
 
 # ============================================
 # STEP 1: Generate ScoreCard.txt
@@ -188,13 +243,16 @@ SCORECARD_PROMPT="You are creating a comprehensive study plan and topic checklis
 === CLASS NAME ===
 $CLASS_NAME
 
-=== COURSE MATERIALS ===
-$GUIDE_CONTENT
+=== COURSE MATERIAL FILES ===
+Read and analyze the following files (listed by priority):
+$GUIDE_FILES
+
+IMPORTANT: You must READ each file above using your file reading capability. These files may include PDFs, images, or text documents. Read them all before proceeding.
 
 === YOUR TASK ===
 Create a ScoreCard.txt file - a human-readable study plan with topic checklist.
 
-IMPORTANT: Analyze the course materials to identify:
+After reading all course materials, analyze them to identify:
 1. All testable topics from the syllabus/study guide
 2. Question types and formats from previous tests/quizzes
 3. Teacher's grading style and expectations
@@ -310,23 +368,33 @@ printf '%s' "$SCORECARD_PROMPT" > "$PROMPT_FILE"
 
 TEMP_OUTPUT="$LOG_DIR/output_scorecard_${TIMESTAMP}.tmp"
 
-if command -v gtimeout &> /dev/null; then
-    gtimeout 300 claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
-elif command -v timeout &> /dev/null; then
-    timeout 300 claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
-else
-    claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
+run_claude "$PROMPT_FILE" "$TEMP_OUTPUT" 300 "Generate ScoreCard.txt (study plan)"
+
+if [ $? -ne 0 ]; then
+    log_error "Failed to generate ScoreCard.txt"
+    if [ "$DRY_RUN" != true ]; then
+        rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+    fi
+    exit 1
 fi
 
-if [ $? -ne 0 ] || [ ! -s "$TEMP_OUTPUT" ]; then
-    log_error "Failed to generate ScoreCard.txt"
+if [ "$DRY_RUN" != true ] && [ ! -s "$TEMP_OUTPUT" ]; then
+    log_error "Failed to generate ScoreCard.txt (empty output)"
     rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
     exit 1
 fi
 
 # Save ScoreCard.txt
 mv "$TEMP_OUTPUT" "$SCORECARD_TXT"
-rm -f "$PROMPT_FILE"
+
+# In dry-run mode, preserve prompt file; otherwise remove it
+if [ "$DRY_RUN" = true ]; then
+    PRESERVED_PROMPT="$LOG_DIR/preserved_prompt_scorecard_${TIMESTAMP}.txt"
+    mv "$PROMPT_FILE" "$PRESERVED_PROMPT"
+    log "  ${BLUE}Prompt preserved:${NC} $PRESERVED_PROMPT"
+else
+    rm -f "$PROMPT_FILE"
+fi
 
 log_success "ScoreCard.txt created: $SCORECARD_TXT"
 
@@ -382,22 +450,27 @@ printf '%s' "$TOPIC_INDEX_PROMPT" > "$PROMPT_FILE"
 
 TEMP_OUTPUT="$LOG_DIR/output_topicindex_${TIMESTAMP}.tmp"
 
-if command -v gtimeout &> /dev/null; then
-    gtimeout 180 claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
-elif command -v timeout &> /dev/null; then
-    timeout 180 claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
-else
-    claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
+run_claude "$PROMPT_FILE" "$TEMP_OUTPUT" 180 "Generate topic-index.json"
+
+if [ $? -ne 0 ]; then
+    log_error "Failed to generate topic-index.json"
+    if [ "$DRY_RUN" != true ]; then
+        rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+    fi
+    exit 1
 fi
 
-if [ $? -ne 0 ] || [ ! -s "$TEMP_OUTPUT" ]; then
-    log_error "Failed to generate topic-index.json"
+if [ "$DRY_RUN" != true ] && [ ! -s "$TEMP_OUTPUT" ]; then
+    log_error "Failed to generate topic-index.json (empty output)"
     rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
     exit 1
 fi
 
-# Validate and format JSON
-if command -v jq &> /dev/null; then
+# Validate and format JSON (skip validation in dry-run mode)
+if [ "$DRY_RUN" = true ]; then
+    mv "$TEMP_OUTPUT" "$TOPIC_INDEX"
+    log_success "topic-index.json created: $TOPIC_INDEX"
+elif command -v jq &> /dev/null; then
     if jq . "$TEMP_OUTPUT" > "$TOPIC_INDEX" 2>/dev/null; then
         log_success "topic-index.json created: $TOPIC_INDEX"
     else
@@ -409,7 +482,14 @@ else
     log_success "topic-index.json created: $TOPIC_INDEX"
 fi
 
-rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+# In dry-run mode, preserve prompt file; otherwise remove it
+if [ "$DRY_RUN" = true ]; then
+    PRESERVED_PROMPT="$LOG_DIR/preserved_prompt_topicindex_${TIMESTAMP}.txt"
+    mv "$PROMPT_FILE" "$PRESERVED_PROMPT"
+    log "  ${BLUE}Prompt preserved:${NC} $PRESERVED_PROMPT"
+else
+    rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+fi
 
 # ============================================
 # STEP 3: Initialize ScoreCard.json
@@ -449,8 +529,11 @@ DIAGNOSTIC_PROMPT="You are creating an initial diagnostic quiz to assess a stude
 === CLASS NAME ===
 $CLASS_NAME
 
-=== COURSE MATERIALS ===
-$GUIDE_CONTENT
+=== COURSE MATERIAL FILES ===
+Read and analyze the following files (listed by priority):
+$GUIDE_FILES
+
+IMPORTANT: You must READ each file above using your file reading capability. These files may include PDFs, images, or text documents. Read them all before proceeding.
 
 === TOPIC INDEX ===
 $TOPIC_INDEX_CONTENT
@@ -550,70 +633,108 @@ printf '%s' "$DIAGNOSTIC_PROMPT" > "$PROMPT_FILE"
 
 TEMP_OUTPUT="$LOG_DIR/output_diagnostic_${TIMESTAMP}.tmp"
 
-if command -v gtimeout &> /dev/null; then
-    gtimeout 300 claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
-elif command -v timeout &> /dev/null; then
-    timeout 300 claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
-else
-    claude -p --dangerously-skip-permissions < "$PROMPT_FILE" > "$TEMP_OUTPUT" 2>> "$LOG_FILE"
+run_claude "$PROMPT_FILE" "$TEMP_OUTPUT" 300 "Generate diagnostic quiz"
+
+if [ $? -ne 0 ]; then
+    log_error "Failed to generate diagnostic quiz"
+    if [ "$DRY_RUN" != true ]; then
+        rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+    fi
+    exit 1
 fi
 
-if [ $? -ne 0 ] || [ ! -s "$TEMP_OUTPUT" ]; then
-    log_error "Failed to generate diagnostic quiz"
+if [ "$DRY_RUN" != true ] && [ ! -s "$TEMP_OUTPUT" ]; then
+    log_error "Failed to generate diagnostic quiz (empty output)"
     rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
     exit 1
 fi
 
-# Extract HTML (everything before <!--ANSWER_KEY:)
-TEMP_QUIZ="$LOG_DIR/quiz_temp_${TIMESTAMP}.html"
-sed -n '1,/<!--ANSWER_KEY:/p' "$TEMP_OUTPUT" | sed '$d' > "$TEMP_QUIZ"
+# In dry-run mode, create placeholder files and preserve prompt
+if [ "$DRY_RUN" = true ]; then
+    echo "<!-- DRY RUN - no actual generation -->" > "$DIAGNOSTIC_QUIZ"
+    log_success "Diagnostic quiz created (placeholder): $DIAGNOSTIC_QUIZ"
 
-# Verify HTML
-if [ ! -s "$TEMP_QUIZ" ] || ! head -5 "$TEMP_QUIZ" | grep -q "DOCTYPE\|html"; then
-    log_error "Output does not appear to be valid HTML"
-    rm -f "$PROMPT_FILE" "$TEMP_OUTPUT" "$TEMP_QUIZ"
-    exit 1
-fi
+    echo '{"dryRun": true, "message": "DRY RUN - no actual generation"}' > "$DIAGNOSTIC_ANSWER_KEY"
+    log_success "Answer key created (placeholder): $DIAGNOSTIC_ANSWER_KEY"
 
-# Save quiz
-mv "$TEMP_QUIZ" "$DIAGNOSTIC_QUIZ"
-log_success "Diagnostic quiz created: $DIAGNOSTIC_QUIZ"
-
-# Extract and save answer key
-ANSWER_KEY=$(sed -n '/<!--ANSWER_KEY:/,/-->/p' "$TEMP_OUTPUT" | sed '1d;$d')
-if [ -n "$ANSWER_KEY" ]; then
-    if command -v jq &> /dev/null && echo "$ANSWER_KEY" | jq . > /dev/null 2>&1; then
-        echo "$ANSWER_KEY" | jq . > "$DIAGNOSTIC_ANSWER_KEY"
-    else
-        echo "$ANSWER_KEY" > "$DIAGNOSTIC_ANSWER_KEY"
-    fi
-    log_success "Answer key created: $DIAGNOSTIC_ANSWER_KEY"
+    PRESERVED_PROMPT="$LOG_DIR/preserved_prompt_diagnostic_${TIMESTAMP}.txt"
+    mv "$PROMPT_FILE" "$PRESERVED_PROMPT"
+    log "  ${BLUE}Prompt preserved:${NC} $PRESERVED_PROMPT"
+    rm -f "$TEMP_OUTPUT"
 else
-    log_warning "No answer key found in output"
-fi
+    # Extract HTML (everything before <!--ANSWER_KEY:)
+    TEMP_QUIZ="$LOG_DIR/quiz_temp_${TIMESTAMP}.html"
+    sed -n '1,/<!--ANSWER_KEY:/p' "$TEMP_OUTPUT" | sed '$d' > "$TEMP_QUIZ"
 
-rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+    # Verify HTML
+    if [ ! -s "$TEMP_QUIZ" ] || ! head -5 "$TEMP_QUIZ" | grep -q "DOCTYPE\|html"; then
+        log_error "Output does not appear to be valid HTML"
+        rm -f "$PROMPT_FILE" "$TEMP_OUTPUT" "$TEMP_QUIZ"
+        exit 1
+    fi
+
+    # Save quiz
+    mv "$TEMP_QUIZ" "$DIAGNOSTIC_QUIZ"
+    log_success "Diagnostic quiz created: $DIAGNOSTIC_QUIZ"
+
+    # Extract and save answer key
+    ANSWER_KEY=$(sed -n '/<!--ANSWER_KEY:/,/-->/p' "$TEMP_OUTPUT" | sed '1d;$d')
+    if [ -n "$ANSWER_KEY" ]; then
+        if command -v jq &> /dev/null && echo "$ANSWER_KEY" | jq . > /dev/null 2>&1; then
+            echo "$ANSWER_KEY" | jq . > "$DIAGNOSTIC_ANSWER_KEY"
+        else
+            echo "$ANSWER_KEY" > "$DIAGNOSTIC_ANSWER_KEY"
+        fi
+        log_success "Answer key created: $DIAGNOSTIC_ANSWER_KEY"
+    else
+        log_warning "No answer key found in output"
+    fi
+
+    rm -f "$PROMPT_FILE" "$TEMP_OUTPUT"
+fi
 
 # ============================================
 # Summary
 # ============================================
 log ""
 log "============================================="
-log "${GREEN}  Class Initialization Complete!${NC}"
+if [ "$DRY_RUN" = true ]; then
+    log "${YELLOW}  DRY RUN Complete!${NC}"
+else
+    log "${GREEN}  Class Initialization Complete!${NC}"
+fi
 log "============================================="
 log ""
-log "Created files:"
-log "  ${GREEN}✓${NC} $SCORECARD_TXT"
-log "  ${GREEN}✓${NC} $TOPIC_INDEX"
-log "  ${GREEN}✓${NC} $SCORECARD_JSON"
-log "  ${GREEN}✓${NC} $DIAGNOSTIC_QUIZ"
-log "  ${GREEN}✓${NC} $DIAGNOSTIC_ANSWER_KEY"
-log ""
-log "Next steps:"
-log "  1. Start the server: cd Server && npm start"
-log "  2. Open http://localhost:3000"
-log "  3. Select '$CLASS_NAME' and take the diagnostic quiz"
-log "  4. After grading, an adaptive quiz will be generated"
+
+if [ "$DRY_RUN" = true ]; then
+    log "Placeholder files created (no actual generation):"
+    log "  ${YELLOW}~${NC} $SCORECARD_TXT"
+    log "  ${YELLOW}~${NC} $TOPIC_INDEX"
+    log "  ${GREEN}✓${NC} $SCORECARD_JSON (static file, always created)"
+    log "  ${YELLOW}~${NC} $DIAGNOSTIC_QUIZ"
+    log "  ${YELLOW}~${NC} $DIAGNOSTIC_ANSWER_KEY"
+    log ""
+    log "Preserved prompt files for inspection:"
+    log "  ${BLUE}*${NC} $LOG_DIR/preserved_prompt_scorecard_${TIMESTAMP}.txt"
+    log "  ${BLUE}*${NC} $LOG_DIR/preserved_prompt_topicindex_${TIMESTAMP}.txt"
+    log "  ${BLUE}*${NC} $LOG_DIR/preserved_prompt_diagnostic_${TIMESTAMP}.txt"
+    log ""
+    log "To run with actual generation, omit the --dry-run flag:"
+    log "  ./init-class.sh $CLASS_NAME"
+else
+    log "Created files:"
+    log "  ${GREEN}✓${NC} $SCORECARD_TXT"
+    log "  ${GREEN}✓${NC} $TOPIC_INDEX"
+    log "  ${GREEN}✓${NC} $SCORECARD_JSON"
+    log "  ${GREEN}✓${NC} $DIAGNOSTIC_QUIZ"
+    log "  ${GREEN}✓${NC} $DIAGNOSTIC_ANSWER_KEY"
+    log ""
+    log "Next steps:"
+    log "  1. Start the server: cd Server && npm start"
+    log "  2. Open http://localhost:3000"
+    log "  3. Select '$CLASS_NAME' and take the diagnostic quiz"
+    log "  4. After grading, an adaptive quiz will be generated"
+fi
 log ""
 log "Log file: $LOG_FILE"
 log "============================================="
