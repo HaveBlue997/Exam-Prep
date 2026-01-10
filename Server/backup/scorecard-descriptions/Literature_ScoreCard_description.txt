@@ -1,0 +1,10 @@
+The ScoreCard.txt file has been created at `/Users/chadc/dev/GitRepo/Exam-Prep/Literature/Prepare/ScoreCard.txt`. It contains:
+
+- **78 total topics** organized by priority (32 high, 28 medium, 18 low)
+- **High priority** includes essay skills, 5 major works (Beowulf, Sir Gawain, Canterbury Tales, Nun's Priest's Tale, Macbeth), 14 critical literary terms, and 5 grammar topics
+- **Medium priority** covers 6 additional literary works, 14 more literary terms, and 5 vocabulary words
+- **Low priority** has 15 vocabulary words and 3 historical context topics
+- **Quick reference charts** for texts/genres, Anglo-Saxon devices, irony types, characterization, sonnets, and reasoning
+- **4-week study plan** with daily recommendations
+- **Final exam self-check** aligned with the essay requirements (time period, genre, theme, figurative language, period characterization)
+- **10 specific tips** including the important note about bringing a handwritten graphic organizer

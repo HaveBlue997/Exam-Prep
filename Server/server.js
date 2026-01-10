@@ -6,8 +6,12 @@ const path = require('path');
 const { spawn } = require('child_process');
 const crypto = require('crypto');
 
+// Set distinctive process name to avoid accidental kills by other developers
+// This makes `pkill npm` not kill this server - use `pkill exam-prep-server` instead
+process.title = 'exam-prep-server';
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Project root is one level up from Server directory
 const PROJECT_ROOT = path.join(__dirname, '..');

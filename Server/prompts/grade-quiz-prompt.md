@@ -434,6 +434,14 @@ Create an updated ScoreCard.json with this structure:
 - **overallWeakAreas**: Topics with < 70% average across all sessions
 - **overallStrongAreas**: Topics with >= 85% average across all sessions
 
+**OUTPUT**: The session data above must be included in your output as:
+```
+<!--SCORECARD_UPDATE:
+{session JSON here}
+-->
+```
+This comment MUST appear immediately after `</html>` on its own line.
+
 ### Task 8: Generate Adaptive Quiz Suggestions
 
 Based on weak areas, suggest an adaptive quiz structure following the standard format:
@@ -465,12 +473,49 @@ Remember: The goal is LEARNING, not just scoring.
 
 ## Output Format
 
-You must output ONLY the complete HTML document for the results page. Do not include:
-- Markdown code blocks (```)
-- Explanatory text before or after the HTML
-- Comments outside the HTML
+Your response must follow this EXACT structure:
 
-The HTML document should be self-contained and immediately renderable in a browser.
+1. **First**: Output the complete HTML document starting with `<!DOCTYPE html>`
+2. **Then**: After `</html>`, add the ScoreCard update on a new line
+
+### Required Output Structure
+
+```
+<!DOCTYPE html>
+<html lang="en">
+...complete HTML results page...
+</html>
+<!--SCORECARD_UPDATE:
+{
+  "date": "[ISO timestamp]",
+  "quiz": "[QUIZ_NAME]",
+  "student": "[STUDENT_NAME]",
+  "score": [points earned],
+  "totalQuestions": [total questions],
+  "percentage": [percentage as integer],
+  "byTopic": {
+    "topic-id-1": {"correct": X, "total": Y, "percentage": Z},
+    "topic-id-2": {"correct": X, "total": Y, "percentage": Z}
+  },
+  "weakAreas": ["topic-ids with <70%"],
+  "strongAreas": ["topic-ids with >=85%"],
+  "resultsFile": "[RESULTS_FILENAME]"
+}
+-->
+```
+
+### CRITICAL Rules
+
+1. First character MUST be `<` (the < of <!DOCTYPE html>)
+2. NO text before <!DOCTYPE html> - no "Let me...", no "Based on...", no analysis
+3. NO markdown code blocks around HTML
+4. After </html>, you MUST add the <!--SCORECARD_UPDATE: {json} --> block
+5. The JSON in SCORECARD_UPDATE must be valid JSON
+6. Nothing after the closing -->
+
+The system uses: `sed -n '/<!DOCTYPE html>/,/<!--SCORECARD_UPDATE:/p'`
+If you output ANYTHING before <!DOCTYPE html>, the student gets an EMPTY results page.
+If you don't include SCORECARD_UPDATE, the student's progress won't be tracked!
 
 ## Answer Key Reference
 

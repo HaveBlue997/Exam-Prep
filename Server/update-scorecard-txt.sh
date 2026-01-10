@@ -334,27 +334,54 @@ find_matching_checkbox_line() {
 
 # For each mastered topic, dynamically find and update the checkbox
 for topic in $MASTERED_TOPICS; do
-    # Find matching checkbox line (only unchecked lines)
-    line_num=$(find_matching_checkbox_line "$topic" '^\[ \]')
+    # First check if already marked as mastered [x]
+    line_num=$(find_matching_checkbox_line "$topic" '^\[x\]')
+    if [ -n "$line_num" ]; then
+        log "  Already mastered (line $line_num): $topic"
+        continue
+    fi
 
+    # Check for in-progress [~] and upgrade to mastered
+    line_num=$(find_matching_checkbox_line "$topic" '^\[~\]')
+    if [ -n "$line_num" ]; then
+        sed -i.bak "${line_num}s/^\[~\]/[x]/" "$TEMP_FILE"
+        log "  Upgraded to mastered (line $line_num): $topic"
+        continue
+    fi
+
+    # Check for unchecked [ ] and mark as mastered
+    line_num=$(find_matching_checkbox_line "$topic" '^\[ \]')
     if [ -n "$line_num" ]; then
         sed -i.bak "${line_num}s/^\[ \]/[x]/" "$TEMP_FILE"
         log "  Marked mastered (line $line_num): $topic"
     else
-        log "  Could not find checkbox for mastered topic: $topic"
+        log "  No matching checkbox found for topic: $topic"
     fi
 done
 
 # For in-progress topics (tested but <85%), mark with [~]
 for topic in $IN_PROGRESS_TOPICS; do
-    # Find matching checkbox line (only unchecked lines)
-    line_num=$(find_matching_checkbox_line "$topic" '^\[ \]')
+    # First check if already marked as mastered [x] - don't downgrade
+    line_num=$(find_matching_checkbox_line "$topic" '^\[x\]')
+    if [ -n "$line_num" ]; then
+        log "  Already mastered (line $line_num): $topic"
+        continue
+    fi
 
+    # Check if already marked as in-progress [~]
+    line_num=$(find_matching_checkbox_line "$topic" '^\[~\]')
+    if [ -n "$line_num" ]; then
+        log "  Already in-progress (line $line_num): $topic"
+        continue
+    fi
+
+    # Check for unchecked [ ] and mark as in-progress
+    line_num=$(find_matching_checkbox_line "$topic" '^\[ \]')
     if [ -n "$line_num" ]; then
         sed -i.bak "${line_num}s/^\[ \]/[~]/" "$TEMP_FILE"
         log "  Marked in-progress (line $line_num): $topic"
     else
-        log "  Could not find checkbox for in-progress topic: $topic"
+        log "  No matching checkbox found for topic: $topic"
     fi
 done
 

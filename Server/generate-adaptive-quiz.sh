@@ -41,7 +41,7 @@ QUIZ_DIR="$CLASS_DIR/Quiz"
 GUIDE_DIR="$CLASS_DIR/Guide"
 PREPARE_DIR="$CLASS_DIR/Prepare"
 SCORECARD_JSON="$CLASS_DIR/ScoreCard.json"
-SCORECARD_TXT="$PREPARE_DIR/ScoreCard.txt"
+SCORECARD_TXT="$CLASS_DIR/ScoreCard.txt"
 TOPIC_INDEX="$CLASS_DIR/topic-index.json"
 
 # Output files
@@ -235,7 +235,113 @@ HTML REQUIREMENTS:
    - API endpoint should still be /api/answers/$CLASS_NAME
    - Quiz name in saveAnswers() should be 'Adaptive_Practice_Quiz'
 
-4. Add data-topic attribute to each question div:
+4. CRITICAL - JavaScript Submission Code:
+   The quiz MUST use this EXACT submission pattern. Copy this code exactly:
+
+   async function saveAnswers(answers) {
+       const studentName = 'Blake_';
+       const quizName = 'Adaptive_Practice_Quiz';
+       const date = new Date().toISOString().split('T')[0];
+       const timestamp = new Date().toISOString();
+
+       // Format answers as text (REQUIRED - server expects text, not JSON object)
+       let content = \`ADAPTIVE PRACTICE QUIZ\\n\`;
+       content += \`Student: \${studentName.replace('_', '')}\\n\`;
+       content += \`Date: \${date}\\n\`;
+       content += \`Submitted: \${new Date().toLocaleString()}\\n\\n\`;
+       content += \`\${'='.repeat(60)}\\n\\n\`;
+       content += \`PART I: MULTIPLE CHOICE (19 questions)\\n\`;
+       content += \`\${'-'.repeat(30)}\\n\`;
+
+       for (let i = 1; i <= 19; i++) {
+           content += \`Q\${i}: \${answers['q' + i] || '(not answered)'}\\n\`;
+       }
+
+       content += \`\\nPART II: SHORT ANSWER\\n\`;
+       content += \`\${'-'.repeat(30)}\\n\`;
+       content += \`\\nQ20:\\n\${answers['q20'] || '(not answered)'}\\n\`;
+
+       // Update overlay text
+       const gradingText = document.querySelector('.grading-text');
+       gradingText.textContent = 'Saving your answers...';
+
+       try {
+           const response = await fetch('/api/answers/$CLASS_NAME', {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify({
+                   name: studentName,      // MUST be 'name' not 'student'
+                   date: date,
+                   timestamp: timestamp,
+                   answers: content,       // MUST be formatted text string
+                   quizName: quizName      // MUST be 'quizName' not 'quiz'
+               })
+           });
+
+           if (!response.ok) throw new Error('Failed to save answers');
+           const result = await response.json();
+
+           if (result.jobId) {
+               gradingText.textContent = 'Grading your quiz...';
+               pollGradingStatus(result.jobId);
+           } else {
+               throw new Error('No job ID returned');
+           }
+       } catch (error) {
+           console.error('Error:', error);
+           alert('Error submitting quiz. Please try again.');
+           document.getElementById('gradingOverlay').classList.remove('active');
+           document.getElementById('submitBtn').disabled = false;
+       }
+   }
+
+   async function pollGradingStatus(jobId) {
+       const maxAttempts = 120;
+       let attempts = 0;
+       const gradingText = document.querySelector('.grading-text');
+
+       const poll = async () => {
+           attempts++;
+           try {
+               const response = await fetch(\`/api/grading-status/\${jobId}\`);
+               const data = await response.json();
+
+               if (data.status === 'complete' && data.resultsUrl) {
+                   gradingText.textContent = 'Grading complete! Redirecting...';
+                   setTimeout(() => { window.location.href = data.resultsUrl; }, 1000);
+                   return;
+               } else if (data.status === 'error') {
+                   alert(data.error || 'Grading failed. Please try again.');
+                   document.getElementById('gradingOverlay').classList.remove('active');
+                   document.getElementById('submitBtn').disabled = false;
+                   return;
+               } else if (data.status === 'processing') {
+                   gradingText.textContent = \`Analyzing your answers... (\${attempts * 2}s)\`;
+                   if (attempts < maxAttempts) setTimeout(poll, 2000);
+                   else {
+                       alert('Grading is taking longer than expected.');
+                       document.getElementById('gradingOverlay').classList.remove('active');
+                   }
+               }
+           } catch (error) {
+               console.error('Error polling status:', error);
+               if (attempts < maxAttempts) setTimeout(poll, 2000);
+               else {
+                   alert('Connection lost. Please refresh.');
+                   document.getElementById('gradingOverlay').classList.remove('active');
+               }
+           }
+       };
+       poll();
+   }
+
+   IMPORTANT: The above code is REQUIRED. Do NOT modify field names or use different patterns.
+   - Server expects 'name' field (NOT 'student' or 'studentName')
+   - Server expects 'quizName' field (NOT 'quiz')
+   - Server expects 'answers' as formatted TEXT string (NOT JSON object)
+   - Grading is ASYNC - must poll /api/grading-status/{jobId} until complete
+
+5. Add data-topic attribute to each question div:
    <div class=\"question\" data-topic=\"topic-id-here\">
 
 === CRITICAL OUTPUT REQUIREMENTS ===
