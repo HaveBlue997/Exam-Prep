@@ -9,6 +9,11 @@ CLASS_NAME=$1
 # Use environment variable or default
 PROJECT_ROOT="${PROJECT_ROOT:-/Users/chadc/dev/GitRepo/Exam-Prep}"
 
+# Recency weighting configuration
+# Recent quiz attempts per topic get more weight in mastery calculation
+FULL_WEIGHT_WINDOW=4    # Number of recent quizzes with full weight (1.0)
+DECAY_FACTOR=0.5        # Weight multiplier for each older quiz beyond the window
+
 # File paths
 SCORECARD_JSON="$PROJECT_ROOT/$CLASS_NAME/ScoreCard.json"
 SCORECARD_TXT="$PROJECT_ROOT/$CLASS_NAME/ScoreCard.txt"
@@ -47,20 +52,40 @@ log "Starting ScoreCard.txt update for class: $CLASS_NAME"
 
 log "Calculating topic performance from ScoreCard.json..."
 
-# Extract aggregated topic data from all sessions
-# Format: topic_id|avg_percentage|times_tested
-TOPIC_STATS=$(jq -r '
-    # Gather all byTopic entries from all sessions
+# Extract aggregated topic data from all sessions with recency weighting
+# Format: topic_id|weighted_avg_percentage|times_tested
+# Uses FULL_WEIGHT_WINDOW and DECAY_FACTOR for recency weighting
+TOPIC_STATS=$(jq -r --argjson window "$FULL_WEIGHT_WINDOW" --argjson decay "$DECAY_FACTOR" '
+    # Gather all byTopic entries from all sessions (in chronological order)
     [.sessions[].byTopic // {} | to_entries[]] |
     # Group by topic
     group_by(.key) |
-    # Calculate stats for each topic
+    # Calculate stats for each topic with recency weighting
     map({
         topic: .[0].key,
-        avgPct: ([.[].value.percentage] | add / length),
         timesTested: length,
         totalCorrect: ([.[].value.correct] | add),
-        totalAttempted: ([.[].value.total] | add)
+        totalAttempted: ([.[].value.total] | add),
+        # Calculate recency-weighted average
+        # Entries are oldest-first, so reverse for newest-first indexing
+        avgPct: (
+            . as $entries |
+            ($entries | length) as $len |
+            # For each entry, calculate weight based on position from end (0 = newest)
+            [range($len) | . as $i | {
+                pct: $entries[$i].value.percentage,
+                # position_from_end: 0 = newest, len-1 = oldest
+                pos_from_end: ($len - 1 - $i),
+                # Weight: 1.0 for last WINDOW entries, decay^n for older ones
+                weight: (
+                    if ($len - 1 - $i) < $window then 1.0
+                    else pow($decay; ($len - 1 - $i) - $window + 1)
+                    end
+                )
+            }] |
+            # Weighted average = sum(pct * weight) / sum(weight)
+            (map(.pct * .weight) | add) / (map(.weight) | add)
+        )
     }) |
     # Output as pipe-delimited lines
     .[] | "\(.topic)|\(.avgPct)|\(.timesTested)"
@@ -78,7 +103,7 @@ while IFS='|' read -r topic avg_pct times_tested; do
     # Round percentage for comparison (bash doesn't do floats well)
     avg_pct_int=$(printf "%.0f" "$avg_pct")
 
-    if [ "$avg_pct_int" -ge 85 ]; then
+    if [ "$avg_pct_int" -ge 90 ]; then
         MASTERED_COUNT=$((MASTERED_COUNT + 1))
         MASTERED_TOPICS="$MASTERED_TOPICS $topic"
     else
@@ -183,26 +208,35 @@ topic_matches_line() {
 log "Updating ScoreCard.txt..."
 
 # Count total topics in ScoreCard.txt (lines starting with [ ], [x], or [~])
-count_unchecked=$(grep -c '^\[ \]' "$SCORECARD_TXT" 2>/dev/null) || count_unchecked=0
-count_mastered=$(grep -c '^\[x\]' "$SCORECARD_TXT" 2>/dev/null) || count_mastered=0
-count_progress=$(grep -c '^\[~\]' "$SCORECARD_TXT" 2>/dev/null) || count_progress=0
+# IMPORTANT: Only count checkboxes in the TOPICS sections, NOT the SELF-CHECK section
+# The SELF-CHECK section also uses checkboxes but those aren't topics
+# We count from start of file up to STUDY PLAN RECOMMENDATIONS section
+# Using awk for portability (head -n -1 doesn't work on macOS)
+# Note: awk uses ERE so alternation is | not \|
+count_unchecked=$(awk '/STUDY PLAN|SELF-CHECK|PROGRESS NOTES/{exit} /^\[ \]/{count++} END{print count+0}' "$SCORECARD_TXT")
+count_mastered=$(awk '/STUDY PLAN|SELF-CHECK|PROGRESS NOTES/{exit} /^\[x\]/{count++} END{print count+0}' "$SCORECARD_TXT")
+count_progress=$(awk '/STUDY PLAN|SELF-CHECK|PROGRESS NOTES/{exit} /^\[~\]/{count++} END{print count+0}' "$SCORECARD_TXT")
 TOTAL_TOPICS=$((count_unchecked + count_mastered + count_progress))
+
+log "Checkbox counts - Mastered: $count_mastered, In Progress: $count_progress, Not Started: $count_unchecked"
 
 # If we couldn't count, use default
 if [ "$TOTAL_TOPICS" -eq 0 ]; then
     TOTAL_TOPICS=45
 fi
 
-NOT_STARTED_COUNT=$((TOTAL_TOPICS - MASTERED_COUNT - IN_PROGRESS_COUNT))
-if [ "$NOT_STARTED_COUNT" -lt 0 ]; then
-    NOT_STARTED_COUNT=0
-fi
+# Use the ACTUAL checkbox counts from the file for summary statistics
+# This ensures the summary matches what's actually in the file
+# (The JSON-derived MASTERED_COUNT/IN_PROGRESS_COUNT are used later for updating checkboxes)
+SUMMARY_MASTERED=$count_mastered
+SUMMARY_IN_PROGRESS=$count_progress
+SUMMARY_NOT_STARTED=$count_unchecked
 
-# Calculate percentages
+# Calculate percentages using actual checkbox counts
 if [ "$TOTAL_TOPICS" -gt 0 ]; then
-    MASTERED_PCT=$((MASTERED_COUNT * 100 / TOTAL_TOPICS))
-    IN_PROGRESS_PCT=$((IN_PROGRESS_COUNT * 100 / TOTAL_TOPICS))
-    NOT_STARTED_PCT=$((NOT_STARTED_COUNT * 100 / TOTAL_TOPICS))
+    MASTERED_PCT=$((SUMMARY_MASTERED * 100 / TOTAL_TOPICS))
+    IN_PROGRESS_PCT=$((SUMMARY_IN_PROGRESS * 100 / TOTAL_TOPICS))
+    NOT_STARTED_PCT=$((SUMMARY_NOT_STARTED * 100 / TOTAL_TOPICS))
 else
     MASTERED_PCT=0
     IN_PROGRESS_PCT=0
@@ -219,16 +253,16 @@ log "Updating OVERVIEW statistics..."
 sed -i.bak "s/^## Last Updated:.*/## Last Updated: $(date '+%B %d, %Y')/" "$TEMP_FILE"
 
 # Update Mastered count (handle both "[ ]" placeholder and numeric formats)
-sed -i.bak "s/^Mastered: \[[ ]*\] ([0-9]*%)/Mastered: $MASTERED_COUNT ($MASTERED_PCT%)/" "$TEMP_FILE"
-sed -i.bak "s/^Mastered: [0-9]* ([0-9]*%)/Mastered: $MASTERED_COUNT ($MASTERED_PCT%)/" "$TEMP_FILE"
+sed -i.bak "s/^Mastered: \[[ ]*\] ([0-9]*%)/Mastered: $SUMMARY_MASTERED ($MASTERED_PCT%)/" "$TEMP_FILE"
+sed -i.bak "s/^Mastered: [0-9]* ([0-9]*%)/Mastered: $SUMMARY_MASTERED ($MASTERED_PCT%)/" "$TEMP_FILE"
 
 # Update In Progress count (handle both "[ ]" placeholder and numeric formats)
-sed -i.bak "s/^In Progress: \[[ ]*\] ([0-9]*%)/In Progress: $IN_PROGRESS_COUNT ($IN_PROGRESS_PCT%)/" "$TEMP_FILE"
-sed -i.bak "s/^In Progress: [0-9]* ([0-9]*%)/In Progress: $IN_PROGRESS_COUNT ($IN_PROGRESS_PCT%)/" "$TEMP_FILE"
+sed -i.bak "s/^In Progress: \[[ ]*\] ([0-9]*%)/In Progress: $SUMMARY_IN_PROGRESS ($IN_PROGRESS_PCT%)/" "$TEMP_FILE"
+sed -i.bak "s/^In Progress: [0-9]* ([0-9]*%)/In Progress: $SUMMARY_IN_PROGRESS ($IN_PROGRESS_PCT%)/" "$TEMP_FILE"
 
 # Update Not Started count (handle both "[ ]" placeholder and numeric formats)
-sed -i.bak "s/^Not Started: \[[ ]*\] ([0-9]*%)/Not Started: $NOT_STARTED_COUNT ($NOT_STARTED_PCT%)/" "$TEMP_FILE"
-sed -i.bak "s/^Not Started: [0-9]* ([0-9]*%)/Not Started: $NOT_STARTED_COUNT ($NOT_STARTED_PCT%)/" "$TEMP_FILE"
+sed -i.bak "s/^Not Started: \[[ ]*\] ([0-9]*%)/Not Started: $SUMMARY_NOT_STARTED ($NOT_STARTED_PCT%)/" "$TEMP_FILE"
+sed -i.bak "s/^Not Started: [0-9]* ([0-9]*%)/Not Started: $SUMMARY_NOT_STARTED ($NOT_STARTED_PCT%)/" "$TEMP_FILE"
 
 # =============================================================================
 # STEP 6: Update checkboxes based on topic performance
@@ -359,7 +393,7 @@ for topic in $MASTERED_TOPICS; do
     fi
 done
 
-# For in-progress topics (tested but <85%), mark with [~]
+# For in-progress topics (tested but <90%), mark with [~]
 for topic in $IN_PROGRESS_TOPICS; do
     # First check if already marked as mastered [x] - don't downgrade
     line_num=$(find_matching_checkbox_line "$topic" '^\[x\]')
@@ -433,7 +467,7 @@ find "$PROJECT_ROOT/$CLASS_NAME/Prepare" -name "*.bak" -delete 2>/dev/null
 
 log "ScoreCard.txt update complete!"
 log "  - Updated OVERVIEW statistics"
-log "  - Mastered: $MASTERED_COUNT, In Progress: $IN_PROGRESS_COUNT, Not Started: $NOT_STARTED_COUNT"
+log "  - Mastered: $SUMMARY_MASTERED, In Progress: $SUMMARY_IN_PROGRESS, Not Started: $SUMMARY_NOT_STARTED (Total: $TOTAL_TOPICS)"
 log "  - Added progress note for $DISPLAY_DATE session"
 
 exit 0
